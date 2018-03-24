@@ -11,4 +11,12 @@ public class Album extends FMObj{
 	protected ArrayList<Tag> tagList;
 	protected ArrayList<Track> trackList;
 	
+	public Album(String name, String url, String mbid, int id, String artist) {
+		this.name = name;
+		this.url = url;
+		this.mbid = mbid;
+		this.id = id;
+		this.artist = new Artist(artist);
+	}
+	
 }

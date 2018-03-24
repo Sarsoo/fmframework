@@ -11,4 +11,8 @@ public class Artist extends FMObj{
 	protected ArrayList<Artist> similarArtists;
 	protected ArrayList<Tag> tagList;
 	protected Wiki wiki;
+	
+	public Artist(String name) {
+		this.name = name;
+	}
 }

@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class TestCall {
 	
-	public static void main(String [] args) {
+	public static void test() {
 		try {
 			URL url = new URL("http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=Mastodon&format=json&api_key=" + Key.getKey());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
