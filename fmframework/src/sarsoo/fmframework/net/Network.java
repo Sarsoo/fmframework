@@ -13,10 +13,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class Network {
-	public static void apiAlbumInfoCall(String artist, String album, String username) {
+	public static Document apiAlbumInfoCall(String artist, String album, String username) {
 		try {
 			
 			String urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=%s&album=%s&autocorrect=1&username=%s&api_key=%s", 
@@ -41,8 +44,7 @@ public class Network {
 					conn.disconnect();
 					doc.getDocumentElement().normalize();
 					
-					System.out.println("Root Element: " + doc.getDocumentElement().getNodeName());
-					
+					return doc;
 					
 				} catch (SAXException e) {
 					e.printStackTrace();
@@ -62,5 +64,6 @@ public class Network {
 			e.printStackTrace();
 
 		}
+		return null;
 	}
 }

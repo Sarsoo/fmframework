@@ -9,9 +9,11 @@ import java.net.URL;
 
 public class TestCall {
 	
-	public static void test() {
+	public static void test(String artist, String album, String username) {
 		try {
-			URL url = new URL("http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=Mastodon&format=json&api_key=" + Key.getKey());
+			String urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=%s&album=%s&autocorrect=1&username=%s&api_key=%s", 
+					artist, album, username, Key.getKey());
+			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
@@ -23,7 +25,6 @@ public class TestCall {
 			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
 			String output;
-			System.out.println("Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				System.out.println(output);
 			}

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import sarsoo.fmframework.music.Album;
+import sarsoo.fmframework.music.Artist;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -16,29 +17,20 @@ import org.xml.sax.SAXException;
 
 public class AlbumParser {
 	
-	public static Album parseAlbum(InputStream input){
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder;
-		try {
-			dBuilder = dbFactory.newDocumentBuilder();
-			try {
-				Document doc = dBuilder.parse(input);
-				doc.getDocumentElement().normalize();
-				
-				System.out.println("Root Element: " + doc.getDocumentElement().getNodeName());
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static Album parseAlbum(Document doc){
 		
-		return null;
+		String name = doc.getElementsByTagName("name").item(0).getTextContent();
+		String artist = doc.getElementsByTagName("artist").item(0).getTextContent();
+		String mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+		String url = doc.getElementsByTagName("url").item(0).getTextContent();
+		int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
+		int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
+		int userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+		
+		Artist artistObj = new Artist(artist);
+		
+		Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount);
+		return album;
 		
 	}
 
