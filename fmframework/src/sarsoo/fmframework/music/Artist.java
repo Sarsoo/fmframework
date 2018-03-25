@@ -11,7 +11,6 @@ public class Artist extends FMObj{
 	protected boolean streamable;
 	protected boolean onTour;
 	protected ArrayList<Album> albums;
-	protected ArrayList<Track> tracks;
 	protected ArrayList<Artist> similarArtists;
 	protected ArrayList<Tag> tagList;
 	
@@ -32,5 +31,28 @@ public class Artist extends FMObj{
 		Document response = Network.getResponse(url);
 		Artist artist = Parser.parseArtist(response);
 		return artist;
+	}
+	
+	public ArrayList<Album> getAlbum(){
+		return albums;
+	}
+	
+	public ArrayList<Artist> getSimilarArtists(){
+		return similarArtists;
+	}
+	
+	public ArrayList<Tag> getTags(){
+		return tagList;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() != this.getClass()) return false;
+		
+		Artist artist = (Artist)obj;
+		if(getName() == artist.getName())
+				return true;
+		
+		return false;
 	}
 }

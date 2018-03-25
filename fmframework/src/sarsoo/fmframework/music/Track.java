@@ -31,4 +31,24 @@ public class Track extends FMObj{
 		Track track = Parser.parseTrack(response);
 		return track;
 	}
+	
+	public Artist getArtist() {
+		return artist;
+	}
+	
+	public ArrayList<Tag> getTags(){
+		return tagList;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() != this.getClass()) return false;
+		
+		Track track = (Track)obj;
+		if(getName() == track.getName())
+			if(getArtist().equals(track.getArtist()))
+				return true;
+		
+		return false;
+	}		
 }

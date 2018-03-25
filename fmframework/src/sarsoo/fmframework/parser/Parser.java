@@ -49,7 +49,7 @@ public class Parser {
 		// System.out.println(summary);
 		// System.out.println(content);
 
-		Artist artistObj = new Artist(artist);
+		Artist artistObj = Artist.getArtist(artist, "Sarsoo");
 		Wiki wiki = new Wiki();
 
 		Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
@@ -83,7 +83,7 @@ public class Parser {
 		int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
 		int userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
 
-		Artist artistObj = new Artist(artistName);
+		Artist artistObj = Artist.getArtist(artistName, "sarsoo");
 		
 //		System.out.println(userPlayCount);
 
