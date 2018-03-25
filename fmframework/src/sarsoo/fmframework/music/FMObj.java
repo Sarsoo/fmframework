@@ -22,6 +22,10 @@ public class FMObj {
 		this.wiki = wiki;
 	}
 	
+	public String toString() {
+		return name;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -38,11 +42,11 @@ public class FMObj {
 		return listeners;
 	}
 	
-	public int playCount() {
+	public int getPlayCount() {
 		return playCount;
 	}
 	
-	public int userPlayCount() {
+	public int getUserPlayCount() {
 		return userPlayCount;
 	}
 	
