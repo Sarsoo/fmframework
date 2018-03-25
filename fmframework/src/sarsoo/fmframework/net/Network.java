@@ -19,11 +19,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class Network {
-	public static Document apiAlbumInfoCall(String artist, String album, String username) {
+
+	public static Document getResponse(String urlString) {
 		try {
-			
-			String urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=%s&album=%s&autocorrect=1&username=%s&api_key=%s", 
-									artist, album, username, Key.getKey());
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
@@ -32,9 +30,9 @@ public class Network {
 			if (conn.getResponseCode() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
 			}
-			
+
 			InputStream input = conn.getInputStream();
-			
+
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder;
 			try {
@@ -43,9 +41,9 @@ public class Network {
 					Document doc = dBuilder.parse(input);
 					conn.disconnect();
 					doc.getDocumentElement().normalize();
-					
+
 					return doc;
-					
+
 				} catch (SAXException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -53,9 +51,11 @@ public class Network {
 				}
 			} catch (ParserConfigurationException e) {
 				e.printStackTrace();
-			}			
+			}
 
-		} catch (MalformedURLException e) {
+		} catch (
+
+		MalformedURLException e) {
 
 			e.printStackTrace();
 
@@ -65,5 +65,29 @@ public class Network {
 
 		}
 		return null;
+
 	}
+
+	public static String getArtistInfoUrl(String artist, String username) {
+			String urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=%s&autocorrect=1&username=%s&api_key=%s",
+					artist, username, Key.getKey());
+			return urlString;
+			
+			
+	}
+
+	public static String getAlbumInfoUrl(String album, String artist,  String username) {
+			String urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=album.getInfo&album=%s&artist=%s&autocorrect=1&username=%s&api_key=%s",
+						album, artist, username, Key.getKey());
+			return urlString;
+	}
+	
+	public static String getTrackInfoUrl(String name, String artist,  String username) {
+		String urlString = String.format(
+				"http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=%s&artist=%s&autocorrect=1&username=%s&api_key=%s",
+					name, artist, username, Key.getKey());
+		return urlString;
+}
 }

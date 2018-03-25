@@ -9,10 +9,8 @@ import java.net.URL;
 
 public class TestCall {
 	
-	public static void test(String artist, String album, String username) {
+	public static void test(String urlString) {
 		try {
-			String urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=%s&album=%s&autocorrect=1&username=%s&api_key=%s", 
-					artist, album, username, Key.getKey());
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");

@@ -6,12 +6,13 @@ public class Track extends FMObj{
 	protected Album album;
 	protected Artist artist;
 	protected int trackNumber;
-	protected int id;
 	protected int duration;
-	protected int playcount;
 	protected boolean streamable;
+	protected boolean isLoved;
 	protected ArrayList<Tag> tagList;
-	protected Wiki wiki;
 	
-
+	public Track(String name, String artist) {
+		super(name, null, null, 0, 0, 0, null);
+		this.artist = new Artist(artist);
+	}
 }

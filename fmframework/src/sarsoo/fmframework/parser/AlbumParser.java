@@ -29,7 +29,7 @@ public class AlbumParser {
 		
 		Artist artistObj = new Artist(artist);
 		
-		Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount);
+		Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, null);
 		return album;
 		
 	}

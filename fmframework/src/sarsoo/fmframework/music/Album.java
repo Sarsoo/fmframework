@@ -4,20 +4,17 @@ import java.util.ArrayList;
 
 public class Album extends FMObj{
 	protected Artist artist;
-	protected int listeners;
-	protected int playCount;
-	protected int userPlayCount;
 	protected ArrayList<Tag> tagList;
 	protected ArrayList<Track> trackList;
 	
-	public Album(String name, String url, String mbid, Artist artist, int listeners, int playCount, int userPlayCount) {
+	public Album(String name) {
+		super(name, null, null, 0, 0, 0, null);
 		this.name = name;
-		this.url = url;
-		this.mbid = mbid;
+	}
+	
+	public Album(String name, String url, String mbid, Artist artist, int listeners, int playCount, int userPlayCount, Wiki wiki) {
+		super(name, url, mbid, listeners, playCount, userPlayCount, wiki);
 		this.artist = artist;
-		this.listeners = listeners;
-		this.playCount = playCount;
-		this.userPlayCount = userPlayCount;
 	}
 	
 	public String toString() {
