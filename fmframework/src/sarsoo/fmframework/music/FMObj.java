@@ -1,5 +1,7 @@
 package sarsoo.fmframework.music;
 
+import sarsoo.fmframework.gui.FMObjView;
+
 public class FMObj {
 	
 	protected String name;
@@ -20,6 +22,11 @@ public class FMObj {
 		this.playCount = playCount;
 		this.userPlayCount = userPlayCount;
 		this.wiki = wiki;
+	}
+	
+	public void view() {
+		FMObjView view = new FMObjView(this);
+		view.setVisible(true);
 	}
 	
 	public String toString() {

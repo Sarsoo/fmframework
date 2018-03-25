@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 
+import sarsoo.fmframework.gui.AlbumView;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.parser.Parser;
 
@@ -60,5 +61,11 @@ public class Album extends FMObj{
 				return true;
 		
 		return false;
+	}
+	
+	@Override
+	public void view() {
+		AlbumView view = new AlbumView(this);
+		view.setVisible(true);
 	}
 }

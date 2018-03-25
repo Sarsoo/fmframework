@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sarsoo.fmframework.music.Album;
+import sarsoo.fmframework.music.FMObj;
 
 public class AlbumView extends JFrame{
 	JPanel info = new JPanel();
@@ -38,11 +41,13 @@ public class AlbumView extends JFrame{
 //		info.add(userPlayCount);
 		buttons.add(open);
 		
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		
 		name.setText(album.getName());
 		name.setHorizontalTextPosition(JLabel.CENTER);
-		listeners.setText(album.getListeners() + " Listeners");
-		playCount.setText(album.getPlayCount() + " Scrobbles");
-		userPlayCount.setText(album.getUserPlayCount() + " Your Scrobbles");
+		listeners.setText(numberFormat.format(album.getListeners()) + " Listeners");
+		playCount.setText(numberFormat.format(album.getPlayCount()) + " Scrobbles");
+		userPlayCount.setText(numberFormat.format(album.getUserPlayCount()) + " Your Scrobbles");
 		
 		
 		open.addActionListener(new ActionListener() {

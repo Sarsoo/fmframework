@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,11 +39,13 @@ public class FMObjView extends JFrame{
 //		info.add(userPlayCount);
 		buttons.add(open);
 		
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		
 		name.setText(obj.getName());
 		name.setHorizontalTextPosition(JLabel.CENTER);
-		listeners.setText(obj.getListeners() + " Listeners");
-		playCount.setText(obj.getPlayCount() + " Scrobbles");
-		userPlayCount.setText(obj.getUserPlayCount() + " Your Scrobbles");
+		listeners.setText(numberFormat.format(obj.getListeners()) + " Listeners");
+		playCount.setText(numberFormat.format(obj.getPlayCount()) + " Scrobbles");
+		userPlayCount.setText(numberFormat.format(obj.getUserPlayCount()) + " Your Scrobbles");
 		
 		
 		open.addActionListener(new ActionListener() {
@@ -62,4 +66,6 @@ public class FMObjView extends JFrame{
 //		add(info);
 		add(buttons);
 	}
+	
+	
 }
