@@ -2,6 +2,11 @@ package sarsoo.fmframework.music;
 
 import java.util.ArrayList;
 
+import org.w3c.dom.Document;
+
+import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.parser.Parser;
+
 public class Track extends FMObj{
 	protected Album album;
 	protected Artist artist;
@@ -14,5 +19,16 @@ public class Track extends FMObj{
 	public Track(String name, String artist) {
 		super(name, null, null, 0, 0, 0, null);
 		this.artist = new Artist(artist);
+	}
+	
+	public Track(String name, String url, String mbid, int listeners, int playCount, int userPlayCount, Wiki wiki) {
+		super(name, url, mbid, listeners, playCount, userPlayCount, wiki);
+	}
+	
+	public static Track getTrack(String name, String artist, String username) {
+		String url = Network.getTrackInfoUrl(name, artist, username);
+		Document response = Network.getResponse(url);
+		Track track = Parser.parseTrack(response);
+		return track;
 	}
 }
