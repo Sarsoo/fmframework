@@ -55,4 +55,16 @@ public class Artist extends FMObj{
 		
 		return false;
 	}
+	
+	@Override
+	public String getMusicBeanzURL() {
+			  return "https://musicbrainz.org/artist/"  + mbid;
+		
+	}
+	
+	public String getRymURL() {
+		return "https://rateyourmusic.com/artist/" + getName().replaceAll(" ", "_").toLowerCase();
+	}
+	
+	
 }

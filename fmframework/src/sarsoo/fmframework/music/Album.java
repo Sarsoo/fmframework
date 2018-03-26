@@ -63,9 +63,19 @@ public class Album extends FMObj{
 		return false;
 	}
 	
+	public String getRymURL() {
+		return "https://rateyourmusic.com/release/album/" + getArtist().getName().replaceAll(" ", "_").toLowerCase() + "/" + getName().replaceAll(" ", "_").toLowerCase();
+	}
+	
 	@Override
 	public void view() {
 		AlbumView view = new AlbumView(this);
 		view.setVisible(true);
+	}
+
+	@Override
+	public String getMusicBeanzURL() {
+		return "https://musicbrainz.org/release/"  + mbid;
+		
 	}
 }

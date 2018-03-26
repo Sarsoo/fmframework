@@ -21,8 +21,9 @@ public class Track extends FMObj{
 		this.artist = new Artist(artist);
 	}
 	
-	public Track(String name, String url, String mbid, int listeners, int playCount, int userPlayCount, Wiki wiki) {
+	public Track(String name, String url, String mbid, Artist artist, int listeners, int playCount, int userPlayCount, Wiki wiki) {
 		super(name, url, mbid, listeners, playCount, userPlayCount, wiki);
+		this.artist = artist;
 	}
 	
 	public static Track getTrack(String name, String artist, String username) {
@@ -50,5 +51,10 @@ public class Track extends FMObj{
 				return true;
 		
 		return false;
-	}		
+	}	
+	
+	@Override
+	public String getMusicBeanzURL() {
+		return "https://musicbrainz.org/artist/"  + mbid;
+	}
 }

@@ -1,18 +1,9 @@
 package sarsoo.fmframework.parser;
 
-import javax.xml.parsers.*;
-
-import java.io.IOException;
-import java.io.InputStream;
-
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
  
 
 public class AlbumParser {

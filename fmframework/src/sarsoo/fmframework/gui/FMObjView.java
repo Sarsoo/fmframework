@@ -1,11 +1,9 @@
 package sarsoo.fmframework.gui;
 
-import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URI;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -15,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import sarsoo.fmframework.music.FMObj;
+import sarsoo.fmframework.net.Network;
 
 public class FMObjView extends JFrame{
 	JPanel info = new JPanel();
@@ -24,12 +23,13 @@ public class FMObjView extends JFrame{
 	JLabel playCount = new JLabel();
 	JLabel userPlayCount = new JLabel();
 	JButton open = new JButton("View Online");
+	JButton musicBeanz = new JButton("Open MusicBeanz");
 	
 	public FMObjView(FMObj obj) {
 		super(obj.toString());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout(5,0));
-		setSize(300, 200);
+		setSize(300, 300);
 		setResizable(false);
 		info.setLayout(new GridLayout());
 		buttons.setLayout(new FlowLayout());
@@ -38,6 +38,7 @@ public class FMObjView extends JFrame{
 //		info.add(playCount);
 //		info.add(userPlayCount);
 		buttons.add(open);
+		buttons.add(musicBeanz);
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 		
@@ -50,13 +51,12 @@ public class FMObjView extends JFrame{
 		
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					  Desktop desktop = java.awt.Desktop.getDesktop();
-					  URI oURL = new URI(obj.getUrl());
-					  desktop.browse(oURL);
-					} catch (Exception e) {
-					  e.printStackTrace();
-					}
+				Network.openURL(obj.getUrl());
+			}
+		});
+		musicBeanz.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Network.openURL(obj.getMusicBeanzURL());;
 			}
 		});
 		add(name);

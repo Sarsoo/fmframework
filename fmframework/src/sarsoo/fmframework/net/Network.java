@@ -1,9 +1,11 @@
 package sarsoo.fmframework.net;
 
+import java.awt.Desktop;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -64,25 +66,54 @@ public class Network {
 	}
 
 	public static String getArtistInfoUrl(String artist, String username) {
-			String urlString = String.format(
-					"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=%s&autocorrect=1&username=%s&api_key=%s",
-					artist, username, Key.getKey());
-			return urlString;
-			
-			
+		String urlString = String.format(
+				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=%s&autocorrect=1&username=%s&api_key=%s",
+				artist, username, Key.getKey());
+		return urlString;
+
 	}
 
-	public static String getAlbumInfoUrl(String album, String artist,  String username) {
-			String urlString = String.format(
-					"http://ws.audioscrobbler.com/2.0/?method=album.getInfo&album=%s&artist=%s&autocorrect=1&username=%s&api_key=%s",
-						album, artist, username, Key.getKey());
-			return urlString;
+	public static String getAlbumInfoUrl(String album, String artist, String username) {
+		String urlString = String.format(
+				"http://ws.audioscrobbler.com/2.0/?method=album.getInfo&album=%s&artist=%s&autocorrect=1&username=%s&api_key=%s",
+				album, artist, username, Key.getKey());
+		return urlString;
 	}
-	
-	public static String getTrackInfoUrl(String name, String artist,  String username) {
+
+	public static String getTrackInfoUrl(String name, String artist, String username) {
 		String urlString = String.format(
 				"http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=%s&artist=%s&autocorrect=1&username=%s&api_key=%s",
-					name, artist, username, Key.getKey());
+				name, artist, username, Key.getKey());
 		return urlString;
-}
+	}
+
+	public static void openURL(String url) {
+		try {
+			Desktop desktop = java.awt.Desktop.getDesktop();
+			URI oURL = new URI(url);
+			desktop.browse(oURL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// public static String getRecentTracaksUrl(String username) {
+	//// Date date = new Date();
+	//// Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+	//// Calendar cal2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+	////
+	//// cal.set(cal.YEAR, cal.MONTH, cal.DATE);
+	//// System.out.println(cal.getTime());
+	// //System.out.println(cal2.getTime());
+	//
+	// String urlString = String.format(
+	// "http://ws.audioscrobbler.com/2.0/"
+	// + "?method=user.getRecentTracks&"
+	// + "user=%s&"
+	// + "limit = 200&"
+	// + "from=%d&"
+	// + "api_key=%s",
+	// username, Key.getKey());
+	// return urlString;
+	// }
 }

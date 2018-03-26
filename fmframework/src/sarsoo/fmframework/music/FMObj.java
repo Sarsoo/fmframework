@@ -2,7 +2,7 @@ package sarsoo.fmframework.music;
 
 import sarsoo.fmframework.gui.FMObjView;
 
-public class FMObj {
+public abstract class FMObj {
 	
 	protected String name;
 	protected String url;
@@ -60,5 +60,7 @@ public class FMObj {
 	public Wiki getWiki() {
 		return wiki;
 	}
+	
+	abstract public String getMusicBeanzURL();
 
 }

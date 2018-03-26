@@ -1,8 +1,6 @@
 package sarsoo.fmframework.parser;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
@@ -40,10 +38,10 @@ public class Parser {
 //			}
 //		}
 
-		Node wikiNode = doc.getElementsByTagName("wiki").item(0);
-		String published = wikiNode.getFirstChild().getTextContent();
-		String summary = wikiNode.getFirstChild().getNextSibling().getTextContent();
-		String content = wikiNode.getFirstChild().getNextSibling().getNextSibling().getTextContent();
+//		Node wikiNode = doc.getElementsByTagName("wiki").item(0);
+//		String published = wikiNode.getFirstChild().getTextContent();
+//		String summary = wikiNode.getFirstChild().getNextSibling().getTextContent();
+//		String content = wikiNode.getFirstChild().getNextSibling().getNextSibling().getTextContent();
 
 		// System.out.println(published);
 		// System.out.println(summary);
@@ -62,7 +60,7 @@ public class Parser {
 		String name = doc.getElementsByTagName("name").item(0).getTextContent();
 		String mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
 		String url = doc.getElementsByTagName("url").item(0).getTextContent();
-		String streamable = doc.getElementsByTagName("streamable").item(0).getTextContent();
+//		String streamable = doc.getElementsByTagName("streamable").item(0).getTextContent();
 		int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
 		int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
 		int userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
@@ -87,7 +85,7 @@ public class Parser {
 		
 //		System.out.println(userPlayCount);
 
-		Track track = new Track(name, url, mbid, listeners, playCount, userPlayCount, null);
+		Track track = new Track(name, url, mbid, artistObj, listeners, playCount, userPlayCount, null);
 		return track;
 
 	}
