@@ -15,6 +15,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import sarsoo.fmframework.error.ApiCallException;
+
 public class Network {
 
 	public static Document getResponse(String urlString) {
@@ -22,10 +24,10 @@ public class Network {
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("Accept", "application/xml");
 
 			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				throw new ApiCallException(conn.getResponseCode());
 			}
 
 			InputStream input = conn.getInputStream();
@@ -60,6 +62,9 @@ public class Network {
 
 			e.printStackTrace();
 
+		} catch (ApiCallException e) {
+			System.out.println(e.getFailureCode() + " " + e.getError());
+			e.printStackTrace();
 		}
 		return null;
 
@@ -69,6 +74,14 @@ public class Network {
 		String urlString = String.format(
 				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=%s&autocorrect=1&username=%s&api_key=%s",
 				artist, username, Key.getKey());
+		return urlString;
+
+	}
+	
+	public static String getArtistInfoMbidUrl(String mbid, String username) {
+		String urlString = String.format(
+				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&mbid=%s&autocorrect=1&username=%s&api_key=%s",
+				mbid, username, Key.getKey());
 		return urlString;
 
 	}

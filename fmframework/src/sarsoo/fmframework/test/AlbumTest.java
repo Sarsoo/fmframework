@@ -9,9 +9,15 @@ import sarsoo.fmframework.music.Album;
 class AlbumTest {
 
 	@Test
-	void test() {
+	void testGetName() {
 		Album album = Album.getAlbum("Recovery", "Eminem", "sarsoo");
-		System.out.println(album.getArtist());
+		assertEquals(album.getName(), "Recovery");
+	}
+	
+	@Test
+	void testGetArtist() {
+		Album album = Album.getAlbum("Recovery", "Eminem", "sarsoo");
+		assertEquals(album.getArtist().getName(), "Eminem");
 	}
 
 }

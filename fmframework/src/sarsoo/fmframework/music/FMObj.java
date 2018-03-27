@@ -61,6 +61,6 @@ public abstract class FMObj {
 		return wiki;
 	}
 	
-	abstract public String getMusicBeanzURL();
+	abstract public String getMusicBrainzURL();
 
 }

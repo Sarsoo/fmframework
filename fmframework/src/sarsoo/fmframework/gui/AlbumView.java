@@ -27,7 +27,7 @@ public class AlbumView extends JFrame{
 	JLabel userPlayCount = new JLabel();
 	JButton open = new JButton("View Online");
 	JButton viewArtist = new JButton("View Artist");
-	JButton musicBeanz = new JButton("Open MusicBeanz");
+	JButton musicBrainz = new JButton("Open MusicBrainz");
 	JButton rym = new JButton("Open RYM");
 	
 	public AlbumView(Album album) {
@@ -45,7 +45,7 @@ public class AlbumView extends JFrame{
 //		info.add(userPlayCount);
 		buttons.add(open);
 		buttons.add(viewArtist);
-		buttons2.add(musicBeanz);
+		buttons2.add(musicBrainz);
 		buttons2.add(rym);
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
@@ -68,9 +68,9 @@ public class AlbumView extends JFrame{
 				album.getArtist().view();
 			}
 		});
-		musicBeanz.addActionListener(new ActionListener() {
+		musicBrainz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Network.openURL(album.getMusicBeanzURL());;
+				Network.openURL(album.getMusicBrainzURL());;
 			}
 		});
 		rym.addActionListener(new ActionListener() {

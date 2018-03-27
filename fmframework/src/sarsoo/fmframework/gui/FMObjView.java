@@ -23,7 +23,7 @@ public class FMObjView extends JFrame{
 	JLabel playCount = new JLabel();
 	JLabel userPlayCount = new JLabel();
 	JButton open = new JButton("View Online");
-	JButton musicBeanz = new JButton("Open MusicBeanz");
+	JButton musicBrainz = new JButton("Open MusicBrainz");
 	
 	public FMObjView(FMObj obj) {
 		super(obj.toString());
@@ -38,7 +38,7 @@ public class FMObjView extends JFrame{
 //		info.add(playCount);
 //		info.add(userPlayCount);
 		buttons.add(open);
-		buttons.add(musicBeanz);
+		buttons.add(musicBrainz);
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 		
@@ -54,9 +54,9 @@ public class FMObjView extends JFrame{
 				Network.openURL(obj.getUrl());
 			}
 		});
-		musicBeanz.addActionListener(new ActionListener() {
+		musicBrainz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Network.openURL(obj.getMusicBeanzURL());;
+				Network.openURL(obj.getMusicBrainzURL());;
 			}
 		});
 		add(name);
@@ -65,6 +65,8 @@ public class FMObjView extends JFrame{
 		add(userPlayCount);
 //		add(info);
 		add(buttons);
+		
+		pack();
 	}
 	
 	

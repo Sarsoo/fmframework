@@ -54,7 +54,7 @@ public class Track extends FMObj{
 	}	
 	
 	@Override
-	public String getMusicBeanzURL() {
+	public String getMusicBrainzURL() {
 		return "https://musicbrainz.org/artist/"  + mbid;
 	}
 }

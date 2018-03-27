@@ -33,6 +33,13 @@ public class Artist extends FMObj{
 		return artist;
 	}
 	
+	public static Artist getArtistByMbid(String mbid, String username) {
+		String url = Network.getArtistInfoMbidUrl(mbid, username);
+		Document response = Network.getResponse(url);
+		Artist artist = Parser.parseArtist(response);
+		return artist;
+	}
+	
 	public ArrayList<Album> getAlbum(){
 		return albums;
 	}
@@ -57,7 +64,7 @@ public class Artist extends FMObj{
 	}
 	
 	@Override
-	public String getMusicBeanzURL() {
+	public String getMusicBrainzURL() {
 			  return "https://musicbrainz.org/artist/"  + mbid;
 		
 	}

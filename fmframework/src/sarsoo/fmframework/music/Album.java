@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import sarsoo.fmframework.gui.AlbumView;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.parser.Parser;
+import sarsoo.fmframework.util.Reference;
 
 public class Album extends FMObj{
 	protected Artist artist;
@@ -15,7 +16,7 @@ public class Album extends FMObj{
 	
 	public Album(String name, String artist) {
 		super(name, null, null, 0, 0, 0, null);
-		this.artist = Artist.getArtist(artist, "sarsoo");
+		this.artist = Artist.getArtist(artist, Reference.getUserName());
 	}
 	
 	public Album(String name, String url, String mbid, Artist artist, int listeners, int playCount, int userPlayCount, Wiki wiki) {
@@ -74,7 +75,7 @@ public class Album extends FMObj{
 	}
 
 	@Override
-	public String getMusicBeanzURL() {
+	public String getMusicBrainzURL() {
 		return "https://musicbrainz.org/release/"  + mbid;
 		
 	}
