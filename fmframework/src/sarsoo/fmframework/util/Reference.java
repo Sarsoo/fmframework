@@ -28,4 +28,16 @@ public class Reference {
 		return tde;
 	}
 	
+	public static ArtistList getBPHQ() {
+		ArtistList bphq = new ArtistList("British Post Hardcore Quintet");
+		
+		bphq.add(Artist.getArtistByMbid("98edd2f1-d136-4c47-ab9b-c31839dd1d98", Reference.getUserName()));
+		bphq.add(Artist.getArtist("Lower Than Atlantis", Reference.getUserName()));
+		bphq.add(Artist.getArtist("Mallory Knox", Reference.getUserName()));
+		bphq.add(Artist.getArtist("Don Broco", Reference.getUserName()));
+		bphq.add(Artist.getArtist("Moose Blood", Reference.getUserName()));
+		
+		return bphq;
+	}
+	
 }

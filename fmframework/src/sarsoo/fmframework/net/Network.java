@@ -99,6 +99,13 @@ public class Network {
 				name, artist, username, Key.getKey());
 		return urlString;
 	}
+	
+	public static String getLastTrackUrl(String username) {
+		String urlString = String.format(
+				"http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&limit=1&user=%s&api_key=%s",
+				username, Key.getKey());
+		return urlString;
+	}
 
 	public static void openURL(String url) {
 		try {
