@@ -19,5 +19,12 @@ class AlbumTest {
 		Album album = Album.getAlbum("Recovery", "Eminem", "sarsoo");
 		assertEquals(album.getArtist().getName(), "Eminem");
 	}
+	
+	@Test
+	void testListeners() {
+		Album album = Album.getAlbum("Recovery", "Eminem", "sarsoo");
+		assertNotNull(album.getListeners());
+	}
+	
 
 }

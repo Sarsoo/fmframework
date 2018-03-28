@@ -1,6 +1,5 @@
 package sarsoo.fmframework.gui;
 
-
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,46 +16,51 @@ import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
 
-public class TrackView extends JFrame{
-	JPanel info = new JPanel();
+public class TrackView extends JFrame {
 	JPanel buttons = new JPanel();
 	JPanel buttons2 = new JPanel();
+
 	JLabel name = new JLabel();
 	JLabel album = new JLabel();
 	JLabel artist = new JLabel();
 	JLabel listeners = new JLabel();
 	JLabel playCount = new JLabel();
 	JLabel userPlayCount = new JLabel();
+
 	JButton open = new JButton("View Online");
 	JButton viewArtist = new JButton("View Artist");
 	JButton viewAlbum = new JButton("View Album");
 	JButton musicBrainz = new JButton("Open MusicBrainz");
-	
+	JButton genius = new JButton("Open Genius");
+
 	public TrackView(Track track) {
 		super(track.getName());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(8,0));
-		setSize(300, 300);
-		setResizable(false);
-		info.setLayout(new GridLayout());
+		setLayout(new GridLayout(8, 1));
+		// setSize(300, 300);
+		// setResizable(false);
+
 		buttons.setLayout(new FlowLayout());
 		buttons2.setLayout(new FlowLayout());
-		
+
 		buttons.add(open);
-		buttons.add(musicBrainz);
+		if (track.getMbid() != null) 
+			buttons.add(musicBrainz);
 		buttons2.add(viewArtist);
-		buttons2.add(viewAlbum);
-		
+		if (track.getAlbum() != null)
+			buttons2.add(viewAlbum);
+		if (track.getArtist() != null)
+			buttons2.add(genius);
+
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-		
+
 		name.setText(track.getName());
 		album.setText(track.getAlbum().getName());
 		artist.setText(track.getArtist().getName());
 		listeners.setText(numberFormat.format(track.getListeners()) + " Listeners");
 		playCount.setText(numberFormat.format(track.getPlayCount()) + " Scrobbles");
 		userPlayCount.setText(numberFormat.format(track.getUserPlayCount()) + " Your Scrobbles");
-		
-		
+
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Network.openURL(track.getUrl());
@@ -69,7 +73,7 @@ public class TrackView extends JFrame{
 		});
 		musicBrainz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Network.openURL(track.getMusicBrainzURL());;
+				Network.openURL(track.getMusicBrainzURL());
 			}
 		});
 		viewAlbum.addActionListener(new ActionListener() {
@@ -77,6 +81,12 @@ public class TrackView extends JFrame{
 				track.getAlbum().view();
 			}
 		});
+		genius.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Network.openURL(track.getLyricsURL());
+			}
+		});
+
 		add(name);
 		add(album);
 		add(artist);
@@ -85,5 +95,6 @@ public class TrackView extends JFrame{
 		add(userPlayCount);
 		add(buttons);
 		add(buttons2);
+		pack();
 	}
 }

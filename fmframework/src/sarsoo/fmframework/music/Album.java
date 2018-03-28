@@ -24,11 +24,6 @@ public class Album extends FMObj{
 		this.artist = artist;
 	}
 	
-	public String toString() {
-		return name + " - " + artist.getName();
-		
-	}
-	
 	public Artist getArtist() {
 		return artist;
 	}
@@ -40,18 +35,34 @@ public class Album extends FMObj{
 		return album;
 	}
 	
-	public ArrayList<Track> getTrackList(){
-		return trackList;
-	}
-	
 	public Track getTrack(int track) {
 		return trackList.get(track);
+	}
+
+	public ArrayList<Track> getTrackList(){
+		return trackList;
 	}
 	
 	public ArrayList<Tag> getTags(){
 		return tagList;
 	}
 	
+	public String getRymURL() {
+		return "https://rateyourmusic.com/release/album/" + getArtist().getName().replaceAll(" ", "_").toLowerCase() + "/" + getName().replaceAll(" ", "_").toLowerCase();
+	}
+	
+	@Override
+	public String getMusicBrainzURL() {
+		return "https://musicbrainz.org/release/"  + mbid;
+		
+	}
+
+	@Override
+	public void view() {
+		AlbumView view = new AlbumView(this);
+		view.setVisible(true);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj.getClass() != this.getClass()) return false;
@@ -63,20 +74,9 @@ public class Album extends FMObj{
 		
 		return false;
 	}
-	
-	public String getRymURL() {
-		return "https://rateyourmusic.com/release/album/" + getArtist().getName().replaceAll(" ", "_").toLowerCase() + "/" + getName().replaceAll(" ", "_").toLowerCase();
-	}
-	
-	@Override
-	public void view() {
-		AlbumView view = new AlbumView(this);
-		view.setVisible(true);
-	}
 
-	@Override
-	public String getMusicBrainzURL() {
-		return "https://musicbrainz.org/release/"  + mbid;
+	public String toString() {
+		return name + " - " + artist.getName();
 		
 	}
 }

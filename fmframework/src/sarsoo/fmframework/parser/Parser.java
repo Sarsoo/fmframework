@@ -24,106 +24,157 @@ import sarsoo.fmframework.util.Reference;
 public class Parser {
 
 	public static Album parseAlbum(Document doc) {
+		try {
+			String name = doc.getElementsByTagName("name").item(0).getTextContent();
+			String artist = doc.getElementsByTagName("artist").item(0).getTextContent();
+			String mbid = null;
+			try {
+				mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+			} catch (NullPointerException e) {
+				System.err.println("Null Mbid for " + name);
+			}
+			String url = doc.getElementsByTagName("url").item(0).getTextContent();
+			int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
+			int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
 
-		String name = doc.getElementsByTagName("name").item(0).getTextContent();
-		String artist = doc.getElementsByTagName("artist").item(0).getTextContent();
-		String mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
-		String url = doc.getElementsByTagName("url").item(0).getTextContent();
-		int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
-		int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
-		int userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+			int userPlayCount = 0;
+			try {
+				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+			} catch (Exception e) {
+				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled");
+			}
 
-		// Node trackListNode = doc.getElementsByTagName("tracks").item(0);
-		// NodeList trackNodeList = trackListNode.getChildNodes();
-		// if (trackListNode != null) {
-		// int counter = 0;
-		// while (trackNodeList.item(counter) != null) {
-		// Node track = trackNodeList.item(counter);
-		// //System.out.println(track.getTextContent());
-		// String trackName = track.getFirstChild().getTextContent();
-		// String trackUrl =
-		// track.getFirstChild().getNextSibling().getNextSibling().getTextContent();
-		// //String trackDuration =
-		// track.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getTextContent();
-		// int trackNumber =
-		// Integer.parseInt(track.getAttributes().getNamedItem("rank").getNodeValue());
-		// // String trackName =
-		// // trackListNode.getFirstChild().getFirstChild().getTextContent();
-		// // String trackUrl = trackListNode.getNextSibling().getTextContent();
-		// System.out.println(trackUrl);
-		// counter++;
-		// }
-		// }
+			// Node trackListNode = doc.getElementsByTagName("tracks").item(0);
+			// NodeList trackNodeList = trackListNode.getChildNodes();
+			// if (trackListNode != null) {
+			// int counter = 0;
+			// while (trackNodeList.item(counter) != null) {
+			// Node track = trackNodeList.item(counter);
+			// //System.out.println(track.getTextContent());
+			// String trackName = track.getFirstChild().getTextContent();
+			// String trackUrl =
+			// track.getFirstChild().getNextSibling().getNextSibling().getTextContent();
+			// //String trackDuration =
+			// track.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getTextContent();
+			// int trackNumber =
+			// Integer.parseInt(track.getAttributes().getNamedItem("rank").getNodeValue());
+			// // String trackName =
+			// // trackListNode.getFirstChild().getFirstChild().getTextContent();
+			// // String trackUrl = trackListNode.getNextSibling().getTextContent();
+			// System.out.println(trackUrl);
+			// counter++;
+			// }
+			// }
 
-		// Node wikiNode = doc.getElementsByTagName("wiki").item(0);
-		// String published = wikiNode.getFirstChild().getTextContent();
-		// String summary = wikiNode.getFirstChild().getNextSibling().getTextContent();
-		// String content =
-		// wikiNode.getFirstChild().getNextSibling().getNextSibling().getTextContent();
+			// Node wikiNode = doc.getElementsByTagName("wiki").item(0);
+			// String published = wikiNode.getFirstChild().getTextContent();
+			// String summary = wikiNode.getFirstChild().getNextSibling().getTextContent();
+			// String content =
+			// wikiNode.getFirstChild().getNextSibling().getNextSibling().getTextContent();
 
-		// System.out.println(published);
-		// System.out.println(summary);
-		// System.out.println(content);
+			// System.out.println(published);
+			// System.out.println(summary);
+			// System.out.println(content);
 
-		Artist artistObj = Artist.getArtist(artist, Reference.getUserName());
-		Wiki wiki = new Wiki();
+			Artist artistObj = Artist.getArtist(artist, Reference.getUserName());
+			Wiki wiki = new Wiki();
 
-		Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
-		return album;
+			Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
+			return album;
+		} catch (NullPointerException e) {
+			System.err.println("Could Not Parse Album");
+			return null;
+		}
 
 	}
 
 	public static Artist parseArtist(Document doc) {
+		try {
+			String name = doc.getElementsByTagName("name").item(0).getTextContent();
+			String mbid = null;
+			try {
+				mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+			} catch (NullPointerException e) {
+				System.err.println("Null Mbid for " + name);
+			}
+			String url = doc.getElementsByTagName("url").item(0).getTextContent();
+			// String streamable =
+			// doc.getElementsByTagName("streamable").item(0).getTextContent();
+			int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
+			int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
 
-		String name = doc.getElementsByTagName("name").item(0).getTextContent();
-		String mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
-		String url = doc.getElementsByTagName("url").item(0).getTextContent();
-		// String streamable =
-		// doc.getElementsByTagName("streamable").item(0).getTextContent();
-		int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
-		int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
-		int userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+			int userPlayCount = 0;
+			try {
+				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+			} catch (Exception e) {
+				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled");
+			}
+			// System.out.println(listeners);
 
-		// System.out.println(listeners);
-
-		Artist artist = new Artist(name, url, mbid, listeners, playCount, userPlayCount, false, false, null);
-		return artist;
+			Artist artist = new Artist(name, url, mbid, listeners, playCount, userPlayCount, false, false, null);
+			return artist;
+		} catch (NullPointerException e) {
+			System.err.println("Could Not Parse Artist");
+			return null;
+		}
 	}
 
 	public static Track parseTrack(Document doc) {
 
-		String name = doc.getElementsByTagName("name").item(0).getTextContent();
-		String artistName = doc.getElementsByTagName("artist").item(0).getFirstChild().getTextContent();
-		String mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
-		String url = doc.getElementsByTagName("url").item(0).getTextContent();
-		int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
-		int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
-		int userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+		try {
+			String name = doc.getElementsByTagName("name").item(0).getTextContent();
+			String artistName = doc.getElementsByTagName("artist").item(0).getFirstChild().getTextContent();
+			String mbid = null;
+			try {
+				mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+			} catch (NullPointerException e) {
+				System.err.println("Null Mbid for " + name + " - " + artistName);
+			}
+			String url = doc.getElementsByTagName("url").item(0).getTextContent();
+			int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
+			int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
 
-		Artist artistObj = Artist.getArtist(artistName, Reference.getUserName());
+			int userPlayCount = 0;
+			try {
+				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+			} catch (Exception e) {
+				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled");
+			}
 
-		// System.out.println(userPlayCount);
+			// String albumName =
+			// doc.getElementsByTagName("album").item(0).getTextContent();
+			// System.out.println(albumName);
+			Artist artistObj = Artist.getArtist(artistName, Reference.getUserName());
 
-		Track track = new Track(name, url, mbid, artistObj, listeners, playCount, userPlayCount, null);
-		return track;
+			// System.out.println(userPlayCount);
 
+			Track track = new Track(name, url, mbid, artistObj, listeners, playCount, userPlayCount, null);
+			return track;
+		} catch (NullPointerException e) {
+			System.err.println("Could Not Parse Track");
+			return null;
+		}
 	}
 
 	public static Track parseLastTrack(Document doc) {
+		try {
+			String name = doc.getElementsByTagName("name").item(0).getTextContent();
 
-		String name = doc.getElementsByTagName("name").item(0).getTextContent();
-		
-		String artistName = doc.getElementsByTagName("artist").item(0).getTextContent();
-		
-		String albumName = doc.getElementsByTagName("album").item(0).getTextContent();
-		
-		Track track = Track.getTrack(name, artistName, Reference.getUserName());
-		 
-		Album album = Album.getAlbum(albumName, artistName, Reference.getUserName());
-		
-		track.setAlbum(album);
-		
-		return track;
+			String artistName = doc.getElementsByTagName("artist").item(0).getTextContent();
+
+			String albumName = doc.getElementsByTagName("album").item(0).getTextContent();
+
+			Track track = Track.getTrack(name, artistName, Reference.getUserName());
+
+			Album album = Album.getAlbum(albumName, artistName, Reference.getUserName());
+
+			track.setAlbum(album);
+
+			return track;
+		} catch (NullPointerException e) {
+			System.err.println("Could Not Parse Track");
+			return null;
+		}
 
 	}
 

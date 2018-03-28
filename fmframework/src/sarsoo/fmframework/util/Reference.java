@@ -4,6 +4,7 @@ import sarsoo.fmframework.music.Artist;
 
 public class Reference {
 	private static String userName;
+	private static boolean isHeadless = true;
 
 	public static String getUserName() {
 		return userName;
@@ -11,6 +12,14 @@ public class Reference {
 
 	public static void setUserName(String userNameIn) {
 		userName = userNameIn;
+	}
+	
+	public static boolean getIsHeadless() {
+		return isHeadless;
+	}
+	
+	public static void setIsHeadless(boolean headlessIn) {
+		isHeadless = headlessIn;
 	}
 	
 	public static ArtistList getTDE() {

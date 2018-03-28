@@ -6,6 +6,7 @@ import sarsoo.fmframework.gui.ArtistListView;
 import sarsoo.fmframework.music.Artist;
 
 public class ArtistList extends ArrayList<Artist> {
+
 	private String groupName = null;
 	
 	public ArtistList() {

@@ -22,10 +22,6 @@ public class Artist extends FMObj{
 		super(name, url, mbid, listeners, playCount, userPlayCount, wiki);
 	}
 	
-	public String toString() {
-		return name;
-	}
-	
 	public static Artist getArtist(String name, String username) {
 		String url = Network.getArtistInfoUrl(name, username);
 		Document response = Network.getResponse(url);
@@ -53,6 +49,15 @@ public class Artist extends FMObj{
 	}
 	
 	@Override
+	public String getMusicBrainzURL() {
+		return "https://musicbrainz.org/artist/"  + mbid;
+	}
+	
+	public String getRymURL() {
+		return "https://rateyourmusic.com/artist/" + getName().replaceAll(" ", "_").toLowerCase();
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if(obj.getClass() != this.getClass()) return false;
 		
@@ -62,15 +67,9 @@ public class Artist extends FMObj{
 		
 		return false;
 	}
-	
-	@Override
-	public String getMusicBrainzURL() {
-			  return "https://musicbrainz.org/artist/"  + mbid;
-		
-	}
-	
-	public String getRymURL() {
-		return "https://rateyourmusic.com/artist/" + getName().replaceAll(" ", "_").toLowerCase();
+
+	public String toString() {
+		return name;
 	}
 	
 	

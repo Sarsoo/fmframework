@@ -1,11 +1,9 @@
 package sarsoo.fmframework.music;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 
-import sarsoo.fmframework.gui.FMObjView;
 import sarsoo.fmframework.gui.TrackView;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.parser.Parser;
@@ -49,6 +47,19 @@ public class Track extends FMObj{
 	}
 	
 	@Override
+	public String getMusicBrainzURL() {
+		return "https://musicbrainz.org/artist/"  + mbid;
+	}
+	
+	public String getLyricsURL() {
+		return Network.getLyricsUrl(name, artist.getName());
+	}
+	
+	public Album getAlbum() {
+		return album;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if(obj.getClass() != this.getClass()) return false;
 		
@@ -58,20 +69,16 @@ public class Track extends FMObj{
 				return true;
 		
 		return false;
-	}	
-	
-	@Override
-	public String getMusicBrainzURL() {
-		return "https://musicbrainz.org/artist/"  + mbid;
 	}
-	
+
 	@Override
 	public void view() {
 		TrackView view = new TrackView(this);
 		view.setVisible(true);
 	}
-
-	public Album getAlbum() {
-		return album;
+	
+	public String toString() {
+		return name + " - " + artist.getName();
+		
 	}
 }

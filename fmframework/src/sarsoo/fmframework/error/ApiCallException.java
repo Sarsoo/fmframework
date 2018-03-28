@@ -1,5 +1,7 @@
 package sarsoo.fmframework.error;
 
+import sarsoo.fmframework.util.Reference;
+
 public class ApiCallException extends Exception {
 	
 	private int failureCode;
@@ -42,6 +44,8 @@ public class ApiCallException extends Exception {
 			return "Suspended API key - Access for your account has been suspended, please contact Last.fm";
 		case 29:
 			return "Rate limit exceeded - Your IP has made too many requests in a short period";	
+		case 400:
+			return "Bad Request";
 		default:
 			return null;
 		}

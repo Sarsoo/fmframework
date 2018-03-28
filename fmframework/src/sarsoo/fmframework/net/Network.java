@@ -51,20 +51,12 @@ public class Network {
 			} catch (ParserConfigurationException e) {
 				e.printStackTrace();
 			}
-
-		} catch (
-
-		MalformedURLException e) {
-
+		} catch (MalformedURLException e) {
 			e.printStackTrace();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		} catch (ApiCallException e) {
-			System.out.println(e.getFailureCode() + " " + e.getError());
-			e.printStackTrace();
+			System.err.println(e.getFailureCode() + " " + e.getError());
 		}
 		return null;
 
@@ -72,15 +64,15 @@ public class Network {
 
 	public static String getArtistInfoUrl(String artist, String username) {
 		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=%s&autocorrect=1&username=%s&api_key=%s",
+				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=%s&autocorrect=0&username=%s&api_key=%s",
 				artist, username, Key.getKey());
 		return urlString;
 
 	}
-	
+
 	public static String getArtistInfoMbidUrl(String mbid, String username) {
 		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&mbid=%s&autocorrect=1&username=%s&api_key=%s",
+				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&mbid=%s&autocorrect=0&username=%s&api_key=%s",
 				mbid, username, Key.getKey());
 		return urlString;
 
@@ -88,22 +80,31 @@ public class Network {
 
 	public static String getAlbumInfoUrl(String album, String artist, String username) {
 		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=album.getInfo&album=%s&artist=%s&autocorrect=1&username=%s&api_key=%s",
+				"http://ws.audioscrobbler.com/2.0/?method=album.getInfo&album=%s&artist=%s&autocorrect=0&username=%s&api_key=%s",
 				album, artist, username, Key.getKey());
 		return urlString;
 	}
 
 	public static String getTrackInfoUrl(String name, String artist, String username) {
 		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=%s&artist=%s&autocorrect=1&username=%s&api_key=%s",
+				"http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=%s&artist=%s&autocorrect=0&username=%s&api_key=%s",
 				name, artist, username, Key.getKey());
 		return urlString;
 	}
-	
+
 	public static String getLastTrackUrl(String username) {
 		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&limit=1&user=%s&api_key=%s",
-				username, Key.getKey());
+				"http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&limit=1&user=%s&api_key=%s", username,
+				Key.getKey());
+		return urlString;
+	}
+
+	public static String getLyricsUrl(String trackName, String artistName) {
+		String track = trackName.replaceAll(" ", "-");
+		// track = track.replaceAll("[^a-zA-Z ]", "").toLowerCase();
+		String artist = artistName.replaceAll(" ", "-");
+		// artist = artist.replaceAll("[^a-zA-Z ]", "").toLowerCase();
+		String urlString = String.format("http://genius.com/%s-%s-lyrics", artist, track);
 		return urlString;
 	}
 

@@ -16,12 +16,13 @@ import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.net.Network;
 
 public class FMObjView extends JFrame{
-	JPanel info = new JPanel();
 	JPanel buttons = new JPanel();
+	
 	JLabel name = new JLabel();
 	JLabel listeners = new JLabel();
 	JLabel playCount = new JLabel();
 	JLabel userPlayCount = new JLabel();
+	
 	JButton open = new JButton("View Online");
 	JButton musicBrainz = new JButton("Open MusicBrainz");
 	
@@ -31,14 +32,12 @@ public class FMObjView extends JFrame{
 		setLayout(new GridLayout(5,0));
 		setSize(300, 300);
 		setResizable(false);
-		info.setLayout(new GridLayout());
+		
 		buttons.setLayout(new FlowLayout());
-//		info.add(name);
-//		info.add(listeners);
-//		info.add(playCount);
-//		info.add(userPlayCount);
+
 		buttons.add(open);
-		buttons.add(musicBrainz);
+		if(obj.getMbid() != null)
+			buttons.add(musicBrainz);
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 		
