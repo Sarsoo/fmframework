@@ -9,11 +9,16 @@ import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.FMObjList;
+import sarsoo.fmframework.util.GetObject;
 
 public class FMObjListView extends JFrame{
 
@@ -22,6 +27,7 @@ public class FMObjListView extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout(objects.size() + 2,0));
 		setResizable(false);
+//		createMenu();
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 		
@@ -74,5 +80,39 @@ public class FMObjListView extends JFrame{
 		JLabel totalScrobbles = new JLabel(numberFormat.format(objects.getTotalUserScrobbles()) + " Total Plays");
 		add(totalScrobbles);
 		pack();
+	}
+	
+	private void createMenu() {
+		JMenuBar menuBar = new JMenuBar();
+
+		JMenu editMenu = new JMenu("Edit");
+		
+		JMenu addMenu = new JMenu("Add");
+
+		// create menu items
+		JMenuItem addAlbum = new JMenuItem("Album");
+		addAlbum.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Album album = GetObject.getAlbum();
+				if(album != null) {
+					
+				}
+			}			
+		});
+		
+		JMenuItem addTrack = new JMenuItem("Track");
+		
+		JMenuItem addArtist = new JMenuItem("Artist");
+		
+		addMenu.add(addAlbum);
+		addMenu.add(addTrack);
+		addMenu.add(addArtist);
+
+
+		editMenu.add(addMenu);
+		menuBar.add(editMenu);
+
+		setJMenuBar(menuBar);	
 	}
 }

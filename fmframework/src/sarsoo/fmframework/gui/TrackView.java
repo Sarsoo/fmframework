@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
 

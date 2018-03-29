@@ -3,7 +3,6 @@ package sarsoo.fmframework.util;
 import java.util.ArrayList;
 
 import sarsoo.fmframework.gui.FMObjListView;
-import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
 
 public class FMObjList extends ArrayList<FMObj> {

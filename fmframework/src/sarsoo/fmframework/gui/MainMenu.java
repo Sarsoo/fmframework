@@ -27,12 +27,13 @@ public class MainMenu extends JFrame {
 	JButton getAlbum = new JButton("Get Album");
 	JButton getArtist = new JButton("Get Artist");
 	JButton viewLastTrack = new JButton("View Last Track");
+	JButton viewList = new JButton("View List");
 
 	public MainMenu() {
 		super("fmframework");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(5, 5));
-		setSize(500, 500);
+		setLayout(new GridLayout(2, 2));
+		setSize(300, 300);
 		setResizable(false);
 
 		getAlbum.addActionListener(new ActionListener() {
@@ -65,22 +66,17 @@ public class MainMenu extends JFrame {
 				}
 			}
 		});
+		viewList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RefListsView view = new RefListsView();
+				view.setVisible(true);
+			}
+		});
 		add(viewLastTrack);
+		add(viewList);
 		add(getAlbum);
 		add(getArtist);
 		
-		Reference.initGroupsList();
-		ArrayList<FMObjList> groups = Reference.getGroups();
-		int counter;
-		for (counter = 0; counter < groups.size(); counter++) {
-			FMObjList group = groups.get(counter);
-			JButton view = new JButton("View " + group.getGroupName());
-			view.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					group.view();
-				}
-			});
-			add(view);
-		}
+		
 	}
 }
