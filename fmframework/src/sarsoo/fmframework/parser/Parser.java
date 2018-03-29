@@ -12,7 +12,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -126,21 +125,21 @@ public class Parser {
 					node = wikiContents.item(counter);
 					
 					if (node.getNodeName().equals("published")) {
-						System.out.println(node.getNodeName() + node.getTextContent());
+//						System.out.println(node.getNodeName() + node.getTextContent());
 						date = node.getTextContent();
 					}
 					if (node.getNodeName().equals("summary")) {
-						System.out.println(node.getNodeName() + node.getTextContent());
+//						System.out.println(node.getNodeName() + node.getTextContent());
 						summary = node.getTextContent();
 					}
 					if (node.getNodeName().equals("content")) {
-						System.out.println(node.getNodeName() + node.getTextContent());
+//						System.out.println(node.getNodeName() + node.getTextContent());
 						content = node.getTextContent();
 					}
 				}
 
 				if (date != null && content != null)
-					System.out.println("wiki init");
+//					System.out.println("wiki init");
 					wiki = new Wiki(date, summary, content);
 				// if (wikiNodeList.item(0) != null) {
 				// String date = wikiNodeList.item(0).getFirstChild().getTextContent();
@@ -224,7 +223,7 @@ public class Parser {
 					node = wikiContents.item(counter);
 					
 					if (node.getNodeName().equals("published")) {
-						System.out.println(node.getNodeName() + node.getTextContent());
+//						System.out.println(node.getNodeName() + node.getTextContent());
 						date = node.getTextContent();
 					}
 //					if (node.getNodeName().equals("summary")) {
@@ -232,7 +231,7 @@ public class Parser {
 //						summary = node.getTextContent();
 //					}
 					if (node.getNodeName().equals("content")) {
-						System.out.println(node.getNodeName() + node.getTextContent());
+//						System.out.println(node.getNodeName() + node.getTextContent());
 						content = node.getTextContent();
 					}
 				}

@@ -16,6 +16,9 @@ import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
 
 public class TrackView extends JFrame {
+	JPanel info = new JPanel();
+	JPanel nameInfo = new JPanel();
+	JPanel scrobbleInfo = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel buttons2 = new JPanel();
 
@@ -36,10 +39,13 @@ public class TrackView extends JFrame {
 	public TrackView(Track track) {
 		super(track.getName());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(8, 1));
+		setLayout(new GridLayout(3, 1));
 //		 setSize(300, 300);
 //		 setResizable(false);
 
+		info.setLayout(new GridLayout(1,2));
+		nameInfo.setLayout(new GridLayout(3,1));
+		scrobbleInfo.setLayout(new GridLayout(3,1));
 		buttons.setLayout(new FlowLayout());
 		buttons2.setLayout(new FlowLayout());
 
@@ -96,13 +102,18 @@ public class TrackView extends JFrame {
 			}
 		});
 
-		add(name);
+		nameInfo.add(name);
 		if(track.getAlbum() != null)
-			add(album);
-		add(artist);
-		add(listeners);
-		add(playCount);
-		add(userPlayCount);
+			nameInfo.add(album);
+		nameInfo.add(artist);
+		scrobbleInfo.add(listeners);
+		scrobbleInfo.add(playCount);
+		scrobbleInfo.add(userPlayCount);
+		
+		info.add(nameInfo);
+		info.add(scrobbleInfo);
+		
+		add(info);
 		add(buttons);
 		add(buttons2);
 		pack();

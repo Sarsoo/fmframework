@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.swing.JButton;
@@ -14,8 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import sarsoo.fmframework.music.Album;
-import sarsoo.fmframework.music.FMObj;
-import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
 
 public class AlbumView extends JFrame {
@@ -48,14 +45,14 @@ public class AlbumView extends JFrame {
 //		if (album.getTrackList() != null)
 //			buttons2.setLayout(new GridLayout(album.getTrackList().size(), 1));
 
-		buttons.add(open);
-		buttons.add(viewArtist);
+		buttons2.add(open);
+		buttons2.add(viewArtist);
 		
 		if (album.getWiki() != null)
 			buttons2.add(viewWiki);
 		if (album.getMbid() != null)
-			buttons2.add(musicBrainz);
-		buttons2.add(rym);
+			buttons.add(musicBrainz);
+		buttons.add(rym);
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
