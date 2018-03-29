@@ -2,18 +2,19 @@ package sarsoo.fmframework.util;
 
 import java.util.ArrayList;
 
-import sarsoo.fmframework.gui.ArtistListView;
+import sarsoo.fmframework.gui.FMObjListView;
 import sarsoo.fmframework.music.Artist;
+import sarsoo.fmframework.music.FMObj;
 
-public class ArtistList extends ArrayList<Artist> {
+public class FMObjList extends ArrayList<FMObj> {
 
 	private String groupName = null;
 	
-	public ArtistList() {
+	public FMObjList() {
 		super();
 	}
 	
-	public ArtistList(String name) {
+	public FMObjList(String name) {
 		super();
 		this.groupName = name;
 	}
@@ -28,16 +29,16 @@ public class ArtistList extends ArrayList<Artist> {
 	}
 
 	public void view(String title) {
-		ArtistListView view = new ArtistListView(this, title);
+		FMObjListView view = new FMObjListView(this, title);
 		view.setVisible(true);
 	}
 
 	public void view() {
 		if(groupName != null) {
-			ArtistListView view = new ArtistListView(this, getGroupName());
+			FMObjListView view = new FMObjListView(this, getGroupName());
 			view.setVisible(true);
 		}else {
-			ArtistListView view = new ArtistListView(this, "Artist List View");
+			FMObjListView view = new FMObjListView(this, "List View");
 			view.setVisible(true);
 		}
 	}

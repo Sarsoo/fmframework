@@ -41,7 +41,7 @@ public class Parser {
 			try {
 				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
 			} catch (Exception e) {
-				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled");
+				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for " + name);
 			}
 
 			// Node trackListNode = doc.getElementsByTagName("tracks").item(0);
@@ -107,7 +107,7 @@ public class Parser {
 			try {
 				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
 			} catch (Exception e) {
-				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled");
+				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for " + name);
 			}
 			// System.out.println(listeners);
 
@@ -138,7 +138,7 @@ public class Parser {
 			try {
 				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
 			} catch (Exception e) {
-				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled");
+				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for " + name);
 			}
 
 			// String albumName =

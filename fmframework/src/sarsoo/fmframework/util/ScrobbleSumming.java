@@ -4,7 +4,7 @@ import sarsoo.fmframework.music.Artist;
 public class ScrobbleSumming {
 	
 	public static int getTopDawgScrobbles() {
-		ArtistList tde = new ArtistList();
+		FMObjList tde = new FMObjList();
 		
 //		Artist kendrick = Artist.getArtist("Kendrick Lamar", "sarsoo");
 //		Artist jay = Artist.getArtist("Jay Rock", "sarsoo");
