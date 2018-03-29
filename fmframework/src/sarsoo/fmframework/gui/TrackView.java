@@ -36,8 +36,8 @@ public class TrackView extends JFrame {
 		super(track.getName());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout(8, 1));
-		// setSize(300, 300);
-		 setResizable(false);
+//		 setSize(300, 300);
+//		 setResizable(false);
 
 		buttons.setLayout(new FlowLayout());
 		buttons2.setLayout(new FlowLayout());
