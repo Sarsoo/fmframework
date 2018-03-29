@@ -29,6 +29,7 @@ public class TrackView extends JFrame {
 	JButton open = new JButton("View Online");
 	JButton viewArtist = new JButton("View Artist");
 	JButton viewAlbum = new JButton("View Album");
+	JButton viewWiki = new JButton("View Wiki");
 	JButton musicBrainz = new JButton("Open MusicBrainz");
 	JButton genius = new JButton("Open Genius");
 
@@ -43,6 +44,8 @@ public class TrackView extends JFrame {
 		buttons2.setLayout(new FlowLayout());
 
 		buttons.add(open);
+		if (track.getWiki() != null)
+			buttons.add(viewWiki);
 		if (track.getMbid() != null) 
 			buttons.add(musicBrainz);
 		buttons2.add(viewArtist);
@@ -64,6 +67,11 @@ public class TrackView extends JFrame {
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Network.openURL(track.getUrl());
+			}
+		});
+		viewWiki.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				track.getWiki().view(track.getName());
 			}
 		});
 		viewArtist.addActionListener(new ActionListener() {

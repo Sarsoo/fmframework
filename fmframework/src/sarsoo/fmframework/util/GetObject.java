@@ -8,6 +8,7 @@ import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.parser.Parser;
 
 public class GetObject {
@@ -33,12 +34,18 @@ public class GetObject {
 	public static Track getLastTrack() {
 
 		String url = Network.getLastTrackUrl(Reference.getUserName());
+//		TestCall.test(url);
 		Document doc = Network.getResponse(url);
+		
 //		System.out.println(doc.getDocumentElement().getAttribute("status"));
-		Parser.stripSpace(doc.getDocumentElement());
-		Track track = Parser.parseLastTrack(doc);
-//		return null;
-		return track;
+		if (doc != null) {
+			// System.out.println(doc.getDocumentElement().getAttribute("status"));
+			Parser.stripSpace(doc.getDocumentElement());
+			Track track = Parser.parseLastTrack(doc);
+			// return null;
+			return track;
+		}
+		return null;
 
 	}
 

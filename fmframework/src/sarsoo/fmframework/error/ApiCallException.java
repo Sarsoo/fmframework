@@ -1,7 +1,5 @@
 package sarsoo.fmframework.error;
 
-import sarsoo.fmframework.util.Reference;
-
 public class ApiCallException extends Exception {
 	
 	private int failureCode;

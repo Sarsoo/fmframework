@@ -31,6 +31,7 @@ public class AlbumView extends JFrame {
 
 	JButton open = new JButton("View Online");
 	JButton viewArtist = new JButton("View Artist");
+	JButton viewWiki = new JButton("View Wiki");
 	JButton musicBrainz = new JButton("Open MusicBrainz");
 	JButton rym = new JButton("Open RYM");
 
@@ -49,6 +50,8 @@ public class AlbumView extends JFrame {
 
 		buttons.add(open);
 		buttons.add(viewArtist);
+		if (album.getWiki() != null)
+			buttons2.add(viewWiki);
 		if (album.getMbid() != null)
 			buttons2.add(musicBrainz);
 		buttons2.add(rym);
@@ -70,6 +73,11 @@ public class AlbumView extends JFrame {
 		viewArtist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				album.getArtist().view();
+			}
+		});
+		viewWiki.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				album.getWiki().view(album.getName());
 			}
 		});
 		musicBrainz.addActionListener(new ActionListener() {

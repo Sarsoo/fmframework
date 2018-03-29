@@ -23,6 +23,7 @@ public class FMObjView extends JFrame{
 	JLabel playCount = new JLabel();
 	JLabel userPlayCount = new JLabel();
 	
+	JButton viewWiki = new JButton("View Wiki");
 	JButton open = new JButton("View Online");
 	JButton musicBrainz = new JButton("Open MusicBrainz");
 	
@@ -31,11 +32,13 @@ public class FMObjView extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout(5,0));
 		setSize(300, 300);
-		setResizable(false);
+//		setResizable(false);
 		
 		buttons.setLayout(new FlowLayout());
 
 		buttons.add(open);
+		if (obj.getWiki() != null)
+			buttons.add(viewWiki);
 		if(obj.getMbid() != null)
 			buttons.add(musicBrainz);
 		
@@ -47,7 +50,11 @@ public class FMObjView extends JFrame{
 		playCount.setText(numberFormat.format(obj.getPlayCount()) + " Scrobbles");
 		userPlayCount.setText(numberFormat.format(obj.getUserPlayCount()) + " Your Scrobbles");
 		
-		
+		viewWiki.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				obj.getWiki().view(obj.getName());
+			}
+		});
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Network.openURL(obj.getUrl());
