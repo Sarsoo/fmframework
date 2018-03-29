@@ -50,24 +50,36 @@ public class Parser {
 
 			Wiki wiki = null;
 			NodeList wikiNodeList = doc.getElementsByTagName("wiki");
-			if (wikiNodeList.item(0) != null) {
-				String date = wikiNodeList.item(0).getFirstChild().getTextContent();
+			if (wikiNodeList.getLength() != 0) {
+				Node wikiNode = wikiNodeList.item(0);
+				NodeList wikiContents = wikiNode.getChildNodes();
 
-				Node summaryNode = wikiNodeList.item(0).getFirstChild().getNextSibling();
-				while (!(summaryNode instanceof Element) && summaryNode != null) {
-					summaryNode = summaryNode.getNextSibling();
+				String date = null;
+//				String summary = null;
+				String content = null;
+
+				int counter;
+				Node node;
+				for (counter = 0; counter < wikiContents.getLength(); counter++) {
+					node = wikiContents.item(counter);
+					
+					if (node.getNodeName().equals("published")) {
+						System.out.println(node.getNodeName() + node.getTextContent());
+						date = node.getTextContent();
+					}
+//					if (node.getNodeName().equals("summary")) {
+//						System.out.println(node.getNodeName() + node.getTextContent());
+//						summary = node.getTextContent();
+//					}
+					if (node.getNodeName().equals("content")) {
+						System.out.println(node.getNodeName() + node.getTextContent());
+						content = node.getTextContent();
+					}
 				}
-				String summary = summaryNode.getTextContent();
-				// System.out.println(summary);
 
-				Node contentNode = summaryNode.getNextSibling();
-				while (!(contentNode instanceof Element) && contentNode != null) {
-					contentNode = contentNode.getNextSibling();
-				}
-				String content = contentNode.getTextContent();
-				// System.out.println(content);
-
-				wiki = new Wiki(date, summary, content);
+				if (date != null && content != null)
+//					System.out.println("wiki init");
+					wiki = new Wiki(date, null, content);
 			}
 
 			Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
@@ -198,27 +210,39 @@ public class Parser {
 
 			Wiki wiki = null;
 			NodeList wikiNodeList = doc.getElementsByTagName("wiki");
-			if (wikiNodeList.item(0) != null) {
-				String date = wikiNodeList.item(0).getFirstChild().getTextContent();
+			if (wikiNodeList.getLength() != 0) {
+				Node wikiNode = wikiNodeList.item(0);
+				NodeList wikiContents = wikiNode.getChildNodes();
 
-				Node summaryNode = wikiNodeList.item(0).getFirstChild().getNextSibling();
-				while (!(summaryNode instanceof Element) && summaryNode != null) {
-					summaryNode = summaryNode.getNextSibling();
+				String date = null;
+//				String summary = null;
+				String content = null;
+
+				int counter;
+				Node node;
+				for (counter = 0; counter < wikiContents.getLength(); counter++) {
+					node = wikiContents.item(counter);
+					
+					if (node.getNodeName().equals("published")) {
+						System.out.println(node.getNodeName() + node.getTextContent());
+						date = node.getTextContent();
+					}
+//					if (node.getNodeName().equals("summary")) {
+//						System.out.println(node.getNodeName() + node.getTextContent());
+//						summary = node.getTextContent();
+//					}
+					if (node.getNodeName().equals("content")) {
+						System.out.println(node.getNodeName() + node.getTextContent());
+						content = node.getTextContent();
+					}
 				}
-				String summary = summaryNode.getTextContent();
-				// System.out.println(summary);
 
-				Node contentNode = summaryNode.getNextSibling();
-				while (!(contentNode instanceof Element) && contentNode != null) {
-					contentNode = contentNode.getNextSibling();
-				}
-				String content = contentNode.getTextContent();
-				// System.out.println(content);
-
-				wiki = new Wiki(date, summary, content);
+				if (date != null && content != null)
+//					System.out.println("wiki init");
+					wiki = new Wiki(date, null, content);
 			}
 
-			Track track = new Track(name, url, mbid, artistObj, listeners, playCount, userPlayCount, null);
+			Track track = new Track(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
 			return track;
 		} else {
 			return null;

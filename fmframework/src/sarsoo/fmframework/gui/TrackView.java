@@ -44,15 +44,16 @@ public class TrackView extends JFrame {
 		buttons2.setLayout(new FlowLayout());
 
 		buttons.add(open);
-		if (track.getWiki() != null)
-			buttons.add(viewWiki);
 		if (track.getMbid() != null) 
 			buttons.add(musicBrainz);
+		
 		buttons2.add(viewArtist);
 		if (track.getAlbum() != null)
 			buttons2.add(viewAlbum);
-		if (track.getArtist() != null)
-			buttons2.add(genius);
+		if (track.getWiki() != null)
+			buttons2.add(viewWiki);
+//		if (track.getArtist() != null)
+			buttons.add(genius);
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
