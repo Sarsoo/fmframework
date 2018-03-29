@@ -54,7 +54,8 @@ public class TrackView extends JFrame {
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
 		name.setText(track.getName());
-		album.setText(track.getAlbum().getName());
+		if(track.getAlbum() != null)
+			album.setText(track.getAlbum().getName());
 		artist.setText(track.getArtist().getName());
 		listeners.setText(numberFormat.format(track.getListeners()) + " Listeners");
 		playCount.setText(numberFormat.format(track.getPlayCount()) + " Scrobbles");
@@ -87,7 +88,8 @@ public class TrackView extends JFrame {
 		});
 
 		add(name);
-		add(album);
+		if(track.getAlbum() != null)
+			add(album);
 		add(artist);
 		add(listeners);
 		add(playCount);

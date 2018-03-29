@@ -34,9 +34,10 @@ public class GetObject {
 
 		String url = Network.getLastTrackUrl(Reference.getUserName());
 		Document doc = Network.getResponse(url);
+//		System.out.println(doc.getDocumentElement().getAttribute("status"));
 		Parser.stripSpace(doc.getDocumentElement());
 		Track track = Parser.parseLastTrack(doc);
-
+//		return null;
 		return track;
 
 	}

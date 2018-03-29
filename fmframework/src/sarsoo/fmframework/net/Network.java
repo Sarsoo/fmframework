@@ -24,7 +24,8 @@ public class Network {
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "application/xml");
+			conn.setRequestProperty("Accept", "text/xml");
+			conn.setRequestProperty("User-Agent", "fmframework/1.0");
 
 			if (conn.getResponseCode() != 200) {
 				throw new ApiCallException(conn.getResponseCode());
@@ -94,7 +95,7 @@ public class Network {
 
 	public static String getLastTrackUrl(String username) {
 		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&limit=1&user=%s&api_key=%s", username,
+				"http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=%s&limit=1&api_key=%s", username,
 				Key.getKey());
 		return urlString;
 	}

@@ -1,26 +1,17 @@
 package sarsoo.fmframework.gui;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Track;
-import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.GetObject;
-import sarsoo.fmframework.util.Reference;
 
 public class MainMenu extends JFrame {
 

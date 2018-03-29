@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
@@ -24,121 +25,177 @@ import sarsoo.fmframework.util.Reference;
 public class Parser {
 
 	public static Album parseAlbum(Document doc) {
-		try {
-			String name = doc.getElementsByTagName("name").item(0).getTextContent();
-			String artist = doc.getElementsByTagName("artist").item(0).getTextContent();
-			String mbid = null;
-			try {
-				mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
-			} catch (NullPointerException e) {
-				System.err.println("Null Mbid for " + name);
-			}
-			String url = doc.getElementsByTagName("url").item(0).getTextContent();
-			int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
-			int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
+		// try {
+		String name = doc.getElementsByTagName("name").item(0).getTextContent();
+		String artist = doc.getElementsByTagName("artist").item(0).getTextContent();
+		String mbid = null;
+		// try {
+		// mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+		// } catch (NullPointerException e) {
+		// System.err.println("Null Mbid for " + name);
+		// }
 
-			int userPlayCount = 0;
-			try {
-				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
-			} catch (Exception e) {
-				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for " + name);
-			}
-
-			// Node trackListNode = doc.getElementsByTagName("tracks").item(0);
-			// NodeList trackNodeList = trackListNode.getChildNodes();
-			// if (trackListNode != null) {
-			// int counter = 0;
-			// while (trackNodeList.item(counter) != null) {
-			// Node track = trackNodeList.item(counter);
-			// //System.out.println(track.getTextContent());
-			// String trackName = track.getFirstChild().getTextContent();
-			// String trackUrl =
-			// track.getFirstChild().getNextSibling().getNextSibling().getTextContent();
-			// //String trackDuration =
-			// track.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getTextContent();
-			// int trackNumber =
-			// Integer.parseInt(track.getAttributes().getNamedItem("rank").getNodeValue());
-			// // String trackName =
-			// // trackListNode.getFirstChild().getFirstChild().getTextContent();
-			// // String trackUrl = trackListNode.getNextSibling().getTextContent();
-			// System.out.println(trackUrl);
-			// counter++;
-			// }
-			// }
-
-			// Node wikiNode = doc.getElementsByTagName("wiki").item(0);
-			// String published = wikiNode.getFirstChild().getTextContent();
-			// String summary = wikiNode.getFirstChild().getNextSibling().getTextContent();
-			// String content =
-			// wikiNode.getFirstChild().getNextSibling().getNextSibling().getTextContent();
-
-			// System.out.println(published);
-			// System.out.println(summary);
-			// System.out.println(content);
-
-			Artist artistObj = Artist.getArtist(artist, Reference.getUserName());
-			Wiki wiki = new Wiki();
-
-			Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
-			return album;
-		} catch (NullPointerException e) {
-			System.err.println("Could Not Parse Album");
-			return null;
+		NodeList mbidNodeList = doc.getElementsByTagName("mbid");
+		if (mbidNodeList.item(0) != null) {
+			mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
 		}
+
+		String url = doc.getElementsByTagName("url").item(0).getTextContent();
+		int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
+		int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
+
+		int userPlayCount = 0;
+		// try {
+		// userPlayCount =
+		// Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+		// } catch (Exception e) {
+		// System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for "
+		// + name);
+		// }
+
+		NodeList userPlayCountNodeList = doc.getElementsByTagName("userplaycount");
+		if (userPlayCountNodeList.item(0) != null) {
+			userPlayCount = Integer.parseInt(userPlayCountNodeList.item(0).getTextContent());
+		}
+
+		// Node trackListNode = doc.getElementsByTagName("tracks").item(0);
+		// NodeList trackNodeList = trackListNode.getChildNodes();
+		// if (trackListNode != null) {
+		// int counter = 0;
+		// while (trackNodeList.item(counter) != null) {
+		// Node track = trackNodeList.item(counter);
+		// //System.out.println(track.getTextContent());
+		// String trackName = track.getFirstChild().getTextContent();
+		// String trackUrl =
+		// track.getFirstChild().getNextSibling().getNextSibling().getTextContent();
+		// //String trackDuration =
+		// track.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getTextContent();
+		// int trackNumber =
+		// Integer.parseInt(track.getAttributes().getNamedItem("rank").getNodeValue());
+		// // String trackName =
+		// // trackListNode.getFirstChild().getFirstChild().getTextContent();
+		// // String trackUrl = trackListNode.getNextSibling().getTextContent();
+		// System.out.println(trackUrl);
+		// counter++;
+		// }
+		// }
+
+		// Node wikiNode = doc.getElementsByTagName("wiki").item(0);
+		// String published = wikiNode.getFirstChild().getTextContent();
+		// String summary = wikiNode.getFirstChild().getNextSibling().getTextContent();
+		// String content =
+		// wikiNode.getFirstChild().getNextSibling().getNextSibling().getTextContent();
+
+		// System.out.println(published);
+		// System.out.println(summary);
+		// System.out.println(content);
+
+		Artist artistObj = Artist.getArtist(artist, Reference.getUserName());
+		Wiki wiki = new Wiki();
+
+		Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
+		return album;
+		// } catch (NullPointerException e) {
+		// System.err.println("Could Not Parse Album");
+		// return null;
+		// }
 
 	}
 
 	public static Artist parseArtist(Document doc) {
-		try {
-			String name = doc.getElementsByTagName("name").item(0).getTextContent();
-			String mbid = null;
-			try {
-				mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
-			} catch (NullPointerException e) {
-				System.err.println("Null Mbid for " + name);
-			}
-			String url = doc.getElementsByTagName("url").item(0).getTextContent();
-			// String streamable =
-			// doc.getElementsByTagName("streamable").item(0).getTextContent();
-			int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
-			int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
+		// try {
+		String name = doc.getElementsByTagName("name").item(0).getTextContent();
+		String mbid = null;
+		// try {
+		// mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+		// } catch (NullPointerException e) {
+		// System.err.println("Null Mbid for " + name);
+		// }
 
-			int userPlayCount = 0;
-			try {
-				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
-			} catch (Exception e) {
-				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for " + name);
-			}
-			// System.out.println(listeners);
-
-			Artist artist = new Artist(name, url, mbid, listeners, playCount, userPlayCount, false, false, null);
-			return artist;
-		} catch (NullPointerException e) {
-			System.err.println("Could Not Parse Artist");
-			return null;
+		NodeList mbidNodeList = doc.getElementsByTagName("mbid");
+		if (mbidNodeList.item(0) != null) {
+			mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
 		}
+
+		String url = doc.getElementsByTagName("url").item(0).getTextContent();
+		// String streamable =
+		// doc.getElementsByTagName("streamable").item(0).getTextContent();
+		int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
+		int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
+
+		int userPlayCount = 0;
+		// try {
+		// userPlayCount =
+		// Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+		// } catch (Exception e) {
+		// System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for "
+		// + name);
+		// }
+		// System.out.println(listeners);
+
+		NodeList userPlayCountNodeList = doc.getElementsByTagName("userplaycount");
+		if (userPlayCountNodeList.item(0) != null) {
+			userPlayCount = Integer.parseInt(userPlayCountNodeList.item(0).getTextContent());
+		}
+
+		Artist artist = new Artist(name, url, mbid, listeners, playCount, userPlayCount, false, false, null);
+		return artist;
+		// } catch (NullPointerException e) {
+		// System.err.println("Could Not Parse Artist");
+		// return null;
+		// }
 	}
 
 	public static Track parseTrack(Document doc) {
-
-		try {
-			String name = doc.getElementsByTagName("name").item(0).getTextContent();
-			String artistName = doc.getElementsByTagName("artist").item(0).getFirstChild().getTextContent();
-			String mbid = null;
+		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
+			String name = " ";
 			try {
-				mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+				name = doc.getElementsByTagName("name").item(0).getTextContent();
 			} catch (NullPointerException e) {
-				System.err.println("Null Mbid for " + name + " - " + artistName);
+				System.err.println("Could Not Parse Track Name");
+				return null;
 			}
-			String url = doc.getElementsByTagName("url").item(0).getTextContent();
+			String artistName = " ";
+			try {
+				artistName = doc.getElementsByTagName("artist").item(0).getFirstChild().getTextContent();
+			} catch (NullPointerException e) {
+				System.err.println("Could Not Parse Artist Name for " + name);
+				return null;
+			}
+			String mbid = null;
+			// try {
+			// mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+			// } catch (NullPointerException e) {
+			// System.err.println("Null Mbid for " + name + " - " + artistName);
+			// }
+			NodeList mbidNodeList = doc.getElementsByTagName("mbid");
+			if (mbidNodeList.item(0) != null) {
+				mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
+			}
+
+			String url = null;
+			// try {
+			url = doc.getElementsByTagName("url").item(0).getTextContent();
+			// } catch (NullPointerException e) {
+			// System.err.println("Could Not Parse Track Url");
+			// return null;
+			// }
 			int listeners = Integer.parseInt(doc.getElementsByTagName("listeners").item(0).getTextContent());
 			int playCount = Integer.parseInt(doc.getElementsByTagName("playcount").item(0).getTextContent());
 
 			int userPlayCount = 0;
-			try {
-				userPlayCount = Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
-			} catch (Exception e) {
-				System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for " + name);
+			// try {
+			// userPlayCount =
+			// Integer.parseInt(doc.getElementsByTagName("userplaycount").item(0).getTextContent());
+			// } catch (Exception e) {
+			// System.out.println();
+			// System.err.println("Couldn't parse userPlayCount, possibly unscrobbled for "
+			// + name);
+			// }
+
+			NodeList userPlayCountNodeList = doc.getElementsByTagName("userplaycount");
+			if (userPlayCountNodeList.item(0) != null) {
+				userPlayCount = Integer.parseInt(userPlayCountNodeList.item(0).getTextContent());
 			}
 
 			// String albumName =
@@ -150,31 +207,37 @@ public class Parser {
 
 			Track track = new Track(name, url, mbid, artistObj, listeners, playCount, userPlayCount, null);
 			return track;
-		} catch (NullPointerException e) {
-			System.err.println("Could Not Parse Track");
+		} else {
 			return null;
 		}
+
 	}
 
 	public static Track parseLastTrack(Document doc) {
-		try {
+		// try {
+//		System.out.println(doc.getDocumentElement().getAttribute("status"));
+		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = doc.getElementsByTagName("name").item(0).getTextContent();
-
+//			System.out.println(name);
 			String artistName = doc.getElementsByTagName("artist").item(0).getTextContent();
 
 			String albumName = doc.getElementsByTagName("album").item(0).getTextContent();
 
 			Track track = Track.getTrack(name, artistName, Reference.getUserName());
 
-			Album album = Album.getAlbum(albumName, artistName, Reference.getUserName());
+			// Album album = Album.getAlbum(albumName, artistName, Reference.getUserName());
 
-			track.setAlbum(album);
+			// if (album.getName() != null)
+			// track.setAlbum(album);
 
 			return track;
-		} catch (NullPointerException e) {
-			System.err.println("Could Not Parse Track");
-			return null;
+			// } catch (NullPointerException e) {
+			// System.err.println("Could Not Parse Last Track");
+			// return null;
+			// }
 		}
+		
+		return null;
 
 	}
 
