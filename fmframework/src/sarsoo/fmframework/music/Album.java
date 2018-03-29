@@ -12,7 +12,7 @@ import sarsoo.fmframework.util.Reference;
 public class Album extends FMObj{
 	protected Artist artist;
 	protected ArrayList<Tag> tagList;
-	protected ArrayList<Track> trackList;
+//	protected ArrayList<Track> trackList;
 	
 	public Album(String name, String artist) {
 		super(name, null, null, 0, 0, 0, null);
@@ -35,14 +35,18 @@ public class Album extends FMObj{
 		return album;
 	}
 	
-	public Track getTrack(int track) {
-		return trackList.get(track);
-	}
-
-	public ArrayList<Track> getTrackList(){
-		return trackList;
-	}
-	
+//	public Track getTrack(int track) {
+//		return trackList.get(track);
+//	}
+//
+//	public ArrayList<Track> getTrackList(){
+//		return trackList;
+//	}
+//	
+//	public void addTrack(Track track) {
+//		trackList.add(track);
+//	}
+//	
 	public ArrayList<Tag> getTags(){
 		return tagList;
 	}
