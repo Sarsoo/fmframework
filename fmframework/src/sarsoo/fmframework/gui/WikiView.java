@@ -40,7 +40,7 @@ public class WikiView extends JFrame {
 		super(name);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout(1,1));
-		setSize(400, 500);
+		setSize(500, 700);
 //		setResizable(false);
 
 //		buttons.setLayout(new FlowLayout());

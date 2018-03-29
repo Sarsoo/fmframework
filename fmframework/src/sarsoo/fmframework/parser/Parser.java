@@ -112,19 +112,23 @@ public class Parser {
 				Node node;
 				for (counter = 0; counter < wikiContents.getLength(); counter++) {
 					node = wikiContents.item(counter);
-					System.out.println(node.getNodeName() + node.getTextContent());
+					
 					if (node.getNodeName().equals("published")) {
+						System.out.println(node.getNodeName() + node.getTextContent());
 						date = node.getTextContent();
 					}
 					if (node.getNodeName().equals("summary")) {
+						System.out.println(node.getNodeName() + node.getTextContent());
 						summary = node.getTextContent();
 					}
 					if (node.getNodeName().equals("content")) {
+						System.out.println(node.getNodeName() + node.getTextContent());
 						content = node.getTextContent();
 					}
 				}
 
 				if (date != null && content != null)
+					System.out.println("wiki init");
 					wiki = new Wiki(date, summary, content);
 				// if (wikiNodeList.item(0) != null) {
 				// String date = wikiNodeList.item(0).getFirstChild().getTextContent();
@@ -147,7 +151,7 @@ public class Parser {
 				// }
 			}
 
-			Artist artist = new Artist(name, url, mbid, listeners, playCount, userPlayCount, false, false, null);
+			Artist artist = new Artist(name, url, mbid, listeners, playCount, userPlayCount, wiki);
 			return artist;
 		}
 		return null;
