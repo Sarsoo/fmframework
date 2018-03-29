@@ -50,6 +50,7 @@ public class AlbumView extends JFrame {
 
 		buttons.add(open);
 		buttons.add(viewArtist);
+		
 		if (album.getWiki() != null)
 			buttons2.add(viewWiki);
 		if (album.getMbid() != null)

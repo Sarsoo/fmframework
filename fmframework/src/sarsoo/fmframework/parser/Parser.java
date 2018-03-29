@@ -75,7 +75,6 @@ public class Parser {
 			return album;
 		}
 		return null;
-
 	}
 
 	public static Artist parseArtist(Document doc) {
@@ -124,9 +123,9 @@ public class Parser {
 						content = node.getTextContent();
 					}
 				}
-				
-				if(date != null && content != null)
-					wiki = new Wiki(date, summary, content);				
+
+				if (date != null && content != null)
+					wiki = new Wiki(date, summary, content);
 				// if (wikiNodeList.item(0) != null) {
 				// String date = wikiNodeList.item(0).getFirstChild().getTextContent();
 				//
@@ -224,13 +223,14 @@ public class Parser {
 	}
 
 	public static Track parseLastTrack(Document doc) {
+
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = doc.getElementsByTagName("name").item(0).getTextContent();
 			// System.out.println(name);
 			String artistName = doc.getElementsByTagName("artist").item(0).getTextContent();
 
 			String albumName = doc.getElementsByTagName("album").item(0).getTextContent();
-			// System.out.println(albumName);
+
 			Track track = Track.getTrack(name, artistName, Reference.getUserName());
 
 			Album album = Album.getAlbum(albumName, artistName, Reference.getUserName());
