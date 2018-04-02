@@ -15,7 +15,7 @@ public class RefListsView extends JFrame {
 	public RefListsView() {
 		super("fmframework");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(5, 5));
+		setLayout(new GridLayout(3, 2));
 		setSize(500, 500);
 		setResizable(false);
 

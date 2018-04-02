@@ -95,8 +95,17 @@ public class Network {
 
 	public static String getLastTrackUrl(String username) {
 		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=%s&limit=1&api_key=%s", username,
-				Key.getKey());
+				"http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=%s&limit=1&api_key=%s",
+				username, Key.getKey());
+		System.out.println(urlString);
+		return urlString;
+	}
+	
+	public static String getUserInfoUrl(String username) {
+		String urlString = String.format(
+				"http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s",
+				username, Key.getKey());
+		System.out.println(urlString);
 		return urlString;
 	}
 

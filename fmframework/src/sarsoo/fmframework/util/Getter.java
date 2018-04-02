@@ -11,7 +11,7 @@ import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.parser.Parser;
 
-public class GetObject {
+public class Getter {
 	public static Album getAlbum() {
 		String artistName = JOptionPane.showInputDialog(null, "Enter Artist Name");
 		if (artistName != null) {
@@ -47,6 +47,17 @@ public class GetObject {
 		}
 		return null;
 
+	}
+	
+	public static int getScrobbles(String username) {
+		String url = Network.getUserInfoUrl(username);
+		Document doc = Network.getResponse(url);
+		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
+			String scrobbles = doc.getElementsByTagName("playcount").item(0).getTextContent();
+			if(scrobbles != null)
+				return Integer.parseInt(scrobbles);
+		}
+		return 0;
 	}
 
 }

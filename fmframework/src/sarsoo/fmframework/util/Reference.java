@@ -31,6 +31,7 @@ public class Reference {
 		groups.add(getTDE());
 		groups.add(getBPHQ());
 		groups.add(getDre());
+		groups.add(getWu());
 		groups.add(getHopeless());
 		groups.add(getSaturation());
 	}
@@ -107,6 +108,19 @@ public class Reference {
 		dre.add(Artist.getArtist("Eminem", Reference.getUserName()));
 
 		return dre;
+	}
+	
+	public static FMObjList getWu() {
+		FMObjList wu = new FMObjList("Wu-Tang Clan");
+
+		wu.add(Artist.getArtist("Wu-Tang Clan", Reference.getUserName()));
+		wu.add(Artist.getArtist("GZA/Genius", Reference.getUserName()));
+		wu.add(Artist.getArtist("Ol' Dirty Bastard", Reference.getUserName()));
+		wu.add(Artist.getArtist("Ghostface Killah", Reference.getUserName()));
+		wu.add(Artist.getArtist("Method Man", Reference.getUserName()));
+		wu.add(Artist.getArtist("Raekwon", Reference.getUserName()));
+
+		return wu;
 	}
 
 }

@@ -11,7 +11,8 @@ import javax.swing.JOptionPane;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Track;
-import sarsoo.fmframework.util.GetObject;
+import sarsoo.fmframework.util.Getter;
+import sarsoo.fmframework.util.Reference;
 
 public class MainMenu extends JFrame {
 
@@ -21,7 +22,7 @@ public class MainMenu extends JFrame {
 	JButton viewList = new JButton("View List");
 
 	public MainMenu() {
-		super("fmframework");
+		super("fmframework - " + Reference.getUserName());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridLayout(2, 2));
 		setSize(300, 300);
@@ -29,7 +30,7 @@ public class MainMenu extends JFrame {
 
 		getAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Album album = GetObject.getAlbum();
+				Album album = Getter.getAlbum();
 				if (album != null) {
 					album.view();
 				} else {
@@ -39,7 +40,7 @@ public class MainMenu extends JFrame {
 		});
 		getArtist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Artist artist = GetObject.getArtist();
+				Artist artist = Getter.getArtist();
 				if (artist != null) {
 					artist.view();
 				} else {
@@ -49,7 +50,7 @@ public class MainMenu extends JFrame {
 		});
 		viewLastTrack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Track track = GetObject.getLastTrack();
+				Track track = Getter.getLastTrack();
 				if (track != null) {
 					track.view();
 				} else {
