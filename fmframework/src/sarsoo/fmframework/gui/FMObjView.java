@@ -1,6 +1,7 @@
 package sarsoo.fmframework.gui;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,8 @@ import javax.swing.SwingConstants;
 
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.util.Maths;
+import sarsoo.fmframework.util.Reference;
 
 public class FMObjView extends JFrame{
 	JPanel buttons = new JPanel();
@@ -44,15 +47,20 @@ public class FMObjView extends JFrame{
 			buttons.add(musicBrainz);
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		Font title = new Font("Arial", Font.BOLD, 24);
+		Font sub = new Font("Arial", Font.PLAIN, 20);
 		
 		name.setText(obj.getName());
 		name.setHorizontalAlignment(SwingConstants.CENTER);
+		name.setFont(title);
+		
 		listeners.setText(numberFormat.format(obj.getListeners()) + " Listeners");
 		listeners.setHorizontalAlignment(SwingConstants.CENTER);
 		playCount.setText(numberFormat.format(obj.getPlayCount()) + " Scrobbles");
 		playCount.setHorizontalAlignment(SwingConstants.CENTER);
-		userPlayCount.setText(numberFormat.format(obj.getUserPlayCount()) + " Your Scrobbles");
+		userPlayCount.setText(numberFormat.format(obj.getUserPlayCount()) + String.format(" Your Scrobbles (%.2f%%)", Maths.getPercentListening(obj, Reference.getUserName())));
 		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
+		userPlayCount.setFont(sub);
 		
 		viewWiki.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -70,9 +78,9 @@ public class FMObjView extends JFrame{
 			}
 		});
 		add(name);
+		add(userPlayCount);
 		add(listeners);
 		add(playCount);
-		add(userPlayCount);
 //		add(info);
 		add(buttons);
 		

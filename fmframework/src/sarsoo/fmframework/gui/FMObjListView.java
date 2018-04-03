@@ -92,14 +92,14 @@ public class FMObjListView extends JFrame {
 		info.add(totalScrobbles);
 
 		double percent = Maths.getPercentListening(objects, Reference.getUserName());
-		if (percent > 1) {
-			JLabel percentLabel = new JLabel();
-			percentLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			percentLabel.setText(String.format("%.2f%%", percent));
-			percentLabel.setFont(font);
-			info.add(percentLabel);
+		// if (percent > 1) {
+		JLabel percentLabel = new JLabel();
+		percentLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		percentLabel.setText(String.format("%.2f%%", percent));
+		percentLabel.setFont(font);
+		info.add(percentLabel);
 
-		}
+		// }
 
 		add(info);
 		pack();

@@ -16,6 +16,8 @@ import javax.swing.SwingConstants;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.util.Maths;
+import sarsoo.fmframework.util.Reference;
 
 public class AlbumView extends JFrame {
 	JPanel buttons = new JPanel();
@@ -73,7 +75,7 @@ public class AlbumView extends JFrame {
 		playCount.setText(numberFormat.format(album.getPlayCount()) + " Scrobbles");
 		playCount.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		userPlayCount.setText(numberFormat.format(album.getUserPlayCount()) + " Your Scrobbles");
+		userPlayCount.setText(numberFormat.format(album.getUserPlayCount()) + String.format(" Your Scrobbles (%.2f%%)", Maths.getPercentListening(album, Reference.getUserName())));
 		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
 		userPlayCount.setFont(sub);
 
