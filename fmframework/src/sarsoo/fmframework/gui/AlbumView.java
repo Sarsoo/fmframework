@@ -1,6 +1,7 @@
 package sarsoo.fmframework.gui;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.net.Network;
@@ -55,13 +57,25 @@ public class AlbumView extends JFrame {
 		buttons.add(rym);
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		Font title = new Font("Arial", Font.BOLD, 24);
+		Font sub = new Font("Arial", Font.PLAIN, 20);
 
 		name.setText(album.getName());
+		name.setHorizontalAlignment(SwingConstants.CENTER);
+		name.setFont(title);
 
 		artist.setText(album.getArtist().getName());
+		artist.setHorizontalAlignment(SwingConstants.CENTER);
+		artist.setFont(sub);
+		
 		listeners.setText(numberFormat.format(album.getListeners()) + " Listeners");
+		listeners.setHorizontalAlignment(SwingConstants.CENTER);
 		playCount.setText(numberFormat.format(album.getPlayCount()) + " Scrobbles");
+		playCount.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		userPlayCount.setText(numberFormat.format(album.getUserPlayCount()) + " Your Scrobbles");
+		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
+		userPlayCount.setFont(sub);
 
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -133,9 +147,9 @@ public class AlbumView extends JFrame {
 
 		add(name);
 		add(artist);
+		add(userPlayCount);
 		add(listeners);
 		add(playCount);
-		add(userPlayCount);
 
 		add(trackListPanel);
 		add(buttons);

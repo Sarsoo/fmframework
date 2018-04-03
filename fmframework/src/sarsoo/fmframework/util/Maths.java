@@ -21,4 +21,20 @@ public class Maths {
 		
 		return 0;		
 	}
+	
+public static double getPercentListening(FMObjList objList, String username) {
+		
+		int userScrobbles = Getter.getScrobbles(Reference.getUserName());
+		double plays = (double) objList.getTotalUserScrobbles();
+		if (userScrobbles > 0 && plays > 0) {
+			
+			double userScrobblesDouble = (double) userScrobbles;
+
+			double percentage = (plays / userScrobblesDouble) * 100;
+
+			return percentage;
+		}
+		
+		return 0;		
+	}
 }

@@ -21,6 +21,7 @@ import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Getter;
+import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 
 public class FMObjListView extends JFrame {
@@ -33,8 +34,8 @@ public class FMObjListView extends JFrame {
 		// createMenu();
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-		Font font = new Font("Arial", Font.BOLD, 24);
-		
+		Font font = new Font("Arial", Font.PLAIN, 20);
+
 		JPanel headerLabels = new JPanel();
 		headerLabels.setLayout(new GridLayout(1, 5));
 		headerLabels.add(new JLabel("Name"));
@@ -85,26 +86,19 @@ public class FMObjListView extends JFrame {
 		JPanel info = new JPanel();
 		info.setLayout(new GridLayout(1, 2));
 
-		JLabel totalScrobbles = new JLabel(numberFormat.format(objects.getTotalUserScrobbles()) + " Total Plays");
+		JLabel totalScrobbles = new JLabel(numberFormat.format(objects.getTotalUserScrobbles()) + " total plays");
 		totalScrobbles.setHorizontalAlignment(SwingConstants.CENTER);
 		totalScrobbles.setFont(font);
 		info.add(totalScrobbles);
-		
-		int userScrobbles = Getter.getScrobbles(Reference.getUserName());
-		if (userScrobbles > 0) {
-			JLabel percent = new JLabel();
-			percent.setHorizontalAlignment(SwingConstants.CENTER);
 
-			double plays = (double) objects.getTotalUserScrobbles();
-			double userScrobblesDouble = (double) userScrobbles;
+		double percent = Maths.getPercentListening(objects, Reference.getUserName());
+		if (percent > 1) {
+			JLabel percentLabel = new JLabel();
+			percentLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			percentLabel.setText(String.format("%.2f%%", percent));
+			percentLabel.setFont(font);
+			info.add(percentLabel);
 
-			double percentage = (plays / userScrobblesDouble) * 100;
-
-			if (percentage > 1) {
-				percent.setText(String.format("%.2f%%", percentage));
-				percent.setFont(font);
-				info.add(percent);
-			}
 		}
 
 		add(info);

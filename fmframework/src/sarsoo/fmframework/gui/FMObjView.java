@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.net.Network;
@@ -45,10 +46,13 @@ public class FMObjView extends JFrame{
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 		
 		name.setText(obj.getName());
-		name.setHorizontalTextPosition(JLabel.CENTER);
+		name.setHorizontalAlignment(SwingConstants.CENTER);
 		listeners.setText(numberFormat.format(obj.getListeners()) + " Listeners");
+		listeners.setHorizontalAlignment(SwingConstants.CENTER);
 		playCount.setText(numberFormat.format(obj.getPlayCount()) + " Scrobbles");
+		playCount.setHorizontalAlignment(SwingConstants.CENTER);
 		userPlayCount.setText(numberFormat.format(obj.getUserPlayCount()) + " Your Scrobbles");
+		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		viewWiki.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
