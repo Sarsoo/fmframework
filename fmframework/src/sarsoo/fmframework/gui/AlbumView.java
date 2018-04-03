@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -39,7 +41,7 @@ public class AlbumView extends JFrame {
 	public AlbumView(Album album) {
 		super(album.getName());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(8, 1));
+		setLayout(new GridLayout(6, 1));
 		setSize(300, 300);
 		setResizable(false);
 
@@ -49,11 +51,11 @@ public class AlbumView extends JFrame {
 //		if (album.getTrackList() != null)
 //			buttons2.setLayout(new GridLayout(album.getTrackList().size(), 1));
 
-		buttons2.add(open);
-		buttons2.add(viewArtist);
+		buttons.add(open);
+//		buttons2.add(viewArtist);
 		
 		if (album.getWiki() != null)
-			buttons2.add(viewWiki);
+			buttons.add(viewWiki);
 		if (album.getMbid() != null)
 			buttons.add(musicBrainz);
 		buttons.add(rym);
@@ -72,13 +74,21 @@ public class AlbumView extends JFrame {
 		
 		listeners.setText(numberFormat.format(album.getListeners()) + " Listeners");
 		listeners.setHorizontalAlignment(SwingConstants.CENTER);
-		playCount.setText(numberFormat.format(album.getPlayCount()) + " Scrobbles");
+		playCount.setText(numberFormat.format(album.getPlayCount()) + " Total Scrobbles");
 		playCount.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		userPlayCount.setText(numberFormat.format(album.getUserPlayCount()) + String.format(" Your Scrobbles (%.2f%%)", Maths.getPercentListening(album, Reference.getUserName())));
+		userPlayCount.setText(numberFormat.format(album.getUserPlayCount()) + String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(album, Reference.getUserName())));
 		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
 		userPlayCount.setFont(sub);
 
+		artist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				album.getArtist().view();
+			}
+		});
+		
+		
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Network.openURL(album.getUrl());
@@ -153,8 +163,9 @@ public class AlbumView extends JFrame {
 		add(listeners);
 		add(playCount);
 
-		add(trackListPanel);
+//		add(trackListPanel);
 		add(buttons);
-		add(buttons2);
+//		add(buttons2);
+		pack();
 	}
 }

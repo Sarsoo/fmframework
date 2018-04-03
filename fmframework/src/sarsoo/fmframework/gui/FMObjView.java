@@ -56,9 +56,9 @@ public class FMObjView extends JFrame{
 		
 		listeners.setText(numberFormat.format(obj.getListeners()) + " Listeners");
 		listeners.setHorizontalAlignment(SwingConstants.CENTER);
-		playCount.setText(numberFormat.format(obj.getPlayCount()) + " Scrobbles");
+		playCount.setText(numberFormat.format(obj.getPlayCount()) + " Total Scrobbles");
 		playCount.setHorizontalAlignment(SwingConstants.CENTER);
-		userPlayCount.setText(numberFormat.format(obj.getUserPlayCount()) + String.format(" Your Scrobbles (%.2f%%)", Maths.getPercentListening(obj, Reference.getUserName())));
+		userPlayCount.setText(numberFormat.format(obj.getUserPlayCount()) + String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(obj, Reference.getUserName())));
 		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
 		userPlayCount.setFont(sub);
 		

@@ -1,9 +1,12 @@
 package sarsoo.fmframework.gui;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -11,14 +14,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.util.Maths;
+import sarsoo.fmframework.util.Reference;
 
 public class TrackView extends JFrame {
-	JPanel info = new JPanel();
-	JPanel nameInfo = new JPanel();
-	JPanel scrobbleInfo = new JPanel();
+	// JPanel info = new JPanel();
+	// JPanel nameInfo = new JPanel();
+	// JPanel scrobbleInfo = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel buttons2 = new JPanel();
 
@@ -39,37 +45,64 @@ public class TrackView extends JFrame {
 	public TrackView(Track track) {
 		super(track.getName());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(3, 1));
-//		 setSize(300, 300);
-//		 setResizable(false);
+		if (track.getAlbum() != null) {
+			setLayout(new GridLayout(7, 1));
+		} else {
+			setLayout(new GridLayout(6, 1));
+		}
+		// setSize(300, 300);
+		 setResizable(false);
 
-		info.setLayout(new GridLayout(1,2));
-		nameInfo.setLayout(new GridLayout(3,1));
-		scrobbleInfo.setLayout(new GridLayout(3,1));
+		// info.setLayout(new GridLayout(6,1));
+		// nameInfo.setLayout(new GridLayout(3,1));
+		// scrobbleInfo.setLayout(new GridLayout(3,1));
 		buttons.setLayout(new FlowLayout());
 		buttons2.setLayout(new FlowLayout());
 
 		buttons.add(open);
-		if (track.getMbid() != null) 
+		if (track.getMbid() != null)
 			buttons.add(musicBrainz);
-		
+
 		buttons2.add(viewArtist);
 		if (track.getAlbum() != null)
 			buttons2.add(viewAlbum);
 		if (track.getWiki() != null)
 			buttons2.add(viewWiki);
-//		if (track.getArtist() != null)
-			buttons.add(genius);
+		// if (track.getArtist() != null)
+		buttons.add(genius);
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		Font title = new Font("Arial", Font.BOLD, 24);
+		Font sub = new Font("Arial", Font.PLAIN, 20);
 
 		name.setText(track.getName());
-		if(track.getAlbum() != null)
+		name.setHorizontalAlignment(SwingConstants.CENTER);
+		name.setFont(title);
+
+		if (track.getAlbum() != null) {
 			album.setText(track.getAlbum().getName());
+			album.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					track.getAlbum().view();
+				}
+			});
+		}
+		album.setHorizontalAlignment(SwingConstants.CENTER);
+		album.setFont(sub);
+
 		artist.setText(track.getArtist().getName());
+		artist.setHorizontalAlignment(SwingConstants.CENTER);
+		artist.setFont(sub);
+
 		listeners.setText(numberFormat.format(track.getListeners()) + " Listeners");
-		playCount.setText(numberFormat.format(track.getPlayCount()) + " Scrobbles");
-		userPlayCount.setText(numberFormat.format(track.getUserPlayCount()) + " Your Scrobbles");
+		listeners.setHorizontalAlignment(SwingConstants.CENTER);
+		playCount.setText(numberFormat.format(track.getPlayCount()) + " Total Scrobbles");
+		playCount.setHorizontalAlignment(SwingConstants.CENTER);
+		userPlayCount.setText(numberFormat.format(track.getUserPlayCount())
+				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(track, Reference.getUserName())));
+		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
+		userPlayCount.setFont(sub);
 
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -81,6 +114,14 @@ public class TrackView extends JFrame {
 				track.getWiki().view(track.getName());
 			}
 		});
+
+		artist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				track.getArtist().view();
+			}
+		});
+
 		viewArtist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				track.getArtist().view();
@@ -102,20 +143,20 @@ public class TrackView extends JFrame {
 			}
 		});
 
-		nameInfo.add(name);
-		if(track.getAlbum() != null)
-			nameInfo.add(album);
-		nameInfo.add(artist);
-		scrobbleInfo.add(listeners);
-		scrobbleInfo.add(playCount);
-		scrobbleInfo.add(userPlayCount);
-		
-		info.add(nameInfo);
-		info.add(scrobbleInfo);
-		
-		add(info);
+		add(name);
+		if (track.getAlbum() != null)
+			add(album);
+		add(artist);
+		add(userPlayCount);
+		add(listeners);
+		add(playCount);
+
+		// info.add(nameInfo);
+		// info.add(scrobbleInfo);
+
+		// add(info);
 		add(buttons);
-		add(buttons2);
+		// add(buttons2);
 		pack();
 	}
 }
