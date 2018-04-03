@@ -3,10 +3,12 @@ package sarsoo.fmframework.net;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,7 +26,7 @@ public class Network {
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "text/xml");
+			conn.setRequestProperty("Accept", "application/xml");
 			conn.setRequestProperty("User-Agent", "fmframework/1.0");
 
 			if (conn.getResponseCode() != 200) {
@@ -64,49 +66,91 @@ public class Network {
 	}
 
 	public static String getArtistInfoUrl(String artist, String username) {
-		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=%s&autocorrect=0&username=%s&api_key=%s",
-				artist, username, Key.getKey());
-		return urlString;
+		String urlString;
+		try {
+			urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=%s&autocorrect=0&username=%s&api_key=%s",
+					URLEncoder.encode(artist, "UTF-8"), URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 
 	}
 
 	public static String getArtistInfoMbidUrl(String mbid, String username) {
-		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&mbid=%s&autocorrect=0&username=%s&api_key=%s",
-				mbid, username, Key.getKey());
-		return urlString;
+		String urlString;
+		try {
+			urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&mbid=%s&autocorrect=0&username=%s&api_key=%s",
+					URLEncoder.encode(mbid, "UTF-8"), URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 
 	}
 
 	public static String getAlbumInfoUrl(String album, String artist, String username) {
-		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=album.getInfo&album=%s&artist=%s&autocorrect=0&username=%s&api_key=%s",
-				album, artist, username, Key.getKey());
-		return urlString;
+		String urlString;
+		try {
+			urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=album.getInfo&album=%s&artist=%s&autocorrect=0&username=%s&api_key=%s",
+					URLEncoder.encode(album, "UTF-8"), URLEncoder.encode(artist, "UTF-8"), URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static String getTrackInfoUrl(String name, String artist, String username) {
-		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=%s&artist=%s&autocorrect=0&username=%s&api_key=%s",
-				name, artist, username, Key.getKey());
-		return urlString;
+		String urlString;
+		try {
+			urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=%s&artist=%s&autocorrect=0&username=%s&api_key=%s",
+					URLEncoder.encode(name, "UTF-8"), URLEncoder.encode(artist, "UTF-8"), URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static String getLastTrackUrl(String username) {
-		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=%s&limit=1&api_key=%s",
-				username, Key.getKey());
-		System.out.println(urlString);
-		return urlString;
+		String urlString;
+		try {
+			urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=%s&limit=1&api_key=%s",
+					URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		System.out.println(urlString);
+		return null;
 	}
 	
 	public static String getUserInfoUrl(String username) {
-		String urlString = String.format(
-				"http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s",
-				username, Key.getKey());
-		System.out.println(urlString);
-		return urlString;
+		String urlString;
+		try {
+			urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s",
+					URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		System.out.println(urlString);
+		return null;
 	}
 
 	public static String getLyricsUrl(String trackName, String artistName) {

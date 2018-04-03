@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -35,21 +37,44 @@ public class FMObjListView extends JFrame {
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 		Font font = new Font("Arial", Font.PLAIN, 20);
-
+		Font header = new Font("Arial", Font.BOLD, 16);
+		
 		JPanel headerLabels = new JPanel();
-		headerLabels.setLayout(new GridLayout(1, 5));
-		headerLabels.add(new JLabel("Name"));
-		headerLabels.add(new JLabel("User Scrobbles"));
-		headerLabels.add(new JLabel("Total Scrobbles"));
+//		headerLabels.setFont(header);
+		headerLabels.setLayout(new GridLayout(1, 4));
+		
+		
+		JLabel headerName = new JLabel("name");
+		headerName.setHorizontalAlignment(SwingConstants.CENTER);
+		headerName.setFont(header);
+		
+		JLabel headerUser = new JLabel("user");
+		headerUser.setHorizontalAlignment(SwingConstants.CENTER);
+		headerUser.setFont(header);
+		
+		JLabel headerTotal = new JLabel("total");
+		headerTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		headerTotal.setFont(header);
+		
+		headerLabels.add(headerName);
+		headerLabels.add(headerUser);
+		headerLabels.add(headerTotal);
 		headerLabels.add(new JLabel(""));
-		headerLabels.add(new JLabel(""));
+//		headerLabels.add(new JLabel(""));
 
 		add(headerLabels);
 
 		int counter;
 		for (counter = 0; counter < objects.size(); counter++) {
 			FMObj fmObj = objects.get(counter);
-			JLabel name = new JLabel(fmObj.getName());
+			JLabel artistName = new JLabel(fmObj.getName());
+			artistName.setHorizontalAlignment(SwingConstants.CENTER);
+			artistName.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					fmObj.view();
+				}
+			});
 
 			int playCountString = fmObj.getUserPlayCount();
 
@@ -58,26 +83,29 @@ public class FMObjListView extends JFrame {
 				userPlays = new JLabel("0");
 			else
 				userPlays = new JLabel(Integer.toString(fmObj.getUserPlayCount()));
-
+			userPlays.setHorizontalAlignment(SwingConstants.CENTER);
+			
 			JLabel plays = new JLabel(numberFormat.format(fmObj.getPlayCount()));
+			plays.setHorizontalAlignment(SwingConstants.CENTER);
+			
 			JButton openExternal = new JButton("Open Online");
 			openExternal.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Network.openURL(fmObj.getUrl());
 				}
 			});
-			JButton openInternal = new JButton("Open " + fmObj.getClass().getSimpleName());
-			openInternal.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					fmObj.view();
-				}
-			});
+//			JButton openInternal = new JButton("Open " + fmObj.getClass().getSimpleName());
+//			openInternal.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent arg0) {
+//					fmObj.view();
+//				}
+//			});
 			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(1, 5));
-			panel.add(name);
+			panel.setLayout(new GridLayout(1, 4));
+			panel.add(artistName);
 			panel.add(userPlays);
 			panel.add(plays);
-			panel.add(openInternal);
+//			panel.add(openInternal);
 			panel.add(openExternal);
 
 			add(panel);
