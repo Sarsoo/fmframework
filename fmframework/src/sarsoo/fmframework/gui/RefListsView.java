@@ -34,7 +34,7 @@ public class RefListsView extends JFrame {
 //			add(view);
 //		}
 		
-		JButton viewTDE = new JButton("View TDE");
+		JButton viewTDE = new JButton("TDE");
 		viewTDE.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Reference.getTDE().view();
@@ -42,7 +42,7 @@ public class RefListsView extends JFrame {
 		});
 		add(viewTDE);
 		
-		JButton viewBPHQ = new JButton("View BPHQ");
+		JButton viewBPHQ = new JButton("BPHQ");
 		viewBPHQ.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Reference.getBPHQ().view();
@@ -50,33 +50,41 @@ public class RefListsView extends JFrame {
 		});
 		add(viewBPHQ);
 		
-		JButton viewDre = new JButton("View Dre");
+		JButton viewDre = new JButton("Dre");
 		viewDre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Reference.getDre().view();
 			}
 		});
 		add(viewDre);
-		JButton viewWu = new JButton("View Wu");
+		JButton viewWu = new JButton("Wu");
 		viewWu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Reference.getWu().view();
 			}
 		});
 		add(viewWu);
-		JButton viewHopeless = new JButton("View Hopeless");
+		JButton viewHopeless = new JButton("Hopeless");
 		viewHopeless.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Reference.getHopeless().view();
 			}
 		});
 		add(viewHopeless);
-		JButton viewSaturation = new JButton("View Saturation");
+		JButton viewSaturation = new JButton("Saturation");
 		viewSaturation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Reference.getSaturation().view();
 			}
 		});
 		add(viewSaturation);
+		
+		JButton viewEmoTrio = new JButton("Emo Trio");
+		viewEmoTrio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Reference.getEmoTrio().view();
+			}
+		});
+		add(viewEmoTrio);
 	}
 }

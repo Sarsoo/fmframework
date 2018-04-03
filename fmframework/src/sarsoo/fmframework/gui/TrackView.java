@@ -51,7 +51,7 @@ public class TrackView extends JFrame {
 			setLayout(new GridLayout(6, 1));
 		}
 		// setSize(300, 300);
-		 setResizable(false);
+		setResizable(false);
 
 		// info.setLayout(new GridLayout(6,1));
 		// nameInfo.setLayout(new GridLayout(3,1));
@@ -100,7 +100,7 @@ public class TrackView extends JFrame {
 		playCount.setText(numberFormat.format(track.getPlayCount()) + " Total Scrobbles");
 		playCount.setHorizontalAlignment(SwingConstants.CENTER);
 		userPlayCount.setText(numberFormat.format(track.getUserPlayCount())
-				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(track, Reference.getUserName())));
+				+ String.format(" Scrobbles (%.3f%%)", Maths.getPercentListening(track, Reference.getUserName())));
 		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
 		userPlayCount.setFont(sub);
 
@@ -114,6 +114,19 @@ public class TrackView extends JFrame {
 				track.getWiki().view(track.getName());
 			}
 		});
+
+		if (track.getUserPlayCount() > 0) {
+			userPlayCount.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					String namePlus = track.getName().replaceAll(" ", "+");
+					String artistPlus = track.getArtist().getName().replaceAll(" ", "+");
+					String url = String.format("https://www.last.fm/user/%s/library/music/%s/_/%s",
+							Reference.getUserName(), artistPlus, namePlus);
+					Network.openURL(url);
+				}
+			});
+		}
 
 		artist.addMouseListener(new MouseAdapter() {
 			@Override

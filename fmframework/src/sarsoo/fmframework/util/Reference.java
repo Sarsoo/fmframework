@@ -123,4 +123,14 @@ public class Reference {
 		return wu;
 	}
 
+	public static FMObjList getEmoTrio() {
+		FMObjList emoTrio = new FMObjList("Classic Emo Trio");
+
+		emoTrio.add(Artist.getArtist("My Chemical Romance", Reference.getUserName()));
+		emoTrio.add(Artist.getArtist("Fall Out Boy", Reference.getUserName()));
+		emoTrio.add(Artist.getArtist("Panic! at the Disco", Reference.getUserName()));
+
+		return emoTrio;
+	}
+
 }

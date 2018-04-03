@@ -24,7 +24,7 @@ public class Network {
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "text/xml");
+			conn.setRequestProperty("Accept", "application/xml");
 			conn.setRequestProperty("User-Agent", "fmframework/1.0");
 
 			if (conn.getResponseCode() != 200) {
