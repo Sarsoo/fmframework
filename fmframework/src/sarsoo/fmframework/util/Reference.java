@@ -27,14 +27,14 @@ public class Reference {
 
 	private static ArrayList<FMObjList> groups = new ArrayList<FMObjList>();
 
-	public static void initGroupsList() {
-		groups.add(getTDE());
-		groups.add(getBPHQ());
-		groups.add(getDre());
-		groups.add(getWu());
-		groups.add(getHopeless());
-		groups.add(getSaturation());
-	}
+//	public static void initGroupsList() {
+//		groups.add(getTDE());
+//		groups.add(getBPHQ());
+//		groups.add(getDre());
+//		groups.add(getWu());
+//		groups.add(getHopeless());
+//		groups.add(getSaturation());
+//	}
 
 	public static FMObjList getSaturation() {
 		FMObjList saturation = new FMObjList("Saturation");
@@ -46,9 +46,9 @@ public class Reference {
 		return saturation;
 	}
 
-	public static ArrayList<FMObjList> getGroups() {
-		return groups;
-	}
+//	public static ArrayList<FMObjList> getGroups() {
+//		return groups;
+//	}
 	
 	public static FMObjList getHopeless() {
 		FMObjList hopeless = new FMObjList("Hopless");

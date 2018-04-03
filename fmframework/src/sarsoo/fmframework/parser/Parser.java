@@ -63,7 +63,7 @@ public class Parser {
 					node = wikiContents.item(counter);
 					
 					if (node.getNodeName().equals("published")) {
-						System.out.println(node.getNodeName() + node.getTextContent());
+//						System.out.println(node.getNodeName() + node.getTextContent());
 						date = node.getTextContent();
 					}
 //					if (node.getNodeName().equals("summary")) {
@@ -71,7 +71,7 @@ public class Parser {
 //						summary = node.getTextContent();
 //					}
 					if (node.getNodeName().equals("content")) {
-						System.out.println(node.getNodeName() + node.getTextContent());
+//						System.out.println(node.getNodeName() + node.getTextContent());
 						content = node.getTextContent();
 					}
 				}
