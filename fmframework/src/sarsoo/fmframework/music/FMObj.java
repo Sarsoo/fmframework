@@ -2,7 +2,7 @@ package sarsoo.fmframework.music;
 
 import sarsoo.fmframework.gui.FMObjView;
 
-public abstract class FMObj {
+public abstract class FMObj implements Comparable<FMObj>{
 	
 	protected String name;
 	protected String url;
@@ -31,6 +31,12 @@ public abstract class FMObj {
 	
 	public String toString() {
 		return name;
+	}
+	
+	@Override
+	public int compareTo(FMObj obj) {
+		
+		return userPlayCount - obj.getUserPlayCount();
 	}
 	
 	public String getName() {

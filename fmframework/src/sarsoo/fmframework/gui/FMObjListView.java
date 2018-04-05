@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.Locale;
 
 import javax.swing.JButton;
@@ -64,6 +65,9 @@ public class FMObjListView extends JFrame {
 
 		add(headerLabels);
 
+		Collections.sort(objects);
+		Collections.reverse(objects);
+		
 		int counter;
 		for (counter = 0; counter < objects.size(); counter++) {
 			FMObj fmObj = objects.get(counter);
