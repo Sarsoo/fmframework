@@ -79,7 +79,7 @@ public class Reference {
 		tde.add(Artist.getArtist("Jay Rock", Reference.getUserName()));
 		tde.add(Artist.getArtist("ScHoolboy Q", Reference.getUserName()));
 		tde.add(Artist.getArtist("Ab-Soul", Reference.getUserName()));
-		tde.add(Artist.getArtistByMbid("6fc5c0c6-bf05-4b29-bda0-5fa6cc863785", Reference.getUserName())); // Black Hippy
+		tde.add(Artist.getArtist("Black Hippy", Reference.getUserName())); 
 		tde.add(Artist.getArtist("Isaiah Rashad", Reference.getUserName()));
 		tde.add(Artist.getArtist("SZA", Reference.getUserName()));
 		tde.add(Artist.getArtist("Sir", Reference.getUserName()));
@@ -87,14 +87,15 @@ public class Reference {
 		return tde;
 	}
 
-	public static FMObjList getBPHQ() {
-		FMObjList bphq = new FMObjList("BPHQ");
+	public static FMObjList getBB() {
+		FMObjList bphq = new FMObjList("British Rock");
 
-		bphq.add(Artist.getArtistByMbid("98edd2f1-d136-4c47-ab9b-c31839dd1d98", Reference.getUserName()));
+		bphq.add(Artist.getArtist("Deaf Havana", Reference.getUserName()));
 		bphq.add(Artist.getArtist("Lower Than Atlantis", Reference.getUserName()));
 		bphq.add(Artist.getArtist("Mallory Knox", Reference.getUserName()));
 		bphq.add(Artist.getArtist("Don Broco", Reference.getUserName()));
 		bphq.add(Artist.getArtist("Moose Blood", Reference.getUserName()));
+		bphq.add(Artist.getArtist("Young Guns", Reference.getUserName()));
 
 		return bphq;
 	}
@@ -103,6 +104,8 @@ public class Reference {
 		FMObjList dre = new FMObjList("Dre");
 
 		dre.add(Artist.getArtist("N.W.A", Reference.getUserName()));
+//		dre.add(Album.getAlbum("Straight Outta Compton", "N.W.A", Reference.getUserName()));
+//		dre.add(Album.getAlbum("Doggystyle", "Snoop Dogg", Reference.getUserName()));
 		dre.add(Artist.getArtist("Dr. Dre", Reference.getUserName()));
 		dre.add(Artist.getArtist("Snoop Dogg", Reference.getUserName()));
 		dre.add(Artist.getArtist("Eminem", Reference.getUserName()));

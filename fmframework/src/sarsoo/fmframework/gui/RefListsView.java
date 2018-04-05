@@ -45,7 +45,7 @@ public class RefListsView extends JFrame {
 		JButton viewBPHQ = new JButton("BPHQ");
 		viewBPHQ.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Reference.getBPHQ().view();
+				Reference.getBB().view();
 			}
 		});
 		add(viewBPHQ);

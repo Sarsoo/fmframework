@@ -68,7 +68,7 @@ public class Artist extends FMObj {
 			return false;
 
 		Artist artist = (Artist) obj;
-		if (getName() == artist.getName())
+		if (getName().equals(artist.getName()))
 			return true;
 
 		return false;

@@ -10,7 +10,7 @@ public abstract class FMObj implements Comparable<FMObj>{
 	
 	protected int listeners;
 	protected int playCount;
-	protected int userPlayCount;
+	protected int userPlayCount = 0;
 	
 	protected Wiki wiki;
 	

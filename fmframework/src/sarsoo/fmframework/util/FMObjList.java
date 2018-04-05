@@ -3,16 +3,19 @@ package sarsoo.fmframework.util;
 import java.util.ArrayList;
 
 import sarsoo.fmframework.gui.FMObjListView;
+import sarsoo.fmframework.music.Album;
+import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
+import sarsoo.fmframework.music.Track;
 
 public class FMObjList extends ArrayList<FMObj> {
 
 	private String groupName = null;
-	
+
 	public FMObjList() {
 		super();
 	}
-	
+
 	public FMObjList(String name) {
 		super();
 		this.groupName = name;
@@ -22,7 +25,53 @@ public class FMObjList extends ArrayList<FMObj> {
 		int counter;
 		int totalScrobbles = 0;
 		for (counter = 0; counter < size(); counter++) {
-			totalScrobbles += get(counter).getUserPlayCount();
+			FMObj obj = get(counter);
+
+			if (obj.getClass() == Artist.class)
+				totalScrobbles += obj.getUserPlayCount();
+			
+			else if (obj.getClass() == Track.class) {
+				Track track = (Track) obj;
+				
+				Artist artist = track.getArtist();
+				
+				boolean found = false;
+				int counter2;
+				for (counter2 = 0; counter2 < size(); counter2++) {
+					if (artist.equals(get(counter2))) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					totalScrobbles += obj.getUserPlayCount();
+				}
+				
+//				if (!super.contains(track.getArtist())) {
+//					Album album = track.getAlbum();
+//					if (album != null) {
+//						if (!super.contains(album))
+//							totalScrobbles += obj.getUserPlayCount();
+//					}
+//				}
+			}
+			else if (obj.getClass() == Album.class) {
+				Album album = (Album) obj;
+
+				Artist artist = album.getArtist();
+
+				boolean found = false;
+				int counter2;
+				for (counter2 = 0; counter2 < size(); counter2++) {
+					if (artist.equals(get(counter2))) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					totalScrobbles += obj.getUserPlayCount();
+				}
+			}
 		}
 		return totalScrobbles;
 	}
@@ -33,19 +82,19 @@ public class FMObjList extends ArrayList<FMObj> {
 	}
 
 	public void view() {
-		if(groupName != null) {
+		if (groupName != null) {
 			FMObjListView view = new FMObjListView(this, getGroupName());
 			view.setVisible(true);
-		}else {
+		} else {
 			FMObjListView view = new FMObjListView(this, "List View");
 			view.setVisible(true);
 		}
 	}
-	
+
 	public String getGroupName() {
 		return groupName;
 	}
-	
+
 	public void setGroupName(String name) {
 		this.groupName = name;
 	}
