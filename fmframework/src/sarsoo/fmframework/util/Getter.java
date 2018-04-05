@@ -9,6 +9,7 @@ import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.net.TestCall;
+import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.Parser;
 
 public class Getter {
@@ -33,7 +34,7 @@ public class Getter {
 
 	public static Track getLastTrack() {
 
-		String url = Network.getLastTrackUrl(Reference.getUserName());
+		String url = URLBuilder.getLastTrackUrl(Reference.getUserName());
 //		TestCall.test(url);
 		Document doc = Network.getResponse(url);
 		
@@ -50,7 +51,7 @@ public class Getter {
 	}
 	
 	public static int getScrobbles(String username) {
-		String url = Network.getUserInfoUrl(username);
+		String url = URLBuilder.getUserInfoUrl(username);
 		Document doc = Network.getResponse(url);
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String scrobbles = doc.getElementsByTagName("playcount").item(0).getTextContent();

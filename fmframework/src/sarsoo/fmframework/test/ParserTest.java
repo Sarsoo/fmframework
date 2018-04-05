@@ -7,13 +7,14 @@ import org.w3c.dom.Document;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.AlbumParser;
 
 class ParserTest {
 
 	@Test
 	void testParseAlbum() {
-		String url = Network.getAlbumInfoUrl("Pink Floyd", "The Wall", "sarsoo");
+		String url = URLBuilder.getAlbumInfoUrl("Pink Floyd", "The Wall", "sarsoo");
 		Document doc = Network.getResponse(url);
 		Album album = AlbumParser.parseAlbum(doc);
 		assertNotNull(album);
@@ -21,7 +22,7 @@ class ParserTest {
 	
 	@Test
 	void testParseArtist() {
-		String url = Network.getArtistInfoUrl("Pink Floyd", "sarsoo");
+		String url = URLBuilder.getArtistInfoUrl("Pink Floyd", "sarsoo");
 		Document doc = Network.getResponse(url);
 		System.out.println();
 	}

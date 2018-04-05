@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 
 import sarsoo.fmframework.gui.TrackView;
 import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.net.URLBuilder;
 //import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.parser.Parser;
 
@@ -30,7 +31,7 @@ public class Track extends FMObj {
 	}
 
 	public static Track getTrack(String name, String artist, String username) {
-		String url = Network.getTrackInfoUrl(name, artist, username);
+		String url = URLBuilder.getTrackInfoUrl(name, artist, username);
 		// TestCall.test(url);
 		Document response = Network.getResponse(url);
 		if (response != null) {
@@ -58,7 +59,7 @@ public class Track extends FMObj {
 	}
 
 	public String getLyricsURL() {
-		return Network.getLyricsUrl(name, artist.getName());
+		return URLBuilder.getLyricsUrl(name, artist.getName());
 	}
 
 	public Album getAlbum() {

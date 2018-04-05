@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 
 import sarsoo.fmframework.gui.AlbumView;
 import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.Parser;
 import sarsoo.fmframework.util.Reference;
 
@@ -30,7 +31,7 @@ public class Album extends FMObj {
 	}
 
 	public static Album getAlbum(String name, String artist, String username) {
-		String url = Network.getAlbumInfoUrl(name, artist, username);
+		String url = URLBuilder.getAlbumInfoUrl(name, artist, username);
 		Document response = Network.getResponse(url);
 		if (response != null) {
 			Album album = Parser.parseAlbum(response);

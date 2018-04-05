@@ -12,6 +12,7 @@ import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.net.TestCall;
+import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.AlbumParser;
 import sarsoo.fmframework.parser.Parser;
 
@@ -24,7 +25,7 @@ class NetworkTest {
 	
 	@Test
 	void test() {
-		String url = Network.getAlbumInfoUrl("The Wall", "Pink Floyd", "Sarsoo");
+		String url = URLBuilder.getAlbumInfoUrl("The Wall", "Pink Floyd", "Sarsoo");
 		Document response = Network.getResponse(url);
 		Album album = Parser.parseAlbum(response);
 		//System.out.println(album);
@@ -32,7 +33,7 @@ class NetworkTest {
 	
 	@Test
 	void testArtist() {
-		String url = Network.getArtistInfoUrl("Pink Floyd", "sarsoo");
+		String url = URLBuilder.getArtistInfoUrl("Pink Floyd", "sarsoo");
 		Document response = Network.getResponse(url);
 		Artist artist = Parser.parseArtist(response);
 		//System.out.println(album);
@@ -40,7 +41,7 @@ class NetworkTest {
 	
 	@Test
 	void testTrack() {
-		String url = Network.getTrackInfoUrl("Business", "Eminem", "sarsoo");
+		String url = URLBuilder.getTrackInfoUrl("Business", "Eminem", "sarsoo");
 		Document response = Network.getResponse(url);
 		Track track = Parser.parseTrack(response);
 		//System.out.println(album);
