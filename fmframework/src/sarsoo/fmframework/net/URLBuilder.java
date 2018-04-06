@@ -163,7 +163,7 @@ public class URLBuilder {
 		}
 		
 		String date = String.format("%d-%s-%sT07:00:00.00Z", now.getYear(), month, day);
-		System.out.println(date);
+//		System.out.println(date);
 //		long midnight = Instant.parse("2018-04-05T07:00:00.00Z").getEpochSecond();
 		long midnight = Instant.parse(date).getEpochSecond();
 		

@@ -35,13 +35,13 @@ public class RefListsView extends JFrame {
 //			add(view);
 //		}
 		
-		JButton viewTDE = new JButton("TDE");
-		viewTDE.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Reference.getTDE().view();
-			}
-		});
-		add(viewTDE);
+//		JButton viewTDE = new JButton("TDE");
+//		viewTDE.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				Reference.getTDE().view();
+//			}
+//		});
+//		add(viewTDE);
 		
 		JButton viewBPHQ = new JButton("BPHQ");
 		viewBPHQ.addActionListener(new ActionListener() {
@@ -86,24 +86,24 @@ public class RefListsView extends JFrame {
 				Reference.getEmoTrio().view();
 			}
 		});
-		add(viewEmoTrio);
-		
-		JButton viewRockTag = new JButton("Rock Tag");
-		viewRockTag.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				FMObjList list = Getter.getUserTag(Reference.getUserName(), "rock");
-				list.view();
-			}
-		});
-		add(viewRockTag);
-		
-		JButton viewRapTag = new JButton("Rap Tag");
-		viewRapTag.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				FMObjList list = Getter.getUserTag(Reference.getUserName(), "rap");
-				list.view();
-			}
-		});
-		add(viewRapTag);
+//		add(viewEmoTrio);
+//		
+//		JButton viewRockTag = new JButton("Rock Tag");
+//		viewRockTag.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				FMObjList list = Getter.getUserTag(Reference.getUserName(), "rock");
+//				list.view();
+//			}
+//		});
+//		add(viewRockTag);
+//		
+//		JButton viewRapTag = new JButton("Rap Tag");
+//		viewRapTag.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				FMObjList list = Getter.getUserTag(Reference.getUserName(), "rap");
+//				list.view();
+//			}
+//		});
+//		add(viewRapTag);
 	}
 }

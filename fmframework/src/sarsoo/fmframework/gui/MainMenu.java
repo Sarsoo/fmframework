@@ -80,12 +80,11 @@ public class MainMenu extends JFrame {
 			}
 		});
 		add(viewLastTrack);
-		add(viewList);
-		add(viewTag);
-		add(getAlbum);
-		add(getArtist);
 		add(today);
-		
+		add(viewTag);
+		add(viewList);
+		add(getArtist);
+		add(getAlbum);	
 		
 	}
 }
