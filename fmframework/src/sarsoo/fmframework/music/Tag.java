@@ -1,11 +1,45 @@
 package sarsoo.fmframework.music;
 
 public class Tag {
-	protected String name;
-	protected String url;
-	protected int reach;
-	protected int taggings;
-	protected Boolean streamable;
-	protected String summary;
-	protected String content;
+	private String name;
+	private String url;
+	private int count;
+	private int reach;
+	private int taggings;
+	private Boolean streamable;
+	private String summary;
+	private String content;
+	
+	public Tag(String name, String url) {
+		this.setName(name);
+		this.setUrl(url);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
+	public String toString() {
+		return name;
+	}
 }

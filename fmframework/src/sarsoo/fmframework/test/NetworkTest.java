@@ -3,12 +3,14 @@ package sarsoo.fmframework.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
+import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.net.TestCall;
@@ -52,17 +54,17 @@ class NetworkTest {
 	@Test
 	void testTag() {
 		Reference.setUserName("sarsoo");
-		String url = URLBuilder.getUserPersonalTags("sarsoo", "rock");
+		String url = URLBuilder.getUserTopTags("sarsoo");
 		Document response = Network.getResponse(url);
-		FMObjList list = Parser.parseTagList(response);
+		ArrayList<Tag> list = Parser.parseUserTags(response);
 		
-		list.view();
+
 //		FMObjList list = Parser.parseTagList(response);
 		
-//		int counter;
-//		for(counter = 0; counter < list.size(); counter++) {
-//			System.out.println(list.get(counter));
-//		}
+		int counter;
+		for(counter = 0; counter < list.size(); counter++) {
+			System.out.println(list.get(counter));
+		}
 		
 //		System.out.println(url);
 	}

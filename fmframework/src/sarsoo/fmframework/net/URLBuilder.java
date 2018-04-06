@@ -127,6 +127,23 @@ public class URLBuilder {
 		// System.out.println(urlString);
 		return null;
 	}
+	
+	public static String getUserTopTags(String username) {
+		String urlString;
+		try {
+			urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=user.gettoptags&user=%s&api_key=%s",
+					URLEncoder.encode(username, "UTF-8"),  
+					URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// System.out.println(urlString);
+		return null;
+	}
+	
+	
 
 //	public static String getUserTopTags() {
 //

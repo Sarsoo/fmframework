@@ -20,11 +20,12 @@ public class MainMenu extends JFrame {
 	JButton getArtist = new JButton("Get Artist");
 	JButton viewLastTrack = new JButton("View Last Track");
 	JButton viewList = new JButton("View List");
+	JButton viewTag = new JButton("View Tags");
 
 	public MainMenu() {
 		super("fmframework - " + Reference.getUserName());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(2, 2));
+		setLayout(new GridLayout(3, 2));
 		setSize(300, 300);
 		setResizable(false);
 
@@ -64,8 +65,15 @@ public class MainMenu extends JFrame {
 				view.setVisible(true);
 			}
 		});
+		viewTag.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TagMenuView view = new TagMenuView();
+				view.setVisible(true);
+			}
+		});
 		add(viewLastTrack);
 		add(viewList);
+		add(viewTag);
 		add(getAlbum);
 		add(getArtist);
 		

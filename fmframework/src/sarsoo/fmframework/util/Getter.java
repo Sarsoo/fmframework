@@ -1,11 +1,14 @@
 package sarsoo.fmframework.util;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import org.w3c.dom.Document;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
+import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.net.TestCall;
@@ -61,11 +64,20 @@ public class Getter {
 		return 0;
 	}
 
-	public static FMObjList getTag(String username, String tag) {
+	public static FMObjList getUserTag(String username, String tag) {
 		String url = URLBuilder.getUserPersonalTags(username, tag);
 		Document doc = Network.getResponse(url);
 		if (doc != null) {
-			return Parser.parseTagList(doc);
+			return Parser.parseUserTagList(doc);
+		}
+		return null;
+	}
+	
+	public static ArrayList<Tag> getUserTags(String username) {
+		String url = URLBuilder.getUserTopTags(username);
+		Document doc = Network.getResponse(url);
+		if (doc != null) {
+			return Parser.parseUserTags(doc);
 		}
 		return null;
 	}

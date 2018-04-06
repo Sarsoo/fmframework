@@ -91,7 +91,7 @@ public class RefListsView extends JFrame {
 		JButton viewRockTag = new JButton("Rock Tag");
 		viewRockTag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FMObjList list = Getter.getTag(Reference.getUserName(), "rock");
+				FMObjList list = Getter.getUserTag(Reference.getUserName(), "rock");
 				list.view();
 			}
 		});
@@ -100,7 +100,7 @@ public class RefListsView extends JFrame {
 		JButton viewRapTag = new JButton("Rap Tag");
 		viewRapTag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FMObjList list = Getter.getTag(Reference.getUserName(), "rap");
+				FMObjList list = Getter.getUserTag(Reference.getUserName(), "rap");
 				list.view();
 			}
 		});

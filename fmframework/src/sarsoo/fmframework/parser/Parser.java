@@ -3,6 +3,7 @@ package sarsoo.fmframework.parser;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -18,6 +19,7 @@ import org.w3c.dom.NodeList;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
+import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.music.Wiki;
 import sarsoo.fmframework.net.URLBuilder;
@@ -272,8 +274,40 @@ public class Parser {
 		return null;
 
 	}
+	
+	public static ArrayList<Tag> parseUserTags(Document doc) {
+		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
+			NodeList objList = doc.getElementsByTagName("tag");
 
-	public static FMObjList parseTagList(Document doc) {
+			// Node obj = objList.item(0);
+			ArrayList<Tag> list = new ArrayList<Tag>();
+			// String name = obj.getFirstChild().getTextContent();
+			// System.out.println(name);
+			//
+			// Artist artist = Artist.getArtist(name, Reference.getUserName());
+			//
+			// System.out.println(artist);
+
+			int counter;
+			for (counter = 0; counter < objList.getLength(); counter++) {
+				NodeList obj = objList.item(counter).getChildNodes();
+
+				String name = obj.item(0).getTextContent();
+				String url = obj.item(4).getTextContent();
+				// System.out.println(obj.getTextContent());
+
+				Tag tag = new Tag(name, url);
+
+//				System.out.println(name + " " +  url);
+				list.add(tag);
+			}
+			return list;
+		}
+		return null;
+		
+	}
+
+	public static FMObjList parseUserTagList(Document doc) {
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			NodeList objList = doc.getElementsByTagName("artist");
 
@@ -295,7 +329,7 @@ public class Parser {
 				// System.out.println(obj.getTextContent());
 				Artist artist = Artist.getArtist(name, Reference.getUserName());
 
-				System.out.println(artist);
+//				System.out.println(artist);
 				list.add(artist);
 			}
 			return list;
