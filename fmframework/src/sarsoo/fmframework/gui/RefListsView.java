@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import sarsoo.fmframework.util.FMObjList;
+import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
 
 public class RefListsView extends JFrame {
@@ -86,5 +87,23 @@ public class RefListsView extends JFrame {
 			}
 		});
 		add(viewEmoTrio);
+		
+		JButton viewRockTag = new JButton("Rock Tag");
+		viewRockTag.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FMObjList list = Getter.getTag(Reference.getUserName(), "rock");
+				list.view();
+			}
+		});
+		add(viewRockTag);
+		
+		JButton viewRapTag = new JButton("Rap Tag");
+		viewRapTag.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FMObjList list = Getter.getTag(Reference.getUserName(), "rap");
+				list.view();
+			}
+		});
+		add(viewRapTag);
 	}
 }

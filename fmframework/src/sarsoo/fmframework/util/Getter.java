@@ -35,10 +35,10 @@ public class Getter {
 	public static Track getLastTrack() {
 
 		String url = URLBuilder.getLastTrackUrl(Reference.getUserName());
-//		TestCall.test(url);
+		// TestCall.test(url);
 		Document doc = Network.getResponse(url);
-		
-//		System.out.println(doc.getDocumentElement().getAttribute("status"));
+
+		// System.out.println(doc.getDocumentElement().getAttribute("status"));
 		if (doc != null) {
 			// System.out.println(doc.getDocumentElement().getAttribute("status"));
 			Parser.stripSpace(doc.getDocumentElement());
@@ -49,16 +49,25 @@ public class Getter {
 		return null;
 
 	}
-	
+
 	public static int getScrobbles(String username) {
 		String url = URLBuilder.getUserInfoUrl(username);
 		Document doc = Network.getResponse(url);
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String scrobbles = doc.getElementsByTagName("playcount").item(0).getTextContent();
-			if(scrobbles != null)
+			if (scrobbles != null)
 				return Integer.parseInt(scrobbles);
 		}
 		return 0;
+	}
+
+	public static FMObjList getTag(String username, String tag) {
+		String url = URLBuilder.getUserPersonalTags(username, tag);
+		Document doc = Network.getResponse(url);
+		if (doc != null) {
+			return Parser.parseTagList(doc);
+		}
+		return null;
 	}
 
 }

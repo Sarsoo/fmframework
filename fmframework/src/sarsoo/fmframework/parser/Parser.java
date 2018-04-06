@@ -20,6 +20,8 @@ import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.music.Wiki;
+import sarsoo.fmframework.net.URLBuilder;
+import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Reference;
 
 public class Parser {
@@ -54,30 +56,30 @@ public class Parser {
 				NodeList wikiContents = wikiNode.getChildNodes();
 
 				String date = null;
-//				String summary = null;
+				// String summary = null;
 				String content = null;
 
 				int counter;
 				Node node;
 				for (counter = 0; counter < wikiContents.getLength(); counter++) {
 					node = wikiContents.item(counter);
-					
+
 					if (node.getNodeName().equals("published")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
+						// System.out.println(node.getNodeName() + node.getTextContent());
 						date = node.getTextContent();
 					}
-//					if (node.getNodeName().equals("summary")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
-//						summary = node.getTextContent();
-//					}
+					// if (node.getNodeName().equals("summary")) {
+					// System.out.println(node.getNodeName() + node.getTextContent());
+					// summary = node.getTextContent();
+					// }
 					if (node.getNodeName().equals("content")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
+						// System.out.println(node.getNodeName() + node.getTextContent());
 						content = node.getTextContent();
 					}
 				}
 
 				if (date != null && content != null)
-//					System.out.println("wiki init");
+					// System.out.println("wiki init");
 					wiki = new Wiki(date, null, content);
 			}
 
@@ -123,23 +125,23 @@ public class Parser {
 				Node node;
 				for (counter = 0; counter < wikiContents.getLength(); counter++) {
 					node = wikiContents.item(counter);
-					
+
 					if (node.getNodeName().equals("published")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
+						// System.out.println(node.getNodeName() + node.getTextContent());
 						date = node.getTextContent();
 					}
 					if (node.getNodeName().equals("summary")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
+						// System.out.println(node.getNodeName() + node.getTextContent());
 						summary = node.getTextContent();
 					}
 					if (node.getNodeName().equals("content")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
+						// System.out.println(node.getNodeName() + node.getTextContent());
 						content = node.getTextContent();
 					}
 				}
 
 				if (date != null && content != null)
-//					System.out.println("wiki init");
+					// System.out.println("wiki init");
 					wiki = new Wiki(date, summary, content);
 				// if (wikiNodeList.item(0) != null) {
 				// String date = wikiNodeList.item(0).getFirstChild().getTextContent();
@@ -214,30 +216,30 @@ public class Parser {
 				NodeList wikiContents = wikiNode.getChildNodes();
 
 				String date = null;
-//				String summary = null;
+				// String summary = null;
 				String content = null;
 
 				int counter;
 				Node node;
 				for (counter = 0; counter < wikiContents.getLength(); counter++) {
 					node = wikiContents.item(counter);
-					
+
 					if (node.getNodeName().equals("published")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
+						// System.out.println(node.getNodeName() + node.getTextContent());
 						date = node.getTextContent();
 					}
-//					if (node.getNodeName().equals("summary")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
-//						summary = node.getTextContent();
-//					}
+					// if (node.getNodeName().equals("summary")) {
+					// System.out.println(node.getNodeName() + node.getTextContent());
+					// summary = node.getTextContent();
+					// }
 					if (node.getNodeName().equals("content")) {
-//						System.out.println(node.getNodeName() + node.getTextContent());
+						// System.out.println(node.getNodeName() + node.getTextContent());
 						content = node.getTextContent();
 					}
 				}
 
 				if (date != null && content != null)
-//					System.out.println("wiki init");
+					// System.out.println("wiki init");
 					wiki = new Wiki(date, null, content);
 			}
 
@@ -267,6 +269,37 @@ public class Parser {
 			return track;
 		}
 
+		return null;
+
+	}
+
+	public static FMObjList parseTagList(Document doc) {
+		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
+			NodeList objList = doc.getElementsByTagName("artist");
+
+			// Node obj = objList.item(0);
+			FMObjList list = new FMObjList();
+			// String name = obj.getFirstChild().getTextContent();
+			// System.out.println(name);
+			//
+			// Artist artist = Artist.getArtist(name, Reference.getUserName());
+			//
+			// System.out.println(artist);
+
+			int counter;
+			for (counter = 0; counter < objList.getLength(); counter++) {
+				Node obj = objList.item(counter);
+
+				String name = obj.getFirstChild().getTextContent();
+				// System.out.println(name + ".");
+				// System.out.println(obj.getTextContent());
+				Artist artist = Artist.getArtist(name, Reference.getUserName());
+
+				System.out.println(artist);
+				list.add(artist);
+			}
+			return list;
+		}
 		return null;
 
 	}

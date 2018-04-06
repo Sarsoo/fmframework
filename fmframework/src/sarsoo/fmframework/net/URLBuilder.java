@@ -111,13 +111,13 @@ public class URLBuilder {
 		return urlString;
 	}
 
-	public static String getUserPersonalTags(String username, String tag, FMObjType taggingType) {
+	public static String getUserPersonalTags(String username, String tag) {
 		String urlString;
 		try {
-			urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=user.getpersonaltags&user=%s&tag=%s&taggingtype=%s&api_key=%s",
+			urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=user.getpersonaltags&user=%s&tag=%s&taggingtype=artist&api_key=%s",
 					URLEncoder.encode(username, "UTF-8"), 
 					URLEncoder.encode(tag, "UTF-8"), 
-					URLEncoder.encode(taggingType.toString(), "UTF-8"), 
+//					URLEncoder.encode(taggingType.toString().toLowerCase(), "UTF-8"), 
 					URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {

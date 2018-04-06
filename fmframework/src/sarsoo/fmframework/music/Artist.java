@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.w3c.dom.Document;
 
 import sarsoo.fmframework.net.Network;
+import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.net.URLBuilder;
 //import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.parser.Parser;
@@ -26,7 +27,7 @@ public class Artist extends FMObj {
 
 	public static Artist getArtist(String name, String username) {
 		String url = URLBuilder.getArtistInfoUrl(name, username);
-		// TestCall.test(url);
+//		TestCall.test(url);
 		Document response = Network.getResponse(url);
 		if (response != null) {
 			Artist artist = Parser.parseArtist(response);
