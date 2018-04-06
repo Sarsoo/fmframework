@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Track;
+import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
 
@@ -21,6 +22,7 @@ public class MainMenu extends JFrame {
 	JButton viewLastTrack = new JButton("View Last Track");
 	JButton viewList = new JButton("View List");
 	JButton viewTag = new JButton("View Tags");
+	JButton today = new JButton();
 
 	public MainMenu() {
 		super("fmframework - " + Reference.getUserName());
@@ -71,11 +73,18 @@ public class MainMenu extends JFrame {
 				view.setVisible(true);
 			}
 		});
+		today.setText("Today: " + Integer.toString(Getter.getScrobblesToday(Reference.getUserName())));
+		today.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Network.openURL(String.format("https://www.last.fm/user/%s/library?date_preset=LAST_30_DAYS", Reference.getUserName()));
+			}
+		});
 		add(viewLastTrack);
 		add(viewList);
 		add(viewTag);
 		add(getAlbum);
 		add(getArtist);
+		add(today);
 		
 		
 	}

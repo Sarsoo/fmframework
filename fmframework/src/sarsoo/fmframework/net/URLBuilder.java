@@ -2,6 +2,8 @@ package sarsoo.fmframework.net;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 public class URLBuilder {
 	
@@ -143,7 +145,42 @@ public class URLBuilder {
 		return null;
 	}
 	
-	
+	public static String getTodayScrobbles(String username) {
+		LocalDateTime now = LocalDateTime.now();
+		
+		String month;
+		if(now.getMonthValue() < 10) {
+			month = "0" + now.getMonthValue();
+		}else {
+			month = Integer.toString(now.getMonthValue());
+		}
+		
+		String day;
+		if(now.getMonthValue() < 10) {
+			day = "0" + now.getDayOfMonth();
+		}else {
+			day = Integer.toString(now.getDayOfMonth());
+		}
+		
+		String date = String.format("%d-%s-%sT07:00:00.00Z", now.getYear(), month, day);
+		System.out.println(date);
+//		long midnight = Instant.parse("2018-04-05T07:00:00.00Z").getEpochSecond();
+		long midnight = Instant.parse(date).getEpochSecond();
+		
+		String urlString;
+		try {
+			urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=%s&limit=200&from=%s&api_key=%s",
+					URLEncoder.encode(username, "UTF-8"),
+					URLEncoder.encode(Long.toString(midnight), "UTF-8"),
+					URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// System.out.println(urlString);
+		return null;
+	}
 
 //	public static String getUserTopTags() {
 //

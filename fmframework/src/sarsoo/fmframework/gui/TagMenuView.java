@@ -18,11 +18,12 @@ public class TagMenuView extends JFrame {
 	public TagMenuView() {
 		super("View Tags");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(3, 2));
+		
+		ArrayList<Tag> tags = Getter.getUserTags(Reference.getUserName());
+		
+		setLayout(new GridLayout(4, 4));
 		setSize(300, 300);
 		setResizable(false);
-
-		ArrayList<Tag> tags = Getter.getUserTags(Reference.getUserName());
 		
 		int counter;
 		for(counter = 0; counter < tags.size(); counter++) {

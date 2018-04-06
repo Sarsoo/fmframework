@@ -3,6 +3,7 @@ package sarsoo.fmframework.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.AlbumParser;
 import sarsoo.fmframework.parser.Parser;
 import sarsoo.fmframework.util.FMObjList;
+import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
 
 class NetworkTest {
@@ -53,18 +55,9 @@ class NetworkTest {
 	
 	@Test
 	void testTag() {
-		Reference.setUserName("sarsoo");
-		String url = URLBuilder.getUserTopTags("sarsoo");
-		Document response = Network.getResponse(url);
-		ArrayList<Tag> list = Parser.parseUserTags(response);
-		
 
-//		FMObjList list = Parser.parseTagList(response);
-		
-		int counter;
-		for(counter = 0; counter < list.size(); counter++) {
-			System.out.println(list.get(counter));
-		}
+//		System.out.println(Instant.parse("2018-04-05T07:00:00.00Z").getEpochSecond());
+		System.out.println(Getter.getScrobblesToday("sarsoo"));
 		
 //		System.out.println(url);
 	}

@@ -91,6 +91,7 @@ public class Parser {
 		}
 		return null;
 	}
+	
 
 	public static Artist parseArtist(Document doc) {
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
