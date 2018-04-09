@@ -31,6 +31,7 @@ public class AlbumView extends JFrame {
 	JLabel listeners = new JLabel();
 	JLabel playCount = new JLabel();
 	JLabel userPlayCount = new JLabel();
+	JLabel timePlayRatio = new JLabel();
 
 	JButton open = new JButton("View Online");
 	JButton viewArtist = new JButton("View Artist");
@@ -41,19 +42,19 @@ public class AlbumView extends JFrame {
 	public AlbumView(Album album) {
 		super(album.getName());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(6, 1));
+		setLayout(new GridLayout(7, 1));
 		setSize(300, 300);
 		setResizable(false);
 
 		buttons.setLayout(new FlowLayout());
 		buttons2.setLayout(new FlowLayout());
-//		System.out.println(album.getName());
-//		if (album.getTrackList() != null)
-//			buttons2.setLayout(new GridLayout(album.getTrackList().size(), 1));
+		// System.out.println(album.getName());
+		// if (album.getTrackList() != null)
+		// buttons2.setLayout(new GridLayout(album.getTrackList().size(), 1));
 
 		buttons.add(open);
-//		buttons2.add(viewArtist);
-		
+		// buttons2.add(viewArtist);
+
 		if (album.getWiki() != null)
 			buttons.add(viewWiki);
 		if (album.getMbid() != null)
@@ -71,24 +72,38 @@ public class AlbumView extends JFrame {
 		artist.setText(album.getArtist().getName());
 		artist.setHorizontalAlignment(SwingConstants.CENTER);
 		artist.setFont(sub);
-		
+
 		listeners.setText(numberFormat.format(album.getListeners()) + " Listeners");
 		listeners.setHorizontalAlignment(SwingConstants.CENTER);
 		playCount.setText(numberFormat.format(album.getPlayCount()) + " Total Scrobbles");
 		playCount.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		userPlayCount.setText(numberFormat.format(album.getUserPlayCount()) + String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(album, Reference.getUserName())));
+
+		userPlayCount.setText(numberFormat.format(album.getUserPlayCount())
+				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(album, Reference.getUserName())));
 		userPlayCount.setHorizontalAlignment(SwingConstants.CENTER);
 		userPlayCount.setFont(sub);
 
+		double ratio = album.getTimeListenRatio();
+		
+//		int ratioRound = (int) Math.round(ratio);
+//		int oneOverRatioRound = (int) Math.round(1/ratio);
+		if (ratio > 1) {
+			timePlayRatio.setText(String.format("listen every %.2f days", ratio));
+		} else if (ratio == 1) {
+			timePlayRatio.setText("listen every day");
+		} else {
+			timePlayRatio.setText(String.format("%.2f times a day", 1/ratio));
+		}
+		timePlayRatio.setHorizontalAlignment(SwingConstants.CENTER);
+		timePlayRatio.setFont(sub);
+		
 		artist.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				album.getArtist().view();
 			}
 		});
-		
-		
+
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Network.openURL(album.getUrl());
@@ -117,55 +132,57 @@ public class AlbumView extends JFrame {
 			}
 		});
 
-//		if (album.getTrackList() != null) {
-//			int counter;
-//			ArrayList<Track> trackList = album.getTrackList();
-//			for (counter = 0; counter < trackList.size(); counter++) {
-//				Track track = trackList.get(counter);
-//				JLabel name = new JLabel(track.getName());
-//
-//				int playCountString = track.getUserPlayCount();
-//
-//				JLabel userPlays;
-//				if (playCountString == 0)
-//					userPlays = new JLabel("0");
-//				else
-//					userPlays = new JLabel(Integer.toString(track.getUserPlayCount()));
-//
-//				JLabel plays = new JLabel(numberFormat.format(track.getPlayCount()));
-//				JButton openExternal = new JButton("Open Online");
-//				openExternal.addActionListener(new ActionListener() {
-//					public void actionPerformed(ActionEvent arg0) {
-//						Network.openURL(track.getUrl());
-//					}
-//				});
-//				JButton openInternal = new JButton("Open " + track.getClass().getSimpleName());
-//				openInternal.addActionListener(new ActionListener() {
-//					public void actionPerformed(ActionEvent arg0) {
-//						track.view();
-//					}
-//				});
-//				JPanel panel = new JPanel();
-//				panel.setLayout(new GridLayout(1, 5));
-//				panel.add(name);
-//				panel.add(userPlays);
-//				panel.add(plays);
-//				panel.add(openInternal);
-//				panel.add(openExternal);
-//
-//				trackListPanel.add(panel);
-//			}
-//		}
+		// if (album.getTrackList() != null) {
+		// int counter;
+		// ArrayList<Track> trackList = album.getTrackList();
+		// for (counter = 0; counter < trackList.size(); counter++) {
+		// Track track = trackList.get(counter);
+		// JLabel name = new JLabel(track.getName());
+		//
+		// int playCountString = track.getUserPlayCount();
+		//
+		// JLabel userPlays;
+		// if (playCountString == 0)
+		// userPlays = new JLabel("0");
+		// else
+		// userPlays = new JLabel(Integer.toString(track.getUserPlayCount()));
+		//
+		// JLabel plays = new JLabel(numberFormat.format(track.getPlayCount()));
+		// JButton openExternal = new JButton("Open Online");
+		// openExternal.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent arg0) {
+		// Network.openURL(track.getUrl());
+		// }
+		// });
+		// JButton openInternal = new JButton("Open " +
+		// track.getClass().getSimpleName());
+		// openInternal.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent arg0) {
+		// track.view();
+		// }
+		// });
+		// JPanel panel = new JPanel();
+		// panel.setLayout(new GridLayout(1, 5));
+		// panel.add(name);
+		// panel.add(userPlays);
+		// panel.add(plays);
+		// panel.add(openInternal);
+		// panel.add(openExternal);
+		//
+		// trackListPanel.add(panel);
+		// }
+		// }
 
 		add(name);
 		add(artist);
 		add(userPlayCount);
+		add(timePlayRatio);
 		add(listeners);
 		add(playCount);
 
-//		add(trackListPanel);
+		// add(trackListPanel);
 		add(buttons);
-//		add(buttons2);
+		// add(buttons2);
 		pack();
 	}
 }

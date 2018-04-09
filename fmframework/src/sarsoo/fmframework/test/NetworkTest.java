@@ -20,6 +20,7 @@ import sarsoo.fmframework.parser.AlbumParser;
 import sarsoo.fmframework.parser.Parser;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Getter;
+import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 
 class NetworkTest {
@@ -57,7 +58,7 @@ class NetworkTest {
 	void testTag() {
 
 //		System.out.println(Instant.parse("2018-04-05T07:00:00.00Z").getEpochSecond());
-		System.out.println(Getter.getScrobblesToday("sarsoo"));
+		System.out.println(Maths.getDaysScrobbling());
 		
 //		System.out.println(url);
 	}

@@ -77,6 +77,7 @@ public class MainMenu extends JFrame {
 		today.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Network.openURL(String.format("https://www.last.fm/user/%s/library?date_preset=LAST_30_DAYS", Reference.getUserName()));
+				today.setText("Today: " + Integer.toString(Getter.getScrobblesToday(Reference.getUserName())));
 			}
 		});
 		add(viewLastTrack);

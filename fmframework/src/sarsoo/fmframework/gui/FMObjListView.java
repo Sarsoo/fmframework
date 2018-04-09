@@ -17,6 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import sarsoo.fmframework.music.Album;
@@ -32,10 +33,19 @@ public class FMObjListView extends JFrame {
 	public FMObjListView(FMObjList objects, String title) {
 		super(title);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(objects.size() + 2, 0));
-		setResizable(false);
+//		setLayout(new GridLayout(objects.size() + 2, 0));
+//		setResizable(false);
 		// createMenu();
-
+		
+		int limit = 20;
+		
+		if(objects.size() > limit) {
+			setSize(600, 800);
+		}
+		
+		JPanel container = new JPanel();
+		container.setLayout(new GridLayout(objects.size() + 2, 0));
+		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 		Font font = new Font("Arial", Font.PLAIN, 20);
 		Font header = new Font("Arial", Font.BOLD, 16);
@@ -63,7 +73,7 @@ public class FMObjListView extends JFrame {
 		headerLabels.add(new JLabel(""));
 //		headerLabels.add(new JLabel(""));
 
-		add(headerLabels);
+		container.add(headerLabels);
 
 		Collections.sort(objects);
 		Collections.reverse(objects);
@@ -112,7 +122,7 @@ public class FMObjListView extends JFrame {
 //			panel.add(openInternal);
 			panel.add(openExternal);
 
-			add(panel);
+			container.add(panel);
 		}
 
 		JPanel info = new JPanel();
@@ -133,8 +143,15 @@ public class FMObjListView extends JFrame {
 
 		// }
 
-		add(info);
-		pack();
+		container.add(info);
+		
+		JScrollPane scroll = new JScrollPane(container);
+		add(scroll);
+		
+		if(objects.size() <= limit) {
+			pack();
+		}
+		
 	}
 
 	private void createMenu() {

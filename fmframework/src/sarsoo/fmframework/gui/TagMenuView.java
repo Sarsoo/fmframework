@@ -22,7 +22,7 @@ public class TagMenuView extends JFrame {
 		ArrayList<Tag> tags = Getter.getUserTags(Reference.getUserName());
 		
 		setLayout(new GridLayout(4, 4));
-		setSize(300, 300);
+		setSize(700, 700);
 		setResizable(false);
 		
 		int counter;

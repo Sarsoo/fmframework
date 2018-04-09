@@ -1,6 +1,7 @@
 package sarsoo.fmframework.music;
 
 import sarsoo.fmframework.gui.FMObjView;
+import sarsoo.fmframework.util.Maths;
 
 public abstract class FMObj implements Comparable<FMObj>{
 	
@@ -37,6 +38,10 @@ public abstract class FMObj implements Comparable<FMObj>{
 	public int compareTo(FMObj obj) {
 		
 		return userPlayCount - obj.getUserPlayCount();
+	}
+	
+	public double getTimeListenRatio() {
+		return Maths.getDaysScrobbling() / (double) userPlayCount;
 	}
 	
 	public String getName() {
