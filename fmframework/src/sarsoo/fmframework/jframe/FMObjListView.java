@@ -1,4 +1,4 @@
-package sarsoo.fmframework.gui;
+package sarsoo.fmframework.jframe;
 
 import java.awt.Font;
 import java.awt.GridLayout;

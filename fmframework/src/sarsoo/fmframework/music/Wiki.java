@@ -1,6 +1,6 @@
 package sarsoo.fmframework.music;
 
-import sarsoo.fmframework.gui.WikiView;
+import sarsoo.fmframework.jframe.WikiView;
 
 public class Wiki {
 	private String date;

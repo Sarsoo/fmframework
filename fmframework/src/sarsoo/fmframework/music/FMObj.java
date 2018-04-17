@@ -1,6 +1,6 @@
 package sarsoo.fmframework.music;
 
-import sarsoo.fmframework.gui.FMObjView;
+import sarsoo.fmframework.jframe.FMObjView;
 import sarsoo.fmframework.util.Maths;
 
 public abstract class FMObj implements Comparable<FMObj>{

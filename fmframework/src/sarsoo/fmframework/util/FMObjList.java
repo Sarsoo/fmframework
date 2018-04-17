@@ -2,7 +2,7 @@ package sarsoo.fmframework.util;
 
 import java.util.ArrayList;
 
-import sarsoo.fmframework.gui.FMObjListView;
+import sarsoo.fmframework.jframe.FMObjListView;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 
-import sarsoo.fmframework.gui.AlbumView;
+import sarsoo.fmframework.jframe.AlbumView;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.Parser;
