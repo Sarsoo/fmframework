@@ -72,7 +72,7 @@ public class Getter {
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			Node node = doc.getChildNodes().item(0).getFirstChild();
 			NamedNodeMap var = node.getAttributes();
-//			System.out.println(var.getNamedItem("total").getNodeValue());
+			// System.out.println(var.getNamedItem("total").getNodeValue());
 			// if (scrobbles != null)
 			return Integer.parseInt(var.getNamedItem("total").getNodeValue());
 		}
@@ -82,8 +82,27 @@ public class Getter {
 	public static FMObjList getUserTag(String username, String tag) {
 		String url = URLBuilder.getUserPersonalTags(username, tag);
 		Document doc = Network.getResponse(url);
+
 		if (doc != null) {
-			return Parser.parseUserTagList(doc);
+			int pages = Integer.valueOf(
+					doc.getFirstChild().getFirstChild().getAttributes().getNamedItem("totalPages").getNodeValue());
+
+			FMObjList list = Parser.parseUserTagList(doc);
+			
+			System.out.println(pages);
+			if (pages > 1) {
+				int counter;
+				for (counter = 2; counter <= pages; counter++) {
+					String urlNew = URLBuilder.getUserPersonalTags(username, tag, counter);
+					Document docNew = Network.getResponse(urlNew);
+
+					if (docNew != null) {
+						list.addAll(Parser.parseUserTagList(docNew));
+//						return Parser.parseUserTagList(docNew);
+					}
+				}
+			}
+			return list;
 		}
 		return null;
 	}

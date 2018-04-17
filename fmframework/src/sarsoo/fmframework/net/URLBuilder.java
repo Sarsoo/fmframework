@@ -130,6 +130,24 @@ public class URLBuilder {
 		return null;
 	}
 	
+	public static String getUserPersonalTags(String username, String tag, int page) {
+		String urlString;
+		try {
+			urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=user.getpersonaltags&user=%s&tag=%s&page=%d&taggingtype=artist&api_key=%s",
+					URLEncoder.encode(username, "UTF-8"), 
+					URLEncoder.encode(tag, "UTF-8"),
+					page,
+//					URLEncoder.encode(taggingType.toString().toLowerCase(), "UTF-8"), 
+					URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// System.out.println(urlString);
+		return null;
+	}
+	
 	public static String getUserTopTags(String username) {
 		String urlString;
 		try {
@@ -156,7 +174,7 @@ public class URLBuilder {
 		}
 		
 		String day;
-		if(now.getMonthValue() < 10) {
+		if(now.getDayOfMonth() < 10) {
 			day = "0" + now.getDayOfMonth();
 		}else {
 			day = Integer.toString(now.getDayOfMonth());

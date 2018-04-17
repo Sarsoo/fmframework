@@ -58,7 +58,7 @@ class NetworkTest {
 	void testTag() {
 
 //		System.out.println(Instant.parse("2018-04-05T07:00:00.00Z").getEpochSecond());
-		System.out.println(Maths.getDaysScrobbling());
+		System.out.println(URLBuilder.getUserPersonalTags("sarsoo", "rap", 2));
 		
 //		System.out.println(url);
 	}
