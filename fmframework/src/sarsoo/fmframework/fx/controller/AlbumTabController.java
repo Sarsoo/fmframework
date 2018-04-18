@@ -58,7 +58,7 @@ public class AlbumTabController {
 				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(album, Reference.getUserName())));
 
 		labelTotalListeners.setText(numberFormat.format(album.getListeners()) + " Listeners");
-		labelTotalScrobbles.setText(numberFormat.format(album.getPlayCount()) + "Total Scrobbles");
+		labelTotalScrobbles.setText(numberFormat.format(album.getPlayCount()) + " Total Scrobbles");
 
 		double ratio = album.getTimeListenRatio();
 

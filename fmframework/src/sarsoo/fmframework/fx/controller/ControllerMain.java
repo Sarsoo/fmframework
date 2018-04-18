@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.text.Text;
+import sarsoo.fmframework.fx.FMObjListTab;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Getter;
@@ -88,27 +89,33 @@ public class ControllerMain {
 	@FXML
 	protected void handleLookupAlbum(ActionEvent event) throws IOException {
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/albumview.fxml"));
+//		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/albumview.fxml"));
+//		
+//		Pane pane = (Pane)loader.load();
+//		
+////		AlbumTabController controller = new AlbumTabController(Album.getAlbum("recovery", "eminem", Reference.getUserName()));
+////		loader.setController(controller);
+////		pane.setController(controller);
+//		
+////		Parent pane = loader.load();
+//		
+//		Tab tab = new Tab("Album View");
+//		
+//		tab.setContent(pane);
+//		
+//		AlbumTabController albumControl = (AlbumTabController)loader.getController();
+//		
+//		
+//		albumControl.populateTab(Getter.getAlbum());
+//		
+//		
+//		tabPane.getTabs().add(tab);
 		
-		Pane pane = (Pane)loader.load();
+		Tab tab = new Tab("rock");
 		
-//		AlbumTabController controller = new AlbumTabController(Album.getAlbum("recovery", "eminem", Reference.getUserName()));
-//		loader.setController(controller);
-//		pane.setController(controller);
-		
-//		Parent pane = loader.load();
-		
-		Tab tab = new Tab("Recovery");
-		
-		tab.setContent(pane);
-		
-		AlbumTabController albumControl = (AlbumTabController)loader.getController();
-		
-		
-		albumControl.populateTab(Getter.getAlbum());
-		
-		
+		tab.setContent(new FMObjListTab(Getter.getUserTag(Reference.getUserName(), "rock")));
 		tabPane.getTabs().add(tab);
+		
 	}
 	
 	

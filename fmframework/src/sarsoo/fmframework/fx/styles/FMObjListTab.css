@@ -1,0 +1,26 @@
+.nameLabel{
+	-fx-alignment: center;
+	
+	-fx-font-style: italic;
+
+}
+
+.number{
+	-fx-text-alignment: right;
+	
+	-fx-font-style: italic;
+
+}
+
+.totalScrobbles{
+	
+	-fx-font-style: italic;
+
+}
+
+.percent{
+	-fx-text-alignment: right;
+	
+	-fx-font-style: italic;
+
+}
