@@ -1,7 +1,9 @@
 package sarsoo.fmframework.music;
 
 import sarsoo.fmframework.jframe.FMObjView;
+import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
+import sarsoo.fmframework.util.Reference;
 
 public abstract class FMObj implements Comparable<FMObj>{
 	
@@ -66,6 +68,10 @@ public abstract class FMObj implements Comparable<FMObj>{
 	
 	public int getUserPlayCount() {
 		return userPlayCount;
+	}
+	
+	public double getPercent() {
+		return ((double)userPlayCount*100)/(double) Getter.getScrobbles(Reference.getUserName());
 	}
 	
 	public Wiki getWiki() {
