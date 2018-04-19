@@ -90,4 +90,16 @@ public class Album extends FMObj {
 		return name + " - " + artist.getName();
 
 	}
+
+	@Override
+	public void refresh() {
+		Album album = Album.getAlbum(name, artist.getName(), Reference.getUserName());
+		
+		this.listeners = album.listeners;
+		this.userPlayCount = album.userPlayCount;
+		this.playCount = album.playCount;
+		this.wiki = album.wiki;
+		this.mbid = album.mbid;
+		
+	}
 }

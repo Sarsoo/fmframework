@@ -38,7 +38,7 @@ public class FMObjListPaneController {
 			
 			FMObj obj = list.get(counter);
 			
-			Label name = new Label(obj.getName());
+			Label name = new Label(obj.getName().toLowerCase());
 			Label userScrobbles = new Label(numberFormat.format(obj.getUserPlayCount()));
 			Label totalScrobbles = new Label(numberFormat.format(obj.getPlayCount()));
 			

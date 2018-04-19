@@ -27,6 +27,8 @@ public abstract class FMObj implements Comparable<FMObj>{
 		this.wiki = wiki;
 	}
 	
+	public abstract void refresh();
+	
 	public void view() {
 		FMObjView view = new FMObjView(this);
 		view.setVisible(true);

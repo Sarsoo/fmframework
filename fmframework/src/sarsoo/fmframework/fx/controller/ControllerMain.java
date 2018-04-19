@@ -12,6 +12,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.text.Text;
+import sarsoo.fmframework.fx.AlbumTab;
+import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FMObjListTab;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Tag;
@@ -139,6 +141,14 @@ public class ControllerMain {
 		// "rock")));
 		// tabPane.getTabs().add(tab);
 		//
+		
+		tabPane.getTabs().add(new AlbumTab(Getter.getAlbum()));
+	}
+	
+	@FXML
+	protected void handleLookupArtist(ActionEvent event) throws IOException {
+
+		tabPane.getTabs().add(new ArtistTab(Getter.getArtist()));
 	}
 
 	@FXML
@@ -230,4 +240,7 @@ public class ControllerMain {
 		}
 	}
 
+	public void addTab(Tab tab) {
+		tabPane.getTabs().add(tab);
+	}
 }

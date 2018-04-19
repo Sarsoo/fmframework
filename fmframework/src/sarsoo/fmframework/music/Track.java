@@ -9,6 +9,7 @@ import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.net.URLBuilder;
 //import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.parser.Parser;
+import sarsoo.fmframework.util.Reference;
 
 public class Track extends FMObj {
 	protected Album album;
@@ -88,5 +89,18 @@ public class Track extends FMObj {
 	public String toString() {
 		return name + " - " + artist.getName();
 
+	}
+	
+	@Override
+	public void refresh() {
+		Track track = Track.getTrack(name, artist.getName(), Reference.getUserName());
+		
+		this.listeners = track.listeners;
+		this.userPlayCount = track.userPlayCount;
+		this.playCount = track.playCount;
+		this.wiki = track.wiki;
+		this.mbid = track.mbid;
+		this.isLoved = track.isLoved;
+		
 	}
 }

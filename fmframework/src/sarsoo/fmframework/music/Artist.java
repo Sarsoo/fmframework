@@ -9,6 +9,7 @@ import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.net.URLBuilder;
 //import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.parser.Parser;
+import sarsoo.fmframework.util.Reference;
 
 public class Artist extends FMObj {
 	// protected boolean streamable;
@@ -78,6 +79,19 @@ public class Artist extends FMObj {
 
 	public String toString() {
 		return name;
+	}
+	
+	@Override
+	public void refresh() {
+		Artist artist = Artist.getArtist(name, Reference.getUserName());
+		
+		this.listeners = artist.listeners;
+		this.userPlayCount = artist.userPlayCount;
+		this.playCount = artist.playCount;
+		this.wiki = artist.wiki;
+		this.mbid = artist.mbid;
+		
+		
 	}
 
 }
