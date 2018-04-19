@@ -19,10 +19,10 @@ import sarsoo.fmframework.parser.Parser;
 
 public class Getter {
 	public static Album getAlbum() {
-		String artistName = JOptionPane.showInputDialog(null, "Enter Artist Name");
-		if (artistName != null) {
-			String albumName = JOptionPane.showInputDialog(null, "Enter Album Name");
-			if (albumName != null) {
+		String albumName = JOptionPane.showInputDialog(null, "Enter Album Name");
+		if (albumName != null) {
+			String artistName = JOptionPane.showInputDialog(null, "Enter Artist Name");
+			if (artistName != null) {
 				return Album.getAlbum(albumName, artistName, Reference.getUserName());
 			}
 		}
@@ -33,6 +33,17 @@ public class Getter {
 		String artistName = JOptionPane.showInputDialog(null, "Enter Artist Name");
 		if (artistName != null) {
 			return Artist.getArtist(artistName, Reference.getUserName());
+		}
+		return null;
+	}
+	
+	public static Track getTrack() {
+		String trackName = JOptionPane.showInputDialog(null, "Enter Track Name");
+		if (trackName != null) {
+			String artistName = JOptionPane.showInputDialog(null, "Enter Artist Name");
+			if (artistName != null) {
+				return Track.getTrack(artistName, trackName, Reference.getUserName());
+			}
 		}
 		return null;
 	}
@@ -90,7 +101,7 @@ public class Getter {
 			FMObjList list = Parser.parseUserTagList(doc);
 			list.setGroupName(tag);
 			
-			System.out.println(pages);
+//			System.out.println(pages);
 			if (pages > 1) {
 				int counter;
 				for (counter = 2; counter <= pages; counter++) {
@@ -117,5 +128,7 @@ public class Getter {
 		}
 		return null;
 	}
+
+	
 
 }

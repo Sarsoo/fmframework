@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FMObjListTab;
+import sarsoo.fmframework.fx.TrackTab;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.util.FMObjList;
@@ -67,7 +68,7 @@ public class ControllerMain {
 		int counter;
 		for (counter = 0; counter < tags.size(); counter++) {
 
-			String name = tags.get(counter).getName();
+			String name = tags.get(counter).getName().toLowerCase();
 
 			// System.out.println(name);
 
@@ -80,7 +81,7 @@ public class ControllerMain {
 						FMObjListTab tab = new FMObjListTab(Getter.getUserTag(Reference.getUserName(), name));
 
 						tabPane.getTabs().add(tab);
-						System.out.println("tab added");
+//						System.out.println("tab added");
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -150,6 +151,12 @@ public class ControllerMain {
 
 		tabPane.getTabs().add(new ArtistTab(Getter.getArtist()));
 	}
+	
+	@FXML
+	protected void handleLookupTrack(ActionEvent event) throws IOException {
+
+		tabPane.getTabs().add(new TrackTab(Getter.getTrack()));
+	}
 
 	@FXML
 	private Menu menuTag;
@@ -168,7 +175,7 @@ public class ControllerMain {
 			int counter;
 			for (counter = 0; counter < tags.size(); counter++) {
 
-				String name = tags.get(counter).getName();
+				String name = tags.get(counter).getName().toLowerCase();
 
 				// System.out.println(name);
 
@@ -198,7 +205,7 @@ public class ControllerMain {
 
 		if (event.getCode() == KeyCode.F5) {
 			refresh();
-			System.out.println("refreshed");
+//			System.out.println("refreshed");
 		}
 	}
 
@@ -242,5 +249,8 @@ public class ControllerMain {
 
 	public void addTab(Tab tab) {
 		tabPane.getTabs().add(tab);
+		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+		
+		selectionModel.select(tab);
 	}
 }

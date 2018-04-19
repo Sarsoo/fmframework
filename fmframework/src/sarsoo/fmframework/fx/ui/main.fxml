@@ -12,7 +12,7 @@
         <menus>
           <Menu fx:id="menuLookup" mnemonicParsing="false" text="lookup">
             <items>
-              <MenuItem fx:id="menuItemTrack" mnemonicParsing="false" text="track" />
+              <MenuItem fx:id="menuItemTrack" mnemonicParsing="false" onAction="#handleLookupTrack" text="track" />
                   <MenuItem fx:id="menuItemAlbum" mnemonicParsing="false" onAction="#handleLookupAlbum" text="album" />
                   <MenuItem fx:id="menuItemArtist" mnemonicParsing="false" onAction="#handleLookupArtist" text="artist" />
             </items>
