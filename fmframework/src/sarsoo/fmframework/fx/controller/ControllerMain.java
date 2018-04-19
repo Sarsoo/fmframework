@@ -3,6 +3,7 @@ package sarsoo.fmframework.fx.controller;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JOptionPane;
 
@@ -15,9 +16,12 @@ import javafx.scene.text.Text;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FMObjListTab;
+import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.TrackTab;
 import sarsoo.fmframework.music.Album;
+import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
+import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
@@ -32,6 +36,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.Parent;
 
 import javafx.scene.layout.*;
+
+import javafx.concurrent.*;
+import javafx.application.Platform;
 
 public class ControllerMain {
 
@@ -81,7 +88,7 @@ public class ControllerMain {
 						FMObjListTab tab = new FMObjListTab(Getter.getUserTag(Reference.getUserName(), name));
 
 						tabPane.getTabs().add(tab);
-//						System.out.println("tab added");
+						// System.out.println("tab added");
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -91,6 +98,31 @@ public class ControllerMain {
 			menuTag.getItems().add(item);
 		}
 
+		// FMObjList rap = Getter.getUserTag(Reference.getUserName(), "rap");
+		// FMObjList classicRap = Getter.getUserTag(Reference.getUserName(), "classic
+		// rap");
+		// FMObjList grime = Getter.getUserTag(Reference.getUserName(), "grime");
+		//
+		// int rapTotal = rap.getTotalUserScrobbles() -
+		// classicRap.getTotalUserScrobbles() - grime.getTotalUserScrobbles();
+		//
+		// ObservableList<PieChart.Data> rapData = FXCollections.observableArrayList(
+		// new PieChart.Data("rap", rapTotal),
+		// new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
+		// new PieChart.Data("grime", grime.getTotalUserScrobbles()));
+		// pieChartRap.setData(rapData);
+		//
+		// int other = Getter.getScrobbles(Reference.getUserName()) -
+		// rap.getTotalUserScrobbles();
+		//
+		// ObservableList<PieChart.Data> rapTotalData =
+		// FXCollections.observableArrayList(
+		// new PieChart.Data("rap", rapTotal),
+		// new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
+		// new PieChart.Data("grime", grime.getTotalUserScrobbles()),
+		// new PieChart.Data("other", other));
+		// pieChartRapTotal.setData(rapTotalData);
+
 	}
 
 	public void updateGenrePieChart() {
@@ -99,10 +131,7 @@ public class ControllerMain {
 				"indie", "jazz", "blues", "core" };
 
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				// new PieChart.Data("rap", Getter.getUserTag(Reference.getUserName(),
-				// "rap").getTotalUserScrobbles()),
-				// new PieChart.Data("rock", Getter.getUserTag(Reference.getUserName(),
-				// "rap").getTotalUserScrobbles()),
+
 				new PieChart.Data("rock", 5), new PieChart.Data("rock", 5), new PieChart.Data("rock", 5));
 		pieChartGenres = new PieChart(pieChartData);
 
@@ -111,51 +140,28 @@ public class ControllerMain {
 	@FXML
 	protected void handleLookupAlbum(ActionEvent event) throws IOException {
 
-		// FXMLLoader loader = new
-		// FXMLLoader(getClass().getResource("../ui/albumview.fxml"));
-		//
-		// Pane pane = (Pane)loader.load();
-		//
-		//// AlbumTabController controller = new
-		// AlbumTabController(Album.getAlbum("recovery", "eminem",
-		// Reference.getUserName()));
-		//// loader.setController(controller);
-		//// pane.setController(controller);
-		//
-		//// Parent pane = loader.load();
-		//
-		// Tab tab = new Tab("Album View");
-		//
-		// tab.setContent(pane);
-		//
-		// AlbumTabController albumControl = (AlbumTabController)loader.getController();
-		//
-		//
-		// albumControl.populateTab(Getter.getAlbum());
-		//
-		//
-		// tabPane.getTabs().add(tab);
-
-		// Tab tab = new Tab("rock");
-		//
-		// tab.setContent(new FMObjListTab(Getter.getUserTag(Reference.getUserName(),
-		// "rock")));
-		// tabPane.getTabs().add(tab);
-		//
-		
 		tabPane.getTabs().add(new AlbumTab(Getter.getAlbum()));
 	}
-	
+
 	@FXML
 	protected void handleLookupArtist(ActionEvent event) throws IOException {
 
 		tabPane.getTabs().add(new ArtistTab(Getter.getArtist()));
 	}
-	
+
 	@FXML
 	protected void handleLookupTrack(ActionEvent event) throws IOException {
 
 		tabPane.getTabs().add(new TrackTab(Getter.getTrack()));
+	}
+
+	@FXML
+	protected void handleScrobble(ActionEvent event) throws IOException {
+		Album album = Getter.getAlbum();
+		if (album != null) {
+			Track track = Getter.getTrack(album);
+
+		}
 	}
 
 	@FXML
@@ -205,7 +211,7 @@ public class ControllerMain {
 
 		if (event.getCode() == KeyCode.F5) {
 			refresh();
-//			System.out.println("refreshed");
+			// System.out.println("refreshed");
 		}
 	}
 
@@ -218,7 +224,8 @@ public class ControllerMain {
 				.setText(NumberFormat.getInstance().format(Getter.getScrobbles(Reference.getUserName())));
 
 		tags = Getter.getUserTags(Reference.getUserName());
-
+		menuTag.getItems().clear();
+		
 		int counter;
 		for (counter = 0; counter < tags.size(); counter++) {
 
@@ -241,8 +248,6 @@ public class ControllerMain {
 					}
 				}
 			});
-			
-			menuTag.getItems().clear();
 			menuTag.getItems().add(item);
 		}
 	}
@@ -250,7 +255,81 @@ public class ControllerMain {
 	public void addTab(Tab tab) {
 		tabPane.getTabs().add(tab);
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
-		
+
 		selectionModel.select(tab);
 	}
+
+	@FXML
+	private PieChart pieChartRap;
+
+	@FXML
+	private PieChart pieChartRapTotal;
+
+	@FXML
+	private Accordion accordionCharts;
+
+	@FXML
+	private TitledPane titledPaneGenres;
+
+	@FXML
+	private TitledPane titledPaneRap;
+
+	@FXML
+	protected void handleRefreshPieChart(ActionEvent event) throws IOException {
+		
+		refreshPieCharts();	
+		
+	}
+	
+	public void refreshPieCharts() {
+		Service<Void> service = new Service<Void>() {
+	        @Override
+	        protected Task<Void> createTask() {
+	            return new Task<Void>() {           
+	                @Override
+	                protected Void call() throws Exception {
+	                	
+	                	FMObjList rap = Getter.getUserTag(Reference.getUserName(), "rap");
+	            		FMObjList classicRap = Getter.getUserTag(Reference.getUserName(), "classic rap");
+	            		FMObjList grime = Getter.getUserTag(Reference.getUserName(), "grime");
+
+	            		int rapTotal = rap.getTotalUserScrobbles() - classicRap.getTotalUserScrobbles() - grime.getTotalUserScrobbles();
+	            		
+	            		ObservableList<PieChart.Data> rapData = FXCollections.observableArrayList(new PieChart.Data("rap", rapTotal),
+	            				new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
+	            				new PieChart.Data("grime", grime.getTotalUserScrobbles()));
+	            		
+	            		int other = Getter.getScrobbles(Reference.getUserName()) - rap.getTotalUserScrobbles();
+
+	            		ObservableList<PieChart.Data> rapTotalData = FXCollections.observableArrayList(
+	            				new PieChart.Data("rap", rapTotal),
+	            				new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
+	            				new PieChart.Data("grime", grime.getTotalUserScrobbles()), new PieChart.Data("other", other));
+	            		
+	                    final CountDownLatch latch = new CountDownLatch(1);
+	                    Platform.runLater(new Runnable() {                          
+	                        @Override
+	                        public void run() {
+	                            try{
+	                            	pieChartRap.setData(rapData);
+
+	                        		
+	                        		pieChartRapTotal.setData(rapTotalData);
+	                        		
+	                        		accordionCharts.setExpandedPane(titledPaneRap);
+	                            }finally{
+	                                latch.countDown();
+	                            }
+	                        }
+	                    });
+	                    latch.await();                      
+	                    //Keep with the background work
+	                    return null;
+	                }
+	            };
+	        }
+	    };
+	    service.start();
+	}
+
 }

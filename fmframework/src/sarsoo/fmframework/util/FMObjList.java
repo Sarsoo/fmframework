@@ -8,7 +8,7 @@ import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
 
-public class FMObjList extends ArrayList<FMObj> {
+public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>{
 
 	private String groupName = null;
 
@@ -97,5 +97,18 @@ public class FMObjList extends ArrayList<FMObj> {
 
 	public void setGroupName(String name) {
 		this.groupName = name;
+	}
+
+	@Override
+	public int compareTo(FMObjList list) {
+		return getTotalUserScrobbles() - list.getTotalUserScrobbles();
+	}
+	
+	public void refresh() {
+		int counter;
+		for(counter = 0; counter < size(); counter++) {
+			get(counter).refresh();
+		}
+		
 	}
 }

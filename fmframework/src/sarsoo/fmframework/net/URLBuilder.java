@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
+import sarsoo.fmframework.music.Track;
+
 public class URLBuilder {
 	
 	public enum FMObjType{
@@ -22,7 +24,6 @@ public class URLBuilder {
 					URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -38,7 +39,6 @@ public class URLBuilder {
 					URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -54,7 +54,6 @@ public class URLBuilder {
 					URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -69,7 +68,6 @@ public class URLBuilder {
 					URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -83,7 +81,6 @@ public class URLBuilder {
 					URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// System.out.println(urlString);
@@ -97,7 +94,6 @@ public class URLBuilder {
 					URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// System.out.println(urlString);
@@ -123,7 +119,6 @@ public class URLBuilder {
 					URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// System.out.println(urlString);
@@ -141,7 +136,6 @@ public class URLBuilder {
 					URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// System.out.println(urlString);
@@ -156,7 +150,6 @@ public class URLBuilder {
 					URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// System.out.println(urlString);
@@ -193,35 +186,25 @@ public class URLBuilder {
 					URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// System.out.println(urlString);
+		return null;
+	}
+	
+	public static String getScrobble(Track track, String username) {
+		String urlString;
+		try {
+			urlString = String.format("http://ws.audioscrobbler.com/2.0/?method=user.gettoptags&user=%s&api_key=%s",
+					URLEncoder.encode(username, "UTF-8"),  
+					URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		// System.out.println(urlString);
 		return null;
 	}
 
-//	public static String getUserTopTags() {
-//
-//	}
-
-	// public static String getRecentTracaksUrl(String username) {
-	//// Date date = new Date();
-	//// Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-	//// Calendar cal2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-	////
-	//// cal.set(cal.YEAR, cal.MONTH, cal.DATE);
-	//// System.out.println(cal.getTime());
-	// //System.out.println(cal2.getTime());
-	//
-	// String urlString = String.format(
-	// "http://ws.audioscrobbler.com/2.0/"
-	// + "?method=user.getRecentTracks&"
-	// + "user=%s&"
-	// + "limit = 200&"
-	// + "from=%d&"
-	// + "api_key=%s",
-	// username, Key.getKey());
-	// return urlString;
-	// }
 
 }

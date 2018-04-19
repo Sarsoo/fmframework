@@ -26,13 +26,15 @@ public class FmFramework extends Application {
 //		Parent root = FXMLLoader.load(getClass().getResource("ui/main.fxml"));
 		Parent root = (Parent)loader.load();
 		
-		Scene scene = new Scene(root, 800, 400);
+		Scene scene = new Scene(root, 1000, 800);
 		
 		rootScene = scene;
 //		scene.getStylesheets().add("styles/style.css");
 
 		control = (ControllerMain)loader.getController();
-				
+//		(new Thread(new TagCaller())).start();
+		stage.setMinHeight(800);
+		stage.setMinWidth(1000);
 		stage.setTitle("fm framework");
 		stage.setScene(scene);
 		stage.show();

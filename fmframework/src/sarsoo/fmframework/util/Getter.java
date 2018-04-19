@@ -47,6 +47,16 @@ public class Getter {
 		}
 		return null;
 	}
+	
+	public static Track getTrack(Album album) {
+		String trackName = JOptionPane.showInputDialog(null, "Enter Track Name");
+		if (trackName != null) {
+			Track track = Track.getTrack(album.getArtist().getName(), trackName, Reference.getUserName());
+			track.setAlbum(album);
+			return track;
+		}
+		return null;
+	}
 
 	public static Track getLastTrack() {
 

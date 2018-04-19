@@ -9,7 +9,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.AlbumPaneController">
    <children>
-      <BorderPane fx:id="albumBorderPane" prefHeight="327.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="albumBorderPane" prefHeight="327.0" prefWidth="600.0" stylesheets="@../styles/ObjPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <center>
                                     <SplitPane dividerPositions="0.5" prefHeight="327.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                                       <items>
@@ -28,12 +28,12 @@
                                                       <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
                                                   </rowConstraints>
                                                    <children>
-                                                      <Label fx:id="labelAlbumName" alignment="CENTER" text="Album Name" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                      <Label fx:id="labelAlbumName" alignment="CENTER" styleClass="title" text="Album Name" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                          <font>
                                                             <Font name="System Bold" size="18.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="labelArtistName" alignment="CENTER" text="Artist Name" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                      <Label fx:id="labelArtistName" alignment="CENTER" styleClass="sub" text="Artist Name" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>

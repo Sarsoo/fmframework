@@ -1,12 +1,18 @@
 package sarsoo.fmframework.net;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -61,6 +67,49 @@ public class Network {
 		}
 		return null;
 
+	}
+	
+	public static Document write(byte[] postDataBytes) {
+		
+		URL url;
+		try {
+			url = new URL("http://ws.audioscrobbler.com/2.0/");
+
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+			conn.setDoOutput(true);
+			conn.getOutputStream().write(postDataBytes);
+
+			InputStream input = conn.getInputStream();
+
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder;
+			try {
+				dBuilder = dbFactory.newDocumentBuilder();
+				try {
+					Document doc = dBuilder.parse(input);
+					conn.disconnect();
+					doc.getDocumentElement().normalize();
+
+					return doc;
+
+				} catch (SAXException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+	        
+	        
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static void openURL(String url) {
