@@ -3,6 +3,7 @@ package sarsoo.fmframework.fx.controller;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JOptionPane;
@@ -60,68 +61,72 @@ public class ControllerMain {
 	@FXML
 	public void initialize() {
 		Reference.setUserName("sarsoo");
+		
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		
+		Service<Void> service = new Service<Void>() {
+	        @Override
+	        protected Task<Void> createTask() {
+	            return new Task<Void>() {           
+	                @Override
+	                protected Void call() throws Exception {
+	                	
 
-		labelStatsScrobblesToday.setText(Integer.toString(Getter.getScrobblesToday(Reference.getUserName())));
+	                	String scrobblesToday = numberFormat.format(Getter.getScrobblesToday(Reference.getUserName()));
+	                	String scrobbles = numberFormat.format(Getter.getScrobbles(Reference.getUserName()));
+	                	tags = Getter.getUserTags(Reference.getUserName());
+	            		
+	                    final CountDownLatch latch = new CountDownLatch(1);
+	                    Platform.runLater(new Runnable() {                          
+	                        @Override
+	                        public void run() {
+	                            try{
+	                            	
+	                            	labelStatsScrobblesToday.setText(scrobblesToday);
+	                            	labelStatsUsername.setText(Reference.getUserName());
+	                            	labelStatsScrobblesTotal.setText(scrobbles);
+	                            	
+	                            	refreshPieCharts();
+	                            	
+	                            	int counter;
+	                        		for (counter = 0; counter < tags.size(); counter++) {
 
-		labelStatsUsername.setText(Reference.getUserName());
+	                        			String name = tags.get(counter).getName().toLowerCase();
 
-		// updateGenrePieChart();
+	                        			// System.out.println(name);
 
-		labelStatsScrobblesTotal
-				.setText(NumberFormat.getInstance().format(Getter.getScrobbles(Reference.getUserName())));
+	                        			MenuItem item = new MenuItem(name);
 
-		tags = Getter.getUserTags(Reference.getUserName());
+	                        			item.setOnAction(new EventHandler<ActionEvent>() {
+	                        				@Override
+	                        				public void handle(ActionEvent e) {
+	                        					try {
+	                        						FMObjListTab tab = new FMObjListTab(Getter.getUserTag(Reference.getUserName(), name));
 
-		int counter;
-		for (counter = 0; counter < tags.size(); counter++) {
+	                        						tabPane.getTabs().add(tab);
+	                        						// System.out.println("tab added");
+	                        					} catch (IOException e1) {
+	                        						e1.printStackTrace();
+	                        					}
+	                        				}
+	                        			});
 
-			String name = tags.get(counter).getName().toLowerCase();
-
-			// System.out.println(name);
-
-			MenuItem item = new MenuItem(name);
-
-			item.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent e) {
-					try {
-						FMObjListTab tab = new FMObjListTab(Getter.getUserTag(Reference.getUserName(), name));
-
-						tabPane.getTabs().add(tab);
-						// System.out.println("tab added");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-			});
-
-			menuTag.getItems().add(item);
-		}
-
-		// FMObjList rap = Getter.getUserTag(Reference.getUserName(), "rap");
-		// FMObjList classicRap = Getter.getUserTag(Reference.getUserName(), "classic
-		// rap");
-		// FMObjList grime = Getter.getUserTag(Reference.getUserName(), "grime");
-		//
-		// int rapTotal = rap.getTotalUserScrobbles() -
-		// classicRap.getTotalUserScrobbles() - grime.getTotalUserScrobbles();
-		//
-		// ObservableList<PieChart.Data> rapData = FXCollections.observableArrayList(
-		// new PieChart.Data("rap", rapTotal),
-		// new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
-		// new PieChart.Data("grime", grime.getTotalUserScrobbles()));
-		// pieChartRap.setData(rapData);
-		//
-		// int other = Getter.getScrobbles(Reference.getUserName()) -
-		// rap.getTotalUserScrobbles();
-		//
-		// ObservableList<PieChart.Data> rapTotalData =
-		// FXCollections.observableArrayList(
-		// new PieChart.Data("rap", rapTotal),
-		// new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
-		// new PieChart.Data("grime", grime.getTotalUserScrobbles()),
-		// new PieChart.Data("other", other));
-		// pieChartRapTotal.setData(rapTotalData);
+	                        			menuTag.getItems().add(item);
+	                        		}
+	                            	
+	                            }finally{
+	                                latch.countDown();
+	                            }
+	                        }
+	                    });
+	                    latch.await();                      
+	                    //Keep with the background work
+	                    return null;
+	                }
+	            };
+	        }
+	    };
+	    service.start();
 
 	}
 
@@ -225,7 +230,7 @@ public class ControllerMain {
 
 		tags = Getter.getUserTags(Reference.getUserName());
 		menuTag.getItems().clear();
-		
+
 		int counter;
 		for (counter = 0; counter < tags.size(); counter++) {
 
@@ -276,60 +281,62 @@ public class ControllerMain {
 
 	@FXML
 	protected void handleRefreshPieChart(ActionEvent event) throws IOException {
-		
-		refreshPieCharts();	
-		
+
+		refreshPieCharts();
+
 	}
-	
+
 	public void refreshPieCharts() {
 		Service<Void> service = new Service<Void>() {
-	        @Override
-	        protected Task<Void> createTask() {
-	            return new Task<Void>() {           
-	                @Override
-	                protected Void call() throws Exception {
-	                	
-	                	FMObjList rap = Getter.getUserTag(Reference.getUserName(), "rap");
-	            		FMObjList classicRap = Getter.getUserTag(Reference.getUserName(), "classic rap");
-	            		FMObjList grime = Getter.getUserTag(Reference.getUserName(), "grime");
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+					@Override
+					protected Void call() throws Exception {
 
-	            		int rapTotal = rap.getTotalUserScrobbles() - classicRap.getTotalUserScrobbles() - grime.getTotalUserScrobbles();
-	            		
-	            		ObservableList<PieChart.Data> rapData = FXCollections.observableArrayList(new PieChart.Data("rap", rapTotal),
-	            				new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
-	            				new PieChart.Data("grime", grime.getTotalUserScrobbles()));
-	            		
-	            		int other = Getter.getScrobbles(Reference.getUserName()) - rap.getTotalUserScrobbles();
+						FMObjList rap = Getter.getUserTag(Reference.getUserName(), "rap");
+						FMObjList classicRap = Getter.getUserTag(Reference.getUserName(), "classic rap");
+						FMObjList grime = Getter.getUserTag(Reference.getUserName(), "grime");
 
-	            		ObservableList<PieChart.Data> rapTotalData = FXCollections.observableArrayList(
-	            				new PieChart.Data("rap", rapTotal),
-	            				new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
-	            				new PieChart.Data("grime", grime.getTotalUserScrobbles()), new PieChart.Data("other", other));
-	            		
-	                    final CountDownLatch latch = new CountDownLatch(1);
-	                    Platform.runLater(new Runnable() {                          
-	                        @Override
-	                        public void run() {
-	                            try{
-	                            	pieChartRap.setData(rapData);
+						int rapTotal = rap.getTotalUserScrobbles() - classicRap.getTotalUserScrobbles()
+								- grime.getTotalUserScrobbles();
 
-	                        		
-	                        		pieChartRapTotal.setData(rapTotalData);
-	                        		
-	                        		accordionCharts.setExpandedPane(titledPaneRap);
-	                            }finally{
-	                                latch.countDown();
-	                            }
-	                        }
-	                    });
-	                    latch.await();                      
-	                    //Keep with the background work
-	                    return null;
-	                }
-	            };
-	        }
-	    };
-	    service.start();
+						ObservableList<PieChart.Data> rapData = FXCollections.observableArrayList(
+								new PieChart.Data("rap", rapTotal),
+								new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
+								new PieChart.Data("grime", grime.getTotalUserScrobbles()));
+
+						int other = Getter.getScrobbles(Reference.getUserName()) - rap.getTotalUserScrobbles();
+
+						ObservableList<PieChart.Data> rapTotalData = FXCollections.observableArrayList(
+								new PieChart.Data("rap", rapTotal),
+								new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
+								new PieChart.Data("grime", grime.getTotalUserScrobbles()),
+								new PieChart.Data("other", other));
+
+						final CountDownLatch latch = new CountDownLatch(1);
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								try {
+									pieChartRap.setData(rapData);
+
+									pieChartRapTotal.setData(rapTotalData);
+
+									accordionCharts.setExpandedPane(titledPaneRap);
+								} finally {
+									latch.countDown();
+								}
+							}
+						});
+						latch.await();
+						// Keep with the background work
+						return null;
+					}
+				};
+			}
+		};
+		service.start();
 	}
 
 }
