@@ -88,6 +88,7 @@ public class Getter {
 					doc.getFirstChild().getFirstChild().getAttributes().getNamedItem("totalPages").getNodeValue());
 
 			FMObjList list = Parser.parseUserTagList(doc);
+			list.setGroupName(tag);
 			
 			System.out.println(pages);
 			if (pages > 1) {
@@ -104,6 +105,7 @@ public class Getter {
 			}
 			return list;
 		}
+		
 		return null;
 	}
 
