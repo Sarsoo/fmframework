@@ -3,6 +3,8 @@ package sarsoo.fmframework.fx.controller;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
@@ -30,6 +32,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.chart.*;
+import javafx.scene.chart.PieChart.Data;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.input.KeyCode;
@@ -75,6 +78,8 @@ public class ControllerMain {
 						String scrobbles = numberFormat.format(Getter.getScrobbles(Reference.getUserName()));
 						tags = Getter.getUserTags(Reference.getUserName());
 
+						TrackTab tab = new TrackTab(Getter.getLastTrack());
+						
 						final CountDownLatch latch = new CountDownLatch(1);
 						Platform.runLater(new Runnable() {
 							@Override
@@ -84,6 +89,8 @@ public class ControllerMain {
 									labelStatsScrobblesToday.setText(scrobblesToday);
 									labelStatsUsername.setText(Reference.getUserName());
 									labelStatsScrobblesTotal.setText(scrobbles);
+									
+									addTab(tab);
 
 									refreshPieCharts();
 
@@ -173,7 +180,7 @@ public class ControllerMain {
 					@Override
 					protected Void call() throws Exception {
 
-						Album album = Getter.getAlbum();
+						Album album = sarsoo.fmframework.jframe.Getter.getAlbum();
 
 						if (album != null) {
 							AlbumTab tab = new AlbumTab(album);
@@ -210,7 +217,7 @@ public class ControllerMain {
 					@Override
 					protected Void call() throws Exception {
 
-						Artist artist = Getter.getArtist();
+						Artist artist = sarsoo.fmframework.jframe.Getter.getArtist();
 
 						if (artist != null) {
 							ArtistTab tab = new ArtistTab(artist);
@@ -249,7 +256,7 @@ public class ControllerMain {
 					@Override
 					protected Void call() throws Exception {
 
-						Track track = Getter.getTrack();
+						Track track = sarsoo.fmframework.jframe.Getter.getTrack();
 
 						if (track != null) {
 							TrackTab tab = new TrackTab(track);
@@ -278,9 +285,9 @@ public class ControllerMain {
 
 	@FXML
 	protected void handleScrobble(ActionEvent event) throws IOException {
-		Album album = Getter.getAlbum();
+		Album album = sarsoo.fmframework.jframe.Getter.getAlbum();
 		if (album != null) {
-			Track track = Getter.getTrack(album);
+			Track track = sarsoo.fmframework.jframe.Getter.getTrack(album);
 
 		}
 	}
@@ -361,7 +368,7 @@ public class ControllerMain {
 									labelStatsUsername.setText(Reference.getUserName());
 									labelStatsScrobblesTotal.setText(scrobbles);
 
-									refreshPieCharts();
+//									refreshPieCharts();
 									menuTag.getItems().clear();
 
 									int counter;
@@ -464,11 +471,24 @@ public class ControllerMain {
 				return new Task<Void>() {
 					@Override
 					protected Void call() throws Exception {
+						
+						int total = Getter.getScrobbles(Reference.getUserName());
 
 						FMObjList rap = Getter.getUserTag(Reference.getUserName(), "rap");
 						FMObjList classicRap = Getter.getUserTag(Reference.getUserName(), "classic rap");
 						FMObjList grime = Getter.getUserTag(Reference.getUserName(), "grime");
-
+						
+						FMObjList classicRock = Getter.getUserTag(Reference.getUserName(), "classic rock");
+						FMObjList popPunk = Getter.getUserTag(Reference.getUserName(), "pop punk");
+						FMObjList electronic = Getter.getUserTag(Reference.getUserName(), "electronic");
+						FMObjList metal = Getter.getUserTag(Reference.getUserName(), "metal");
+						FMObjList indie = Getter.getUserTag(Reference.getUserName(), "indie");
+						FMObjList rock = Getter.getUserTag(Reference.getUserName(), "rock");
+						FMObjList jazz = Getter.getUserTag(Reference.getUserName(), "jazz");
+						FMObjList blues = Getter.getUserTag(Reference.getUserName(), "blues");
+						FMObjList core = Getter.getUserTag(Reference.getUserName(), "core");
+						FMObjList rnb = Getter.getUserTag(Reference.getUserName(), "rnb");
+						
 						int rapTotal = rap.getTotalUserScrobbles() - classicRap.getTotalUserScrobbles()
 								- grime.getTotalUserScrobbles();
 
@@ -476,14 +496,70 @@ public class ControllerMain {
 								new PieChart.Data("rap", rapTotal),
 								new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
 								new PieChart.Data("grime", grime.getTotalUserScrobbles()));
+						
+						Collections.sort(rapData, new Comparator<PieChart.Data>() {
 
-						int other = Getter.getScrobbles(Reference.getUserName()) - rap.getTotalUserScrobbles();
+							@Override
+							public int compare(Data arg0, Data arg1) {
+								return (int) (arg1.getPieValue() - arg0.getPieValue());
+							}
+						});
+						
+
+						int other = total - rap.getTotalUserScrobbles();
 
 						ObservableList<PieChart.Data> rapTotalData = FXCollections.observableArrayList(
 								new PieChart.Data("rap", rapTotal),
 								new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
+								new PieChart.Data("grime", grime.getTotalUserScrobbles()));
+						
+						Collections.sort(rapTotalData, new Comparator<PieChart.Data>() {
+
+							@Override
+							public int compare(Data arg0, Data arg1) {
+								return (int) (arg1.getPieValue() - arg0.getPieValue());
+							}
+						});
+						
+						rapTotalData.add(new PieChart.Data("other", other));
+						
+						int totalOther = total - rap.getTotalUserScrobbles()
+								- classicRock.getTotalUserScrobbles()
+								- popPunk.getTotalUserScrobbles()
+								- electronic.getTotalUserScrobbles()
+								- metal.getTotalUserScrobbles()
+								- indie.getTotalUserScrobbles()
+								- rock.getTotalUserScrobbles()
+								- jazz.getTotalUserScrobbles()
+								- blues.getTotalUserScrobbles()
+								- core.getTotalUserScrobbles()
+								- rnb.getTotalUserScrobbles();
+						
+						ObservableList<PieChart.Data> genreData = FXCollections.observableArrayList(
+								new PieChart.Data("rap", rapTotal),
+								new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
 								new PieChart.Data("grime", grime.getTotalUserScrobbles()),
-								new PieChart.Data("other", other));
+								
+								new PieChart.Data("classic rock", classicRock.getTotalUserScrobbles()),
+								new PieChart.Data("pop punk", popPunk.getTotalUserScrobbles()),
+								new PieChart.Data("electronic", electronic.getTotalUserScrobbles()),
+								new PieChart.Data("metal", metal.getTotalUserScrobbles()),
+								new PieChart.Data("indie", indie.getTotalUserScrobbles()),
+								new PieChart.Data("rock", rock.getTotalUserScrobbles()),
+								new PieChart.Data("jazz", jazz.getTotalUserScrobbles()),
+								new PieChart.Data("blues", blues.getTotalUserScrobbles()),
+								new PieChart.Data("core", core.getTotalUserScrobbles()),
+								new PieChart.Data("rnb", rnb.getTotalUserScrobbles()));
+						
+						Collections.sort(genreData, new Comparator<PieChart.Data>() {
+
+							@Override
+							public int compare(Data arg0, Data arg1) {
+								return (int) (arg1.getPieValue() - arg0.getPieValue());
+							}
+						});
+						
+						genreData.add(new PieChart.Data("other", totalOther));
 
 						final CountDownLatch latch = new CountDownLatch(1);
 						Platform.runLater(new Runnable() {
@@ -493,6 +569,8 @@ public class ControllerMain {
 									pieChartRap.setData(rapData);
 
 									pieChartRapTotal.setData(rapTotalData);
+									
+									pieChartGenres.setData(genreData);
 
 									accordionCharts.setExpandedPane(titledPaneRap);
 								} finally {

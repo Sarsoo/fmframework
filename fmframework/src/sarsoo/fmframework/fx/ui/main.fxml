@@ -60,7 +60,7 @@
                                                 <content>
                                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                          <children>
-                                                            <PieChart fx:id="pieChartGenres" layoutX="-189.0" layoutY="-102.0" prefHeight="249.0" prefWidth="220.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <PieChart fx:id="pieChartGenres" layoutX="-189.0" layoutY="-102.0" prefHeight="249.0" prefWidth="220.0" styleClass="pieChart" stylesheets="@../styles/mainPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                          </children>
                                                       </AnchorPane>
                                                 </content>

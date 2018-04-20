@@ -166,7 +166,7 @@ public class FMObjListView extends JFrame {
 		addAlbum.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Album album = Getter.getAlbum();
+				Album album = sarsoo.fmframework.jframe.Getter.getAlbum();
 				if (album != null) {
 
 				}

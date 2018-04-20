@@ -33,7 +33,7 @@ public class MainMenu extends JFrame {
 
 		getAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Album album = Getter.getAlbum();
+				Album album = sarsoo.fmframework.jframe.Getter.getAlbum();
 				if (album != null) {
 					album.view();
 				} else {
@@ -43,7 +43,7 @@ public class MainMenu extends JFrame {
 		});
 		getArtist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Artist artist = Getter.getArtist();
+				Artist artist = sarsoo.fmframework.jframe.Getter.getArtist();
 				if (artist != null) {
 					artist.view();
 				} else {
