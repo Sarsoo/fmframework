@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefWidth="800.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.FMObjListPaneController">
+<AnchorPane prefWidth="800.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.FMObjListPaneEditController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" styleClass="pane" stylesheets="@../styles/FMObjListPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -19,6 +19,7 @@
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="301.0" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="10.0" prefWidth="157.0" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="106.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="194.0" minWidth="10.0" prefWidth="60.0" />
                           </columnConstraints>
                         </GridPane>
                      </content>
@@ -45,14 +46,30 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="labelTotalScrobbles" styleClass="stats" text="Label" GridPane.halignment="CENTER" />
-                        <Label fx:id="labelPercent" styleClass="stats" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <Label fx:id="labelTotalScrobbles" styleClass="stats" text="0" GridPane.halignment="CENTER" />
+                        <Label fx:id="labelPercent" styleClass="stats" text="0%" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                         <Button fx:id="buttonRefresh" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="25.0" prefWidth="57.0" text="refresh" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
                      </children>
                   </GridPane>
                </children>
             </VBox>
          </top>
+         <bottom>
+            <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <items>
+                  <TextField fx:id="textTrack" prefHeight="25.0" prefWidth="217.0" promptText="track" />
+                  <TextField fx:id="textAlbum" prefHeight="25.0" prefWidth="239.0" promptText="album" />
+                  <TextField fx:id="textArtist" prefHeight="25.0" prefWidth="230.0" promptText="artist" />
+                  <MenuButton fx:id="menuButtonAdd" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="add">
+                    <items>
+                      <MenuItem fx:id="menuItemTrack" mnemonicParsing="false" onAction="#handleAddTrack" text="track" />
+                      <MenuItem fx:id="menuItemAlbum" mnemonicParsing="false" text="album" />
+                        <MenuItem fx:id="menuItemArtist" mnemonicParsing="false" text="artist" />
+                    </items>
+                  </MenuButton>
+              </items>
+            </ToolBar>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

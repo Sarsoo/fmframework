@@ -21,6 +21,7 @@
             <Menu fx:id="menuUtil" mnemonicParsing="false" text="util">
               <items>
                 <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
+                  <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="create list" />
               </items>
             </Menu>
         </menus>

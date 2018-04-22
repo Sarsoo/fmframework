@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.text.Text;
+import sarsoo.fmframework.fx.ArtistTab;
+import sarsoo.fmframework.fx.FMObjListTab;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
@@ -103,6 +105,16 @@ public class ArtistPaneController {
 	@FXML
 	protected void viewRYM(ActionEvent event) {
 		Network.openURL(artist.getRymURL());
+	}
+	
+	@FXML
+	protected void handleViewTracks(ActionEvent event) {
+
+		try {
+			FmFramework.getController().addTab(new FMObjListTab(Getter.getArtistTracks(artist.getName(), Reference.getUserName())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void refresh() {

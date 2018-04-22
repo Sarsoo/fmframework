@@ -91,7 +91,6 @@ public class Parser {
 		}
 		return null;
 	}
-	
 
 	public static Artist parseArtist(Document doc) {
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
@@ -275,7 +274,7 @@ public class Parser {
 		return null;
 
 	}
-	
+
 	public static ArrayList<Tag> parseUserTags(Document doc) {
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			NodeList objList = doc.getElementsByTagName("tag");
@@ -299,13 +298,13 @@ public class Parser {
 
 				Tag tag = new Tag(name, url);
 
-//				System.out.println(name + " " +  url);
+				// System.out.println(name + " " + url);
 				list.add(tag);
 			}
 			return list;
 		}
 		return null;
-		
+
 	}
 
 	public static FMObjList parseUserTagList(Document doc) {
@@ -330,8 +329,45 @@ public class Parser {
 				// System.out.println(obj.getTextContent());
 				Artist artist = Artist.getArtist(name, Reference.getUserName());
 
-//				System.out.println(artist);
+				// System.out.println(artist);
 				list.add(artist);
+			}
+			return list;
+		}
+		return null;
+
+	}
+
+	public static FMObjList parseArtistTracks(Document doc) {
+		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
+			NodeList objList = doc.getElementsByTagName("track");
+
+			// Node obj = objList.item(0);
+			FMObjList list = new FMObjList();
+			// String name = obj.getFirstChild().getTextContent();
+			// System.out.println(name);
+			//
+			// Artist artist = Artist.getArtist(name, Reference.getUserName());
+			//
+			// System.out.println(artist);
+
+			int counter;
+			for (counter = 0; counter < objList.getLength(); counter++) {
+				Node obj = objList.item(counter);
+
+				NodeList objNodes = obj.getChildNodes();
+
+				String artist = objNodes.item(0).getTextContent();
+//				System.out.println(artist);
+				String name = objNodes.item(2).getTextContent();
+//				System.out.println(name);
+				// System.out.println(name + ".");
+				// System.out.println(obj.getTextContent());
+//				System.out.println(counter);
+				// System.out.println(artist);
+				Track track = Track.getTrack(name, artist, Reference.getUserName());
+
+				list.add(track);
 			}
 			return list;
 		}

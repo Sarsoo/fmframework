@@ -58,7 +58,8 @@ class NetworkTest {
 	void testTag() {
 
 //		System.out.println(Instant.parse("2018-04-05T07:00:00.00Z").getEpochSecond());
-		System.out.println(URLBuilder.getUserPersonalTags("sarsoo", "rap", 2));
+		Reference.setUserName("sarsoo");
+		Getter.getArtistTracks("eminem", "sarsoo");
 		
 //		System.out.println(url);
 	}

@@ -1,6 +1,6 @@
 package sarsoo.fmframework.music;
 
-public class Tag {
+public class Tag implements Comparable<Tag>{
 	private String name;
 	private String url;
 	private int count;
@@ -41,5 +41,10 @@ public class Tag {
 	
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Tag arg0) {
+		return name.compareTo(arg0.getName());
 	}
 }

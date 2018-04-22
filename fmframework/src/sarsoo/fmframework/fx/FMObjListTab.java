@@ -8,6 +8,7 @@ import java.util.Locale;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import sarsoo.fmframework.fx.controller.FMObjListPaneController;
+import sarsoo.fmframework.fx.controller.FMObjListPaneEditController;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Maths;
@@ -37,6 +38,28 @@ public class FMObjListTab extends Tab {
 
 		control.populate(list);
 		
+		
+
+	}
+	
+	public FMObjListTab() throws IOException {
+
+		setText("List");
+
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FMObjListPaneEdit.fxml"));
+
+		AnchorPane pane = (AnchorPane) loader.load();
+
+		AnchorPane.setTopAnchor(pane, 0.0);
+		AnchorPane.setLeftAnchor(pane, 0.0);
+		AnchorPane.setRightAnchor(pane, 0.0);
+		AnchorPane.setBottomAnchor(pane, 0.0);
+		
+//		BorderPane
+
+		setContent(pane);
+
+		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();		
 		
 
 	}

@@ -44,6 +44,23 @@ public class URLBuilder {
 		return null;
 
 	}
+	
+	public static String getArtistTracks(String artist, int page, String username) {
+		String urlString;
+		try {
+			urlString = String.format(
+					"http://ws.audioscrobbler.com/2.0/?method=user.getartisttracks&user=%s&artist=%s&page=%d&api_key=%s",
+					URLEncoder.encode(username, "UTF-8"),
+					URLEncoder.encode(artist, "UTF-8"),
+					page,
+					URLEncoder.encode(Key.getKey(), "UTF-8"));
+			return urlString;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
 
 	public static String getAlbumInfoUrl(String album, String artist, String username) {
 		String urlString;
@@ -64,8 +81,10 @@ public class URLBuilder {
 		try {
 			urlString = String.format(
 					"http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=%s&artist=%s&autocorrect=0&username=%s&api_key=%s",
-					URLEncoder.encode(name, "UTF-8"), URLEncoder.encode(artist, "UTF-8"),
-					URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(Key.getKey(), "UTF-8"));
+					URLEncoder.encode(name, "UTF-8"), 
+					URLEncoder.encode(artist, "UTF-8"),
+					URLEncoder.encode(username, "UTF-8"), 
+					URLEncoder.encode(Key.getKey(), "UTF-8"));
 			return urlString;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

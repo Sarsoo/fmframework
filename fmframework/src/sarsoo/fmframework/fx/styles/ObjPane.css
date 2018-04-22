@@ -1,16 +1,23 @@
-.title{
+.titleLabel{
 	
-	-fx-font-size: 400%;
+	-fx-font-size: 600%;
+	-fx-font-weight: bolder;
+
+}
+
+.subLabel{
+	
+	-fx-font-size: 300%;
+	-fx-font-weight: bold;
+}
+
+.normalLabel{
+	
+	-fx-font-size: 200%;
 	
 }
 
-.sub{
-	
-	
-	
-}
-
-.wiki{
+.wikiTextArea{
 
 
 }

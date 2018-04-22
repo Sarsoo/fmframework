@@ -85,6 +85,44 @@ public class Getter {
 		
 		return null;
 	}
+	
+	public static FMObjList getArtistTracks(String artist, String username) {
+		
+//		String url = URLBuilder.getArtistTracks(artist, 1, username);
+//		Document doc = Network.getResponse(url);
+		
+//		if (doc != null) {
+//			int pages = Integer.valueOf(
+//					doc.getFirstChild().getFirstChild().getAttributes().getNamedItem("totalPages").getNodeValue());
+//
+//			FMObjList list = Parser.parseArtistTracks(doc);
+////			list.setGroupName(artist + " tracks");
+//			
+//			System.out.println(pages);
+//			
+//			
+//			return list;
+//		}
+		
+		FMObjList totalList = new FMObjList();
+		FMObjList list = new FMObjList();
+		
+		int counter = 1;
+		do {
+			String url = URLBuilder.getArtistTracks(artist, counter, username);
+			Document doc = Network.getResponse(url);
+			
+			list = Parser.parseArtistTracks(doc);
+			
+			totalList.addAll(list);
+			counter++;
+			
+		}while(list.size() > 0);
+		
+		return totalList;
+		
+		
+	}
 
 	public static ArrayList<Tag> getUserTags(String username) {
 		String url = URLBuilder.getUserTopTags(username);

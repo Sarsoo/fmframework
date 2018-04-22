@@ -28,32 +28,32 @@
                                                       <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
                                                   </rowConstraints>
                                                    <children>
-                                                      <Label fx:id="labelAlbumName" alignment="CENTER" styleClass="title" text="Album Name" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                      <Label fx:id="labelAlbumName" alignment="CENTER" styleClass="titleLabel" text="Album Name" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                          <font>
                                                             <Font name="System Bold" size="18.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="labelArtistName" alignment="CENTER" styleClass="sub" text="Artist Name" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                      <Label fx:id="labelArtistName" alignment="CENTER" styleClass="subLabel" text="Artist Name" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="labelUserScrobbles" alignment="CENTER" text="User Scrobbles" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                                      <Label fx:id="labelUserScrobbles" alignment="CENTER" styleClass="normalLabel" text="User Scrobbles" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="labelRatio" alignment="CENTER" text="Ratio" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                                                      <Label fx:id="labelRatio" alignment="CENTER" styleClass="normalLabel" text="Ratio" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="labelTotalListeners" alignment="CENTER" text="Total Listeners" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                                                      <Label fx:id="labelTotalListeners" alignment="CENTER" styleClass="normalLabel" text="Total Listeners" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="labelTotalScrobbles" alignment="CENTER" text="Total Scrobbles" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+                                                      <Label fx:id="labelTotalScrobbles" alignment="CENTER" styleClass="normalLabel" text="Total Scrobbles" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
@@ -64,7 +64,7 @@
                                           </AnchorPane>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                              <children>
-                                                <TextArea fx:id="textAreaWiki" editable="false" layoutX="37.0" layoutY="34.0" prefHeight="285.0" prefWidth="296.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <TextArea fx:id="textAreaWiki" editable="false" layoutX="37.0" layoutY="34.0" prefHeight="285.0" prefWidth="296.0" styleClass="wikiTextArea" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                       </items>

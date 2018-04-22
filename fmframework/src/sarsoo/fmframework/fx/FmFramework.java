@@ -34,7 +34,7 @@ public class FmFramework extends Application {
 		control = (ControllerMain)loader.getController();
 //		(new Thread(new TagCaller())).start();
 		stage.setMinHeight(800);
-		stage.setMinWidth(1000);
+		stage.setMinWidth(960);
 		stage.setTitle("fm framework");
 		stage.setScene(scene);
 		stage.show();

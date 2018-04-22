@@ -20,6 +20,8 @@ public class Track extends FMObj {
 	protected boolean isLoved;
 	protected ArrayList<Tag> tagList;
 
+	private int utsFirstListen;
+	
 	public Track(String name, String artist) {
 		super(name, null, null, 0, 0, 0, null);
 		this.artist = new Artist(artist);
@@ -32,6 +34,8 @@ public class Track extends FMObj {
 	}
 
 	public static Track getTrack(String name, String artist, String username) {
+		System.out.println("Artist " + artist);
+		System.out.println("track " + name);
 		String url = URLBuilder.getTrackInfoUrl(name, artist, username);
 		// TestCall.test(url);
 		Document response = Network.getResponse(url);
@@ -102,5 +106,13 @@ public class Track extends FMObj {
 		this.mbid = track.mbid;
 		this.isLoved = track.isLoved;
 		
+	}
+
+	public int getUtsFirstListen() {
+		return utsFirstListen;
+	}
+
+	public void setUtsFirstListen(int utsFirstListen) {
+		this.utsFirstListen = utsFirstListen;
 	}
 }

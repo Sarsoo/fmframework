@@ -76,7 +76,7 @@ public class ControllerMain {
 
 						String scrobblesToday = numberFormat.format(Getter.getScrobblesToday(Reference.getUserName()));
 						String scrobbles = numberFormat.format(Getter.getScrobbles(Reference.getUserName()));
-						tags = Getter.getUserTags(Reference.getUserName());
+						
 
 						TrackTab tab = new TrackTab(Getter.getLastTrack());
 						
@@ -93,55 +93,7 @@ public class ControllerMain {
 									addTab(tab);
 
 									refreshPieCharts();
-
-									int counter;
-									for (counter = 0; counter < tags.size(); counter++) {
-
-										String name = tags.get(counter).getName().toLowerCase();
-
-										// System.out.println(name);
-
-										MenuItem item = new MenuItem(name);
-
-										item.setOnAction(new EventHandler<ActionEvent>() {
-											@Override
-											public void handle(ActionEvent e) {
-
-												// TAG ITEM HANDLER SERVICE
-												Service<Void> service = new Service<Void>() {
-													@Override
-													protected Task<Void> createTask() {
-														return new Task<Void>() {
-															@Override
-															protected Void call() throws Exception {
-
-																FMObjListTab tab = new FMObjListTab(Getter
-																		.getUserTag(Reference.getUserName(), name));
-
-																final CountDownLatch latch = new CountDownLatch(1);
-																Platform.runLater(new Runnable() {
-																	@Override
-																	public void run() {
-																		try {
-																			tabPane.getTabs().add(tab);
-																		} finally {
-																			latch.countDown();
-																		}
-																	}
-																});
-																latch.await();
-																// Keep with the background work
-																return null;
-															}
-														};
-													}
-												};
-												service.start();
-											}
-										});
-
-										menuTag.getItems().add(item);
-									}
+									updateTagMenu();
 
 								} finally {
 									latch.countDown();
@@ -157,6 +109,63 @@ public class ControllerMain {
 		};
 		service.start();
 
+	}
+	
+	private ArrayList<Tag> tags;
+	public void updateTagMenu() {
+		tags = Getter.getUserTags(Reference.getUserName());
+		
+		Collections.sort(tags);
+		
+		int counter;
+		for (counter = 0; counter < tags.size(); counter++) {
+
+			String name = tags.get(counter).getName().toLowerCase();
+			
+
+			// System.out.println(name);
+
+			MenuItem item = new MenuItem(name);
+
+			item.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+
+					// TAG ITEM HANDLER SERVICE
+					Service<Void> service = new Service<Void>() {
+						@Override
+						protected Task<Void> createTask() {
+							return new Task<Void>() {
+								@Override
+								protected Void call() throws Exception {
+
+									FMObjListTab tab = new FMObjListTab(Getter
+											.getUserTag(Reference.getUserName(), name));
+
+									final CountDownLatch latch = new CountDownLatch(1);
+									Platform.runLater(new Runnable() {
+										@Override
+										public void run() {
+											try {
+												tabPane.getTabs().add(tab);
+											} finally {
+												latch.countDown();
+											}
+										}
+									});
+									latch.await();
+									// Keep with the background work
+									return null;
+								}
+							};
+						}
+					};
+					service.start();
+				}
+			});
+
+			menuTag.getItems().add(item);
+		}
 	}
 
 	public void updateGenrePieChart() {
@@ -294,8 +303,6 @@ public class ControllerMain {
 
 	@FXML
 	private Menu menuTag;
-
-	private ArrayList<Tag> tags;
 
 	// @FXML
 	// protected void handleTagClick(ActionEvent event) throws IOException {
@@ -586,6 +593,18 @@ public class ControllerMain {
 			}
 		};
 		service.start();
+	}
+	
+	@FXML
+	protected void handleCreateList(ActionEvent event) {
+		
+		try {
+			Tab tab = new FMObjListTab();
+			addTab(tab);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
