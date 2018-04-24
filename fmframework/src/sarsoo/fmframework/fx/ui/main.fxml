@@ -21,6 +21,7 @@
             <Menu fx:id="menuUtil" mnemonicParsing="false" text="util">
               <items>
                 <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
+                  <MenuItem fx:id="menuItemCurrentTrack" mnemonicParsing="false" onAction="#handleCurrentTrack" text="current track" />
                   <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="create list" />
               </items>
             </Menu>
@@ -48,60 +49,51 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <SplitPane fx:id="splitPaneHome" dividerPositions="0.6237458193979933" prefHeight="327.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                 <children>
-                                    <BorderPane prefHeight="354.0" prefWidth="211.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <center>
-                                          <Accordion fx:id="accordionCharts" prefHeight="325.0" prefWidth="222.0" BorderPane.alignment="CENTER">
-                                            <panes>
-                                              <TitledPane fx:id="titledPaneGenres" animated="false" text="genres">
-                                                <content>
-                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                         <children>
-                                                            <PieChart fx:id="pieChartGenres" layoutX="-189.0" layoutY="-102.0" prefHeight="249.0" prefWidth="220.0" styleClass="pieChart" stylesheets="@../styles/mainPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                         </children>
-                                                      </AnchorPane>
-                                                </content>
-                                              </TitledPane>
-                                              <TitledPane fx:id="titledPaneRap" animated="false" text="rap">
-                                                <content>
-                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                         <children>
-                                                            <GridPane prefHeight="303.0" prefWidth="209.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                              <columnConstraints>
-                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                              </columnConstraints>
-                                                              <rowConstraints>
-                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                              </rowConstraints>
-                                                               <children>
-                                                                  <PieChart fx:id="pieChartRapTotal" prefHeight="274.0" prefWidth="220.0" styleClass="pieChart" stylesheets="@../styles/mainPane.css" title="total" GridPane.rowIndex="1" />
-                                                                  <PieChart fx:id="pieChartRap" styleClass="pieChart" stylesheets="@../styles/mainPane.css" title="rap" />
-                                                               </children>
-                                                            </GridPane>
-                                                         </children>
-                                                      </AnchorPane>
-                                                </content>
-                                              </TitledPane>
-                                            </panes>
-                                          </Accordion>
-                                       </center>
-                                       <bottom>
-                                          <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                            <items>
-                                              <Button fx:id="buttonPieChartRefresh" mnemonicParsing="false" onAction="#handleRefreshPieChart" text="refresh" />
-                                            </items>
-                                          </ToolBar>
-                                       </bottom>
-                                    </BorderPane>
-                                 </children>
-                              </AnchorPane>
-                          </items>
-                        </SplitPane>
+                        <BorderPane prefHeight="354.0" prefWidth="211.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <Accordion fx:id="accordionCharts" prefHeight="325.0" prefWidth="222.0" BorderPane.alignment="CENTER">
+                                <panes>
+                                  <TitledPane fx:id="titledPaneGenres" animated="false" text="genres">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <PieChart fx:id="pieChartGenres" prefHeight="263.0" prefWidth="209.0" styleClass="pieChart" stylesheets="@../styles/mainPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane fx:id="titledPaneRap" animated="false" text="rap">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <GridPane prefHeight="303.0" prefWidth="209.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columnConstraints>
+                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                   <children>
+                                                      <PieChart fx:id="pieChartRapTotal" prefHeight="274.0" prefWidth="220.0" styleClass="pieChart" stylesheets="@../styles/mainPane.css" title="total" GridPane.rowIndex="1" />
+                                                      <PieChart fx:id="pieChartRap" styleClass="pieChart" stylesheets="@../styles/mainPane.css" title="rap" />
+                                                   </children>
+                                                </GridPane>
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </center>
+                           <bottom>
+                              <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                <items>
+                                  <Button fx:id="buttonPieChartRefresh" mnemonicParsing="false" onAction="#handleRefreshPieChart" text="refresh" />
+                                </items>
+                              </ToolBar>
+                           </bottom>
+                        </BorderPane>
                      </children>
                   </AnchorPane>
               </content>

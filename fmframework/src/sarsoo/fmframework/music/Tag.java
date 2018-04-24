@@ -40,7 +40,7 @@ public class Tag implements Comparable<Tag>{
 	}
 	
 	public String toString() {
-		return name;
+		return "Tag: " + name;
 	}
 
 	@Override

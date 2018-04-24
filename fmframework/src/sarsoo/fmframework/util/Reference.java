@@ -7,6 +7,7 @@ import sarsoo.fmframework.music.Artist;
 
 public class Reference {
 	private static String userName;
+	private static boolean isVerbose = true;
 	private static boolean isHeadless = true;
 
 	public static String getUserName() {
@@ -17,7 +18,7 @@ public class Reference {
 		userName = userNameIn;
 	}
 
-	public static boolean getIsHeadless() {
+	public static boolean isHeadless() {
 		return isHeadless;
 	}
 
@@ -134,6 +135,14 @@ public class Reference {
 		emoTrio.add(Artist.getArtist("Panic! at the Disco", Reference.getUserName()));
 
 		return emoTrio;
+	}
+
+	public static boolean isVerbose() {
+		return isVerbose;
+	}
+
+	public static void setVerbose(boolean isVerbose) {
+		Reference.isVerbose = isVerbose;
 	}
 
 }

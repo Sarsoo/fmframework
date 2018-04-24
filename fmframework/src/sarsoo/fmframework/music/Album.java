@@ -87,7 +87,7 @@ public class Album extends FMObj {
 	}
 
 	public String toString() {
-		return name + " - " + artist.getName();
+		return "Album: " + name + " - " + artist.getName();
 
 	}
 

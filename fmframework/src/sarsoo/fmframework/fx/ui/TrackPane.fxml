@@ -29,7 +29,7 @@
                                                       <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
                                                   </rowConstraints>
                                                    <children>
-                                                      <Label fx:id="labelTrackName" alignment="CENTER" styleClass="titleLabel" text="Track Name" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                      <Label fx:id="labelTrackName" alignment="CENTER" styleClass="titleLabel" text="Track Name" wrapText="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER">
                                                          <font>
                                                             <Font name="System Bold" size="18.0" />
                                                          </font>

@@ -28,36 +28,60 @@
                                                       <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
                                                   </rowConstraints>
                                                    <children>
-                                                      <Label fx:id="labelAlbumName" alignment="CENTER" styleClass="titleLabel" text="Album Name" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                                         <font>
-                                                            <Font name="System Bold" size="18.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="labelArtistName" alignment="CENTER" styleClass="subLabel" text="Artist Name" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="labelUserScrobbles" alignment="CENTER" styleClass="normalLabel" text="User Scrobbles" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="labelRatio" alignment="CENTER" styleClass="normalLabel" text="Ratio" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="labelTotalListeners" alignment="CENTER" styleClass="normalLabel" text="Total Listeners" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="labelTotalScrobbles" alignment="CENTER" styleClass="normalLabel" text="Total Scrobbles" GridPane.halignment="CENTER" GridPane.rowIndex="5">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                      </Label>
+                              <AnchorPane>
+                                 <children>
+                                                            <Label fx:id="labelAlbumName" alignment="CENTER" styleClass="titleLabel" text="Album Name" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                               <font>
+                                                                  <Font name="System Bold" size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.rowIndex="1">
+                                 <children>
+                                                            <Label fx:id="labelArtistName" alignment="CENTER" styleClass="subLabel" text="Artist Name" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.rowIndex="2">
+                                 <children>
+                                                            <Label fx:id="labelUserScrobbles" alignment="CENTER" styleClass="normalLabel" text="User Scrobbles" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.rowIndex="3">
+                                 <children>
+                                                            <Label fx:id="labelRatio" alignment="CENTER" styleClass="normalLabel" text="Ratio" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.rowIndex="4">
+                                 <children>
+                                                            <Label fx:id="labelTotalListeners" alignment="CENTER" styleClass="normalLabel" text="Total Listeners" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.rowIndex="5">
+                                 <children>
+                                                            <Label fx:id="labelTotalScrobbles" alignment="CENTER" styleClass="normalLabel" text="Total Scrobbles" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                 </children>
+                              </AnchorPane>
                                                    </children>
                                                 </GridPane>
                                              </children>

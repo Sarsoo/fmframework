@@ -15,7 +15,9 @@ import sarsoo.fmframework.parser.Parser;
 
 public class Getter {
 	public static Track getLastTrack() {
-
+		if(Reference.isVerbose())
+			System.out.println("--getLastTrack");
+		
 		String url = URLBuilder.getLastTrackUrl(Reference.getUserName());
 		// TestCall.test(url);
 		Document doc = Network.getResponse(url);
@@ -25,6 +27,8 @@ public class Getter {
 			// System.out.println(doc.getDocumentElement().getAttribute("status"));
 			Parser.stripSpace(doc.getDocumentElement());
 			Track track = Parser.parseLastTrack(doc);
+			if(Reference.isVerbose())
+				System.out.println(track);
 			// return null;
 			return track;
 		}
@@ -33,17 +37,25 @@ public class Getter {
 	}
 
 	public static int getScrobbles(String username) {
+		if(Reference.isVerbose())
+			System.out.println("--getScrobbles");
+		
 		String url = URLBuilder.getUserInfoUrl(username);
 		Document doc = Network.getResponse(url);
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String scrobbles = doc.getElementsByTagName("playcount").item(0).getTextContent();
 			if (scrobbles != null)
+				if(Reference.isVerbose())
+					System.out.println(scrobbles);
 				return Integer.parseInt(scrobbles);
 		}
 		return 0;
 	}
 
 	public static int getScrobblesToday(String username) {
+		if(Reference.isVerbose())
+			System.out.println("--getScrobblesToday");
+		
 		String url = URLBuilder.getTodayScrobbles(username);
 		Document doc = Network.getResponse(url);
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
@@ -51,23 +63,32 @@ public class Getter {
 			NamedNodeMap var = node.getAttributes();
 			// System.out.println(var.getNamedItem("total").getNodeValue());
 			// if (scrobbles != null)
+			if(Reference.isVerbose())
+				System.out.println(var.getNamedItem("total").getNodeValue());
 			return Integer.parseInt(var.getNamedItem("total").getNodeValue());
 		}
 		return 0;
 	}
 
 	public static FMObjList getUserTag(String username, String tag) {
+		if(Reference.isVerbose())
+			System.out.println("--getUserTag");
+		
 		String url = URLBuilder.getUserPersonalTags(username, tag);
 		Document doc = Network.getResponse(url);
 
 		if (doc != null) {
 			int pages = Integer.valueOf(
 					doc.getFirstChild().getFirstChild().getAttributes().getNamedItem("totalPages").getNodeValue());
+			if(Reference.isVerbose())
+				System.out.println("pages: " + pages);
 
 			FMObjList list = Parser.parseUserTagList(doc);
 			list.setGroupName(tag);
 			
-//			System.out.println(pages);
+			if(Reference.isVerbose())
+				System.out.println("name: " + tag);
+
 			if (pages > 1) {
 				int counter;
 				for (counter = 2; counter <= pages; counter++) {
@@ -80,6 +101,7 @@ public class Getter {
 					}
 				}
 			}
+			
 			return list;
 		}
 		
@@ -104,6 +126,9 @@ public class Getter {
 //			return list;
 //		}
 		
+		if(Reference.isVerbose())
+			System.out.println("--getArtistTracks");
+		
 		FMObjList totalList = new FMObjList();
 		FMObjList list = new FMObjList();
 		
@@ -125,6 +150,9 @@ public class Getter {
 	}
 
 	public static ArrayList<Tag> getUserTags(String username) {
+		if(Reference.isVerbose())
+			System.out.println("--getUserTags");
+		
 		String url = URLBuilder.getUserTopTags(username);
 		Document doc = Network.getResponse(url);
 		if (doc != null) {

@@ -78,7 +78,7 @@ public class Artist extends FMObj {
 	}
 
 	public String toString() {
-		return name;
+		return "Artist: " + name;
 	}
 	
 	@Override

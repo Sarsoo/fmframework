@@ -29,6 +29,9 @@ import sarsoo.fmframework.util.Reference;
 public class Parser {
 
 	public static Album parseAlbum(Document doc) {
+		if(Reference.isVerbose())
+			System.out.println("-parseAlbum");
+		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = doc.getElementsByTagName("name").item(0).getTextContent();
 			String artist = doc.getElementsByTagName("artist").item(0).getTextContent();
@@ -58,7 +61,6 @@ public class Parser {
 				NodeList wikiContents = wikiNode.getChildNodes();
 
 				String date = null;
-				// String summary = null;
 				String content = null;
 
 				int counter;
@@ -67,36 +69,35 @@ public class Parser {
 					node = wikiContents.item(counter);
 
 					if (node.getNodeName().equals("published")) {
-						// System.out.println(node.getNodeName() + node.getTextContent());
 						date = node.getTextContent();
 					}
-					// if (node.getNodeName().equals("summary")) {
-					// System.out.println(node.getNodeName() + node.getTextContent());
-					// summary = node.getTextContent();
-					// }
 					if (node.getNodeName().equals("content")) {
-						// System.out.println(node.getNodeName() + node.getTextContent());
 						content = node.getTextContent();
 					}
 				}
 
 				if (date != null && content != null)
-					// System.out.println("wiki init");
 					wiki = new Wiki(date, null, content);
 			}
 
 			Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
-
+			
+			if(Reference.isVerbose())
+				System.out.println(album);
+			
 			return album;
 		}
 		return null;
 	}
 
 	public static Artist parseArtist(Document doc) {
+		if(Reference.isVerbose())
+			System.out.println("-parseArtist");
+		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = doc.getElementsByTagName("name").item(0).getTextContent();
 			String mbid = null;
-
+			
 			NodeList mbidNodeList = doc.getElementsByTagName("mbid");
 			if (mbidNodeList.item(0) != null) {
 				mbid = doc.getElementsByTagName("mbid").item(0).getTextContent();
@@ -167,12 +168,19 @@ public class Parser {
 			}
 
 			Artist artist = new Artist(name, url, mbid, listeners, playCount, userPlayCount, wiki);
+			
+			if(Reference.isVerbose())
+				System.out.println(artist);
+			
 			return artist;
 		}
 		return null;
 	}
 
 	public static Track parseTrack(Document doc) {
+		if(Reference.isVerbose())
+			System.out.println("-parseTrack");
+		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = " ";
 			try {
@@ -246,6 +254,10 @@ public class Parser {
 			}
 
 			Track track = new Track(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
+			
+			if(Reference.isVerbose())
+				System.out.println(track);
+			
 			return track;
 		} else {
 			return null;
@@ -254,6 +266,8 @@ public class Parser {
 	}
 
 	public static Track parseLastTrack(Document doc) {
+		if(Reference.isVerbose())
+			System.out.println("-parseLastTrack");
 
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = doc.getElementsByTagName("name").item(0).getTextContent();
@@ -267,7 +281,10 @@ public class Parser {
 			Album album = Album.getAlbum(albumName, artistName, Reference.getUserName());
 
 			track.setAlbum(album);
-
+			
+			if(Reference.isVerbose())
+				System.out.println(track);
+			
 			return track;
 		}
 
@@ -276,6 +293,9 @@ public class Parser {
 	}
 
 	public static ArrayList<Tag> parseUserTags(Document doc) {
+		if(Reference.isVerbose())
+			System.out.println("-parseUserTags");
+		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			NodeList objList = doc.getElementsByTagName("tag");
 
@@ -297,6 +317,9 @@ public class Parser {
 				// System.out.println(obj.getTextContent());
 
 				Tag tag = new Tag(name, url);
+				
+				if(Reference.isVerbose())
+					System.out.println(tag);
 
 				// System.out.println(name + " " + url);
 				list.add(tag);
@@ -308,6 +331,9 @@ public class Parser {
 	}
 
 	public static FMObjList parseUserTagList(Document doc) {
+		if(Reference.isVerbose())
+			System.out.println("-parseUserTagList");
+		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			NodeList objList = doc.getElementsByTagName("artist");
 
@@ -328,6 +354,9 @@ public class Parser {
 				// System.out.println(name + ".");
 				// System.out.println(obj.getTextContent());
 				Artist artist = Artist.getArtist(name, Reference.getUserName());
+				
+				if(Reference.isVerbose())
+					System.out.println(artist);
 
 				// System.out.println(artist);
 				list.add(artist);
@@ -339,6 +368,9 @@ public class Parser {
 	}
 
 	public static FMObjList parseArtistTracks(Document doc) {
+		if(Reference.isVerbose())
+			System.out.println("-parseArtistTracks");
+		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			NodeList objList = doc.getElementsByTagName("track");
 
@@ -366,7 +398,10 @@ public class Parser {
 //				System.out.println(counter);
 				// System.out.println(artist);
 				Track track = Track.getTrack(name, artist, Reference.getUserName());
-
+				
+				if(Reference.isVerbose())
+					System.out.println(track);
+				
 				list.add(track);
 			}
 			return list;

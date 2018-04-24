@@ -91,7 +91,9 @@ public class Track extends FMObj {
 	}
 
 	public String toString() {
-		return name + " - " + artist.getName();
+		if(album != null)
+			return "Track: " + name + " - " + album.getName()  + " - " + artist.getName();
+		return "Track: " + name + " - " + artist.getName();
 
 	}
 	
