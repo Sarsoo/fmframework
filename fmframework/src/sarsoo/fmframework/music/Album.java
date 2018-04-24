@@ -79,7 +79,7 @@ public class Album extends FMObj {
 			return false;
 
 		Album album = (Album) obj;
-		if (getName().equals(album.getName()))
+		if (getName().equalsIgnoreCase(album.getName()))
 			if (getArtist().equals(album.getArtist()))
 				return true;
 

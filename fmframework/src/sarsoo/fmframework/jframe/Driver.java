@@ -1,8 +1,7 @@
-package sarsoo.fmframework.drive;
+package sarsoo.fmframework.jframe;
 
 import javax.swing.JOptionPane;
 
-import sarsoo.fmframework.jframe.MainMenu;
 import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
 

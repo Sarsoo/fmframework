@@ -77,7 +77,7 @@ public class Track extends FMObj {
 			return false;
 
 		Track track = (Track) obj;
-		if (getName().equals(track.getName()))
+		if (getName().equalsIgnoreCase(track.getName()))
 			if (getArtist().equals(track.getArtist()))
 				return true;
 
