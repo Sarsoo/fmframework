@@ -12,7 +12,7 @@ import sarsoo.fmframework.util.Reference;
 
 public class FmFramework extends Application {
 	
-	private Stage stage;
+	private static Stage stage;
 	private Scene rootScene;
 	
 	private static ControllerMain control;
@@ -54,4 +54,7 @@ public class FmFramework extends Application {
 		return control;
 	}
 
+	public static Stage getStage() {
+		return stage;
+	}
 }

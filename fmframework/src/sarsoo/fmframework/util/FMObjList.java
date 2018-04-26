@@ -1,5 +1,6 @@
 package sarsoo.fmframework.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import sarsoo.fmframework.jframe.FMObjListView;
@@ -8,7 +9,9 @@ import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
 
-public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>{
+public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>, Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private String groupName = null;
 

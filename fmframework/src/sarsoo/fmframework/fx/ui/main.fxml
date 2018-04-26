@@ -10,6 +10,12 @@
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
         <menus>
+            <Menu fx:id="menuFile" mnemonicParsing="false" text="file">
+              <items>
+                  <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="new list" />
+                  <MenuItem fx:id="menuItemListEdit" mnemonicParsing="false" onAction="#handleListEdit" text="open list" />
+              </items>
+            </Menu>
           <Menu fx:id="menuLookup" mnemonicParsing="false" text="lookup">
             <items>
               <MenuItem fx:id="menuItemTrack" mnemonicParsing="false" onAction="#handleLookupTrack" text="track" />
@@ -22,7 +28,6 @@
               <items>
                 <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
                   <MenuItem fx:id="menuItemCurrentTrack" mnemonicParsing="false" onAction="#handleCurrentTrack" text="current track" />
-                  <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="create list" />
                   <MenuItem fx:id="menuItemOpenConsole" mnemonicParsing="false" onAction="#handleOpenConsole" text="open console" />
               </items>
             </Menu>
@@ -84,6 +89,27 @@
                                           </AnchorPane>
                                     </content>
                                   </TitledPane>
+                                    <TitledPane animated="false" text="rock">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <GridPane prefHeight="240.0" prefWidth="569.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <PieChart fx:id="pieChartRockTotal" prefHeight="274.0" prefWidth="220.0" styleClass="pieChart" stylesheets="@../styles/mainPane.css" title="total" GridPane.rowIndex="1" />
+                                                      <PieChart fx:id="pieChartRock" styleClass="pieChart" stylesheets="@../styles/mainPane.css" title="rock" />
+                                                   </children>
+                                                   <columnConstraints>
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
+                                                </GridPane>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </TitledPane>
                                 </panes>
                               </Accordion>
                            </center>

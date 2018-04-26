@@ -1,5 +1,6 @@
 package sarsoo.fmframework.fx.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Collections;
@@ -14,9 +15,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import sarsoo.fmframework.file.ListPersister;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FmFramework;
+import sarsoo.fmframework.fx.TrackTab;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
@@ -28,7 +31,7 @@ import sarsoo.fmframework.util.Reference;
 import javafx.scene.layout.*;
 import javafx.scene.chart.*;
 import javafx.scene.chart.PieChart.Data;
-
+import javafx.stage.FileChooser;
 public class FMObjListPaneEditController {
 
 	@FXML
@@ -47,6 +50,10 @@ public class FMObjListPaneEditController {
 	private PieChart pieChartArtists;
 
 	private FMObjList list = new FMObjList();
+
+	public void setList(FMObjList list) {
+		this.list = list;
+	}
 
 	// public void populate(FMObjList list) {
 	// this.list = list;
@@ -128,8 +135,15 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleRefresh(ActionEvent event) {
-
+		updateList();
 		refresh();
+	}
+
+	public void updateList() {
+		int counter;
+		for (counter = 0; counter < list.size(); counter++) {
+			list.get(counter).refresh();
+		}
 	}
 
 	public void refresh() {
@@ -159,7 +173,14 @@ public class FMObjListPaneEditController {
 				public void handle(Event event) {
 
 					try {
-						FmFramework.getController().addTab(new ArtistTab((Artist) obj));
+
+						if (obj.getClass() == Artist.class) {
+							FmFramework.getController().addTab(new ArtistTab((Artist) obj));
+						} else if (obj.getClass() == Album.class) {
+							FmFramework.getController().addTab(new AlbumTab((Album) obj));
+						} else if (obj.getClass() == Track.class) {
+							FmFramework.getController().addTab(new TrackTab((Track) obj));
+						}
 					} catch (IOException e) {
 
 						e.printStackTrace();
@@ -172,17 +193,42 @@ public class FMObjListPaneEditController {
 			Label userScrobbles = new Label(numberFormat.format(obj.getUserPlayCount()));
 			Label totalScrobbles = new Label(numberFormat.format(obj.getPlayCount()));
 
+			Button delete = new Button("delete");
+			delete.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+
+				@Override
+				public void handle(Event event) {
+
+					list.remove(obj);
+					refresh();
+
+				}
+
+			});
+
 			gridPaneFMObjs.add(name, 0, counter);
 			gridPaneFMObjs.add(userScrobbles, 1, counter);
 			gridPaneFMObjs.add(totalScrobbles, 2, counter);
+			gridPaneFMObjs.add(delete, 3, counter);
 
 		}
 
-		ObservableList<PieChart.Data> pieChartData = FXCollections
-				.observableArrayList(new PieChart.Data("list", list.getTotalUserScrobbles()), new PieChart.Data("other",
-						Getter.getScrobbles(Reference.getUserName()) - list.getTotalUserScrobbles()));
+		int other = Getter.getScrobbles(Reference.getUserName()) - list.getTotalUserScrobbles();
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+				new PieChart.Data(String.format("%d%%", (int) list.getTotalUserScrobbles() * 100 / other),
+						list.getTotalUserScrobbles()),
+				new PieChart.Data("other", other));
 		pieChart.setData(pieChartData);
 
+		ObservableList<PieChart.Data> pieChartArtistsData = FXCollections.observableArrayList();
+		
+		for (counter = 0; counter < list.size(); counter++) {
+			
+			PieChart.Data data = new PieChart.Data(list.get(counter).getName(), list.get(counter).getUserPlayCount());
+			pieChartArtistsData.add(data);
+		}
+		
+		pieChartArtists.setData(pieChartArtistsData);
 	}
 
 	@FXML
@@ -196,24 +242,21 @@ public class FMObjListPaneEditController {
 	protected void handleAddTrack(ActionEvent event) {
 
 		String name = textTrack.getText();
-		System.out.println(name + ".");
 		String album = textAlbum.getText();
-		System.out.println(album + ".");
 		String artist = textArtist.getText();
-		System.out.println(artist + ".");
-		System.out.println("Click");
-		
+
 		if ((name != null) && (artist != null)) {
-			System.out.println("not null");
 			Track track = Track.getTrack(name, artist, Reference.getUserName());
-			System.out.println("track created");
 			if (album != null) {
 				Album albumObj = Album.getAlbum(album, artist, Reference.getUserName());
-				System.out.println("album created");
 				track.setAlbum(albumObj);
-				System.out.println("no album");
+				
+				textAlbum.setText(null);
 			}
 			
+			textTrack.setText(null);
+			textArtist.setText(null);
+
 			list.add(track);
 		}
 
@@ -221,4 +264,55 @@ public class FMObjListPaneEditController {
 
 	}
 
+	@FXML
+	protected void handleAddAlbum(ActionEvent event) {
+
+		String album = textAlbum.getText();
+		String artist = textArtist.getText();
+
+		if ((album != null) && (artist != null)) {
+			Album albumObj = Album.getAlbum(album, artist, Reference.getUserName());
+
+			list.add(albumObj);
+			textAlbum.setText(null);
+			textArtist.setText(null);
+		}
+
+		refresh();
+
+	}
+
+	@FXML
+	protected void handleAddArtist(ActionEvent event) {
+
+		String artist = textArtist.getText();
+
+		if (artist != null) {
+
+			Artist artistObj = Artist.getArtist(artist, Reference.getUserName());
+
+			list.add(artistObj);
+			
+			textArtist.setText(null);
+		}
+
+		refresh();
+
+	}
+	
+	@FXML
+	protected void handleSave(ActionEvent event) {
+
+		FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("save fm list");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("FMObjList", "*.fmlist"));
+        File file = fileChooser.showSaveDialog(FmFramework.getStage());
+
+        if(file != null) {
+        	
+        	ListPersister persist = new ListPersister();
+        	persist.saveListToFile(file, list);
+        	
+        }
+	}
 }

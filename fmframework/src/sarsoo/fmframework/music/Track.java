@@ -1,5 +1,6 @@
 package sarsoo.fmframework.music;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.w3c.dom.Document;
@@ -11,7 +12,13 @@ import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.Parser;
 import sarsoo.fmframework.util.Reference;
 
-public class Track extends FMObj {
+public class Track extends FMObj implements Serializable{
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Album album;
 	protected Artist artist;
 	protected int trackNumber;
@@ -34,8 +41,8 @@ public class Track extends FMObj {
 	}
 
 	public static Track getTrack(String name, String artist, String username) {
-		System.out.println("Artist " + artist);
-		System.out.println("track " + name);
+//		System.out.println("Artist " + artist);
+//		System.out.println("track " + name);
 		String url = URLBuilder.getTrackInfoUrl(name, artist, username);
 		// TestCall.test(url);
 		Document response = Network.getResponse(url);

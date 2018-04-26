@@ -1,8 +1,15 @@
 package sarsoo.fmframework.music;
 
+import java.io.Serializable;
+
 import sarsoo.fmframework.jframe.WikiView;
 
-public class Wiki {
+public class Wiki implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String date;
 	private String summary;
 	private String content;

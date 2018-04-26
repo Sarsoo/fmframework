@@ -1,5 +1,6 @@
 package sarsoo.fmframework.music;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.w3c.dom.Document;
@@ -10,7 +11,9 @@ import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.Parser;
 import sarsoo.fmframework.util.Reference;
 
-public class Album extends FMObj {
+public class Album extends FMObj implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	protected Artist artist;
 	protected ArrayList<Tag> tagList;
 	// protected ArrayList<Track> trackList;

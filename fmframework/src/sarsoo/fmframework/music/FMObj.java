@@ -1,12 +1,18 @@
 package sarsoo.fmframework.music;
 
+import java.io.Serializable;
+
 import sarsoo.fmframework.jframe.FMObjView;
 import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 
-public abstract class FMObj implements Comparable<FMObj>{
+public abstract class FMObj implements Comparable<FMObj>, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected String url;
 	protected String mbid;

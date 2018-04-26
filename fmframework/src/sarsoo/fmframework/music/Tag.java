@@ -1,6 +1,9 @@
 package sarsoo.fmframework.music;
 
-public class Tag implements Comparable<Tag>{
+import java.io.Serializable;
+
+public class Tag implements Comparable<Tag>, Serializable{
+	
 	private String name;
 	private String url;
 	private int count;

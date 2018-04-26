@@ -16,7 +16,7 @@ import sarsoo.fmframework.parser.Parser;
 public class Getter {
 	public static Track getLastTrack() {
 		if(Reference.isVerbose())
-			Reference.getConsole().write("--getLastTrack");
+			Reference.getConsole().write(">>getLastTrack");
 		
 		String url = URLBuilder.getLastTrackUrl(Reference.getUserName());
 		// TestCall.test(url);
@@ -38,7 +38,7 @@ public class Getter {
 
 	public static int getScrobbles(String username) {
 		if(Reference.isVerbose())
-			Reference.getConsole().write("--getScrobbles");
+			Reference.getConsole().write(">>getScrobbles");
 		
 		String url = URLBuilder.getUserInfoUrl(username);
 		Document doc = Network.getResponse(url);
@@ -54,7 +54,7 @@ public class Getter {
 
 	public static int getScrobblesToday(String username) {
 		if(Reference.isVerbose())
-			Reference.getConsole().write("--getScrobblesToday");
+			Reference.getConsole().write(">>getScrobblesToday");
 		
 		String url = URLBuilder.getTodayScrobbles(username);
 		Document doc = Network.getResponse(url);
@@ -72,7 +72,7 @@ public class Getter {
 
 	public static FMObjList getUserTag(String username, String tag) {
 		if(Reference.isVerbose())
-			Reference.getConsole().write("--getUserTag");
+			Reference.getConsole().write(">>getUserTag");
 		
 		String url = URLBuilder.getUserPersonalTags(username, tag);
 		Document doc = Network.getResponse(url);
@@ -127,7 +127,7 @@ public class Getter {
 //		}
 		
 		if(Reference.isVerbose())
-			Reference.getConsole().write("--getArtistTracks");
+			Reference.getConsole().write(">>getArtistTracks");
 		
 		FMObjList totalList = new FMObjList();
 		FMObjList list = new FMObjList();
@@ -151,7 +151,7 @@ public class Getter {
 
 	public static ArrayList<Tag> getUserTags(String username) {
 		if(Reference.isVerbose())
-			Reference.getConsole().write("--getUserTags");
+			Reference.getConsole().write(">>getUserTags");
 		
 		String url = URLBuilder.getUserTopTags(username);
 		Document doc = Network.getResponse(url);

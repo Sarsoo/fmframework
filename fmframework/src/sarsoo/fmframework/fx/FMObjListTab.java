@@ -33,6 +33,8 @@ public class FMObjListTab extends Tab {
 		AnchorPane.setBottomAnchor(pane, 0.0);
 
 		setContent(pane);
+		
+		setText("list");
 
 		FMObjListPaneController control = (FMObjListPaneController) loader.getController();
 
@@ -42,26 +44,26 @@ public class FMObjListTab extends Tab {
 
 	}
 	
-	public FMObjListTab() throws IOException {
-
-		setText("List");
-
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FMObjListPaneEdit.fxml"));
-
-		AnchorPane pane = (AnchorPane) loader.load();
-
-		AnchorPane.setTopAnchor(pane, 0.0);
-		AnchorPane.setLeftAnchor(pane, 0.0);
-		AnchorPane.setRightAnchor(pane, 0.0);
-		AnchorPane.setBottomAnchor(pane, 0.0);
-		
-//		BorderPane
-
-		setContent(pane);
-
-		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();		
-		
-
-	}
+//	public FMObjListTab() throws IOException {
+//
+//		setText("List");
+//
+//		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FMObjListPaneEdit.fxml"));
+//
+//		AnchorPane pane = (AnchorPane) loader.load();
+//
+//		AnchorPane.setTopAnchor(pane, 0.0);
+//		AnchorPane.setLeftAnchor(pane, 0.0);
+//		AnchorPane.setRightAnchor(pane, 0.0);
+//		AnchorPane.setBottomAnchor(pane, 0.0);
+//		
+////		BorderPane
+//
+//		setContent(pane);
+//
+//		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();		
+//		
+//
+//	}
 
 }
