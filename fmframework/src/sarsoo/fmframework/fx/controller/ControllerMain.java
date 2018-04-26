@@ -18,6 +18,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.text.Text;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
+import sarsoo.fmframework.fx.ConsoleTab;
+import sarsoo.fmframework.fx.TextAreaConsole;
 import sarsoo.fmframework.fx.FMObjListTab;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.TrackTab;
@@ -50,6 +52,9 @@ public class ControllerMain {
 	@FXML
 		public void initialize() {
 			Reference.setUserName("sarsoo");
+			
+			Reference.setVerbose(TextAreaConsole.getInstance());
+			
 			refresh();	
 		}
 
@@ -186,9 +191,9 @@ public class ControllerMain {
 								- grime.getTotalUserScrobbles();
 	
 						ObservableList<PieChart.Data> rapData = FXCollections.observableArrayList(
-								new PieChart.Data("rap", rapTotal),
-								new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
-								new PieChart.Data("grime", grime.getTotalUserScrobbles()));
+								new PieChart.Data(String.format("rap %d%%", (int)rapTotal*100/rap.getTotalUserScrobbles()), rapTotal),
+								new PieChart.Data(String.format("classic rap %d%%", (int)classicRap.getTotalUserScrobbles()*100/rap.getTotalUserScrobbles()), classicRap.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("grime %d%%", (int)grime.getTotalUserScrobbles()*100/rap.getTotalUserScrobbles()), grime.getTotalUserScrobbles()));
 	
 						Collections.sort(rapData, new Comparator<PieChart.Data>() {
 	
@@ -201,9 +206,9 @@ public class ControllerMain {
 						int other = total - rap.getTotalUserScrobbles();
 	
 						ObservableList<PieChart.Data> rapTotalData = FXCollections.observableArrayList(
-								new PieChart.Data("rap", rapTotal),
-								new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
-								new PieChart.Data("grime", grime.getTotalUserScrobbles()));
+								new PieChart.Data(String.format("rap %d%%", (int)rapTotal*100/total), rapTotal),
+								new PieChart.Data(String.format("classic rap %d%%", (int)classicRap.getTotalUserScrobbles()*100/total), classicRap.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("grime %d%%", (int)grime.getTotalUserScrobbles()*100/total), grime.getTotalUserScrobbles()));
 	
 						Collections.sort(rapTotalData, new Comparator<PieChart.Data>() {
 	
@@ -213,31 +218,33 @@ public class ControllerMain {
 							}
 						});
 	
-						rapTotalData.add(new PieChart.Data("other", other));
+						rapTotalData.add(new PieChart.Data(String.format("other %d%%", (int)other*100/total), other));
 	
 						int totalOther = total - rap.getTotalUserScrobbles() - classicRock.getTotalUserScrobbles()
 								- popPunk.getTotalUserScrobbles() - electronic.getTotalUserScrobbles()
 								- metal.getTotalUserScrobbles() - indie.getTotalUserScrobbles()
 								- rock.getTotalUserScrobbles() - jazz.getTotalUserScrobbles()
 								- blues.getTotalUserScrobbles() - core.getTotalUserScrobbles()
-								- rnb.getTotalUserScrobbles();
+								- rnb.getTotalUserScrobbles() - soulFunk.getTotalUserScrobbles();
 	
 						ObservableList<PieChart.Data> genreData = FXCollections.observableArrayList(
-								new PieChart.Data(String.format("rap %.2f%%", rapTotal*100/total), rapTotal),
-								new PieChart.Data("classic rap", classicRap.getTotalUserScrobbles()),
-								new PieChart.Data("grime", grime.getTotalUserScrobbles()),
-	
-								new PieChart.Data("classic rock", classicRock.getTotalUserScrobbles()),
-								new PieChart.Data("pop punk", popPunk.getTotalUserScrobbles()),
-								new PieChart.Data("electronic", electronic.getTotalUserScrobbles()),
-								new PieChart.Data("metal", metal.getTotalUserScrobbles()),
-								new PieChart.Data("indie", indie.getTotalUserScrobbles()),
-								new PieChart.Data("rock", rock.getTotalUserScrobbles()),
-								new PieChart.Data("jazz", jazz.getTotalUserScrobbles()),
-								new PieChart.Data("blues", blues.getTotalUserScrobbles()),
-								new PieChart.Data("core", core.getTotalUserScrobbles()),
-								new PieChart.Data("soulfunk", soulFunk.getTotalUserScrobbles()),
-								new PieChart.Data("rnb", rnb.getTotalUserScrobbles()));
+								new PieChart.Data(String.format("rap %d%%", (int)rapTotal*100/total), rapTotal),
+								new PieChart.Data(String.format("classic rap %d%%", (int)classicRap.getTotalUserScrobbles()*100/total), classicRap.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("grime %d%%", (int)grime.getTotalUserScrobbles()*100/total), grime.getTotalUserScrobbles()),
+							
+								new PieChart.Data(String.format("classic rock %d%%", (int)classicRock.getTotalUserScrobbles()*100/total), classicRock.getTotalUserScrobbles())
+								,
+								new PieChart.Data(String.format("pop punk %d%%", (int)popPunk.getTotalUserScrobbles()*100/total), popPunk.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("electronic %d%%", (int)electronic.getTotalUserScrobbles()*100/total), electronic.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("metal %d%%", (int)metal.getTotalUserScrobbles()*100/total), metal.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("indie %d%%", (int)indie.getTotalUserScrobbles()*100/total), indie.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("rock %d%%", (int)rock.getTotalUserScrobbles()*100/total), rock.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("jazz %d%%", (int)jazz.getTotalUserScrobbles()*100/total), jazz.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("blues %d%%", (int)blues.getTotalUserScrobbles()*100/total), blues.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("core %d%%", (int)core.getTotalUserScrobbles()*100/total), core.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("soul/funk %d%%", (int)soulFunk.getTotalUserScrobbles()*100/total), soulFunk.getTotalUserScrobbles()),
+								new PieChart.Data(String.format("rnb %d%%", (int)rnb.getTotalUserScrobbles()*100/total), rnb.getTotalUserScrobbles())
+								);
 	
 						Collections.sort(genreData, new Comparator<PieChart.Data>() {
 	
@@ -248,7 +255,7 @@ public class ControllerMain {
 						});
 	
 	
-						genreData.add(new PieChart.Data("other", totalOther));
+						genreData.add(new PieChart.Data(String.format("other %d%%", (int)totalOther*100/total), totalOther));
 	
 						final CountDownLatch latch = new CountDownLatch(1);
 						Platform.runLater(new Runnable() {
@@ -473,6 +480,11 @@ public class ControllerMain {
 			Track track = sarsoo.fmframework.jframe.Getter.getTrack(album);
 	
 		}
+	}
+	
+	@FXML
+	protected void handleOpenConsole(ActionEvent event){		
+		addTab(new ConsoleTab());
 	}
 
 	private ArrayList<Tag> tags;

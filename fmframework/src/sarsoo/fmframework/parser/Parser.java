@@ -17,6 +17,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import sarsoo.fmframework.fx.TextAreaConsole;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
@@ -30,7 +31,7 @@ public class Parser {
 
 	public static Album parseAlbum(Document doc) {
 		if(Reference.isVerbose())
-			System.out.println("-parseAlbum");
+			Reference.getConsole().write("-parseAlbum");
 		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = doc.getElementsByTagName("name").item(0).getTextContent();
@@ -83,7 +84,7 @@ public class Parser {
 			Album album = new Album(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
 			
 			if(Reference.isVerbose())
-				System.out.println(album);
+				Reference.getConsole().write(album.toString());
 			
 			return album;
 		}
@@ -92,7 +93,7 @@ public class Parser {
 
 	public static Artist parseArtist(Document doc) {
 		if(Reference.isVerbose())
-			System.out.println("-parseArtist");
+			TextAreaConsole.getInstance().write("-parseArtist");
 		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = doc.getElementsByTagName("name").item(0).getTextContent();
@@ -170,7 +171,7 @@ public class Parser {
 			Artist artist = new Artist(name, url, mbid, listeners, playCount, userPlayCount, wiki);
 			
 			if(Reference.isVerbose())
-				System.out.println(artist);
+				Reference.getConsole().write(artist.toString());
 			
 			return artist;
 		}
@@ -179,7 +180,8 @@ public class Parser {
 
 	public static Track parseTrack(Document doc) {
 		if(Reference.isVerbose())
-			System.out.println("-parseTrack");
+//			System.out.println("-parseTrack");
+			TextAreaConsole.getInstance().write("-parseTrack");
 		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = " ";
@@ -256,7 +258,7 @@ public class Parser {
 			Track track = new Track(name, url, mbid, artistObj, listeners, playCount, userPlayCount, wiki);
 			
 			if(Reference.isVerbose())
-				System.out.println(track);
+				Reference.getConsole().write(track.toString());
 			
 			return track;
 		} else {
@@ -267,7 +269,8 @@ public class Parser {
 
 	public static Track parseLastTrack(Document doc) {
 		if(Reference.isVerbose())
-			System.out.println("-parseLastTrack");
+//			System.out.println("-parseLastTrack");
+			TextAreaConsole.getInstance().write("-parseLastTrack");
 
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			String name = doc.getElementsByTagName("name").item(0).getTextContent();
@@ -294,7 +297,7 @@ public class Parser {
 
 	public static ArrayList<Tag> parseUserTags(Document doc) {
 		if(Reference.isVerbose())
-			System.out.println("-parseUserTags");
+			Reference.getConsole().write("-parseUserTags");
 		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			NodeList objList = doc.getElementsByTagName("tag");
@@ -319,7 +322,7 @@ public class Parser {
 				Tag tag = new Tag(name, url);
 				
 				if(Reference.isVerbose())
-					System.out.println(tag);
+					Reference.getConsole().write(tag.toString());
 
 				// System.out.println(name + " " + url);
 				list.add(tag);
@@ -332,7 +335,8 @@ public class Parser {
 
 	public static FMObjList parseUserTagList(Document doc) {
 		if(Reference.isVerbose())
-			System.out.println("-parseUserTagList");
+			Reference.getConsole().write("-parseUserTagList");
+//			Console.getInstance().write("-parseUserTagList");
 		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			NodeList objList = doc.getElementsByTagName("artist");
@@ -356,7 +360,7 @@ public class Parser {
 				Artist artist = Artist.getArtist(name, Reference.getUserName());
 				
 				if(Reference.isVerbose())
-					System.out.println(artist);
+					Reference.getConsole().write(artist.toString());
 
 				// System.out.println(artist);
 				list.add(artist);
@@ -369,7 +373,7 @@ public class Parser {
 
 	public static FMObjList parseArtistTracks(Document doc) {
 		if(Reference.isVerbose())
-			System.out.println("-parseArtistTracks");
+			Reference.getConsole().write("-parseArtistTracks");
 		
 		if (doc.getDocumentElement().getAttribute("status").equals("ok")) {
 			NodeList objList = doc.getElementsByTagName("track");
@@ -400,7 +404,7 @@ public class Parser {
 				Track track = Track.getTrack(name, artist, Reference.getUserName());
 				
 				if(Reference.isVerbose())
-					System.out.println(track);
+					Reference.getConsole().write(track.toString());
 				
 				list.add(track);
 			}

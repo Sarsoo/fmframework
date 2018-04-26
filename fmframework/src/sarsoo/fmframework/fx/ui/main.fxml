@@ -23,6 +23,7 @@
                 <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
                   <MenuItem fx:id="menuItemCurrentTrack" mnemonicParsing="false" onAction="#handleCurrentTrack" text="current track" />
                   <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="create list" />
+                  <MenuItem fx:id="menuItemOpenConsole" mnemonicParsing="false" onAction="#handleOpenConsole" text="open console" />
               </items>
             </Menu>
         </menus>

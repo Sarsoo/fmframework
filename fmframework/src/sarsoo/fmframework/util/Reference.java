@@ -7,8 +7,10 @@ import sarsoo.fmframework.music.Artist;
 
 public class Reference {
 	private static String userName;
-	private static boolean isVerbose = true;
-	private static boolean isHeadless = true;
+	private static boolean isVerbose = false;
+	private static boolean isHeadless = false;
+	
+	private static Console console;
 
 	public static String getUserName() {
 		return userName;
@@ -24,6 +26,22 @@ public class Reference {
 
 	public static void setIsHeadless(boolean headlessIn) {
 		isHeadless = headlessIn;
+	}
+	
+	public static Console getConsole() {
+		return console;
+	}
+	
+	public static boolean isVerbose() {
+		return isVerbose;
+	}
+
+	public static void setVerbose(Console consoleIn) {
+		if(consoleIn == null)
+			isVerbose = false;
+		else 
+			isVerbose = true;
+		console = consoleIn;
 	}
 
 	private static ArrayList<FMObjList> groups = new ArrayList<FMObjList>();
@@ -136,13 +154,4 @@ public class Reference {
 
 		return emoTrio;
 	}
-
-	public static boolean isVerbose() {
-		return isVerbose;
-	}
-
-	public static void setVerbose(boolean isVerbose) {
-		Reference.isVerbose = isVerbose;
-	}
-
 }

@@ -16,7 +16,7 @@ import sarsoo.fmframework.parser.Parser;
 public class Getter {
 	public static Track getLastTrack() {
 		if(Reference.isVerbose())
-			System.out.println("--getLastTrack");
+			Reference.getConsole().write("--getLastTrack");
 		
 		String url = URLBuilder.getLastTrackUrl(Reference.getUserName());
 		// TestCall.test(url);
@@ -27,8 +27,8 @@ public class Getter {
 			// System.out.println(doc.getDocumentElement().getAttribute("status"));
 			Parser.stripSpace(doc.getDocumentElement());
 			Track track = Parser.parseLastTrack(doc);
-			if(Reference.isVerbose())
-				System.out.println(track);
+//			if(Reference.isVerbose())
+//				System.out.println(track);
 			// return null;
 			return track;
 		}
@@ -38,7 +38,7 @@ public class Getter {
 
 	public static int getScrobbles(String username) {
 		if(Reference.isVerbose())
-			System.out.println("--getScrobbles");
+			Reference.getConsole().write("--getScrobbles");
 		
 		String url = URLBuilder.getUserInfoUrl(username);
 		Document doc = Network.getResponse(url);
@@ -46,7 +46,7 @@ public class Getter {
 			String scrobbles = doc.getElementsByTagName("playcount").item(0).getTextContent();
 			if (scrobbles != null)
 				if(Reference.isVerbose())
-					System.out.println(scrobbles);
+					Reference.getConsole().write("total scrobbles: " + scrobbles);
 				return Integer.parseInt(scrobbles);
 		}
 		return 0;
@@ -54,7 +54,7 @@ public class Getter {
 
 	public static int getScrobblesToday(String username) {
 		if(Reference.isVerbose())
-			System.out.println("--getScrobblesToday");
+			Reference.getConsole().write("--getScrobblesToday");
 		
 		String url = URLBuilder.getTodayScrobbles(username);
 		Document doc = Network.getResponse(url);
@@ -64,7 +64,7 @@ public class Getter {
 			// System.out.println(var.getNamedItem("total").getNodeValue());
 			// if (scrobbles != null)
 			if(Reference.isVerbose())
-				System.out.println(var.getNamedItem("total").getNodeValue());
+				Reference.getConsole().write("scrobbles today: " + var.getNamedItem("total").getNodeValue());
 			return Integer.parseInt(var.getNamedItem("total").getNodeValue());
 		}
 		return 0;
@@ -72,7 +72,7 @@ public class Getter {
 
 	public static FMObjList getUserTag(String username, String tag) {
 		if(Reference.isVerbose())
-			System.out.println("--getUserTag");
+			Reference.getConsole().write("--getUserTag");
 		
 		String url = URLBuilder.getUserPersonalTags(username, tag);
 		Document doc = Network.getResponse(url);
@@ -81,13 +81,13 @@ public class Getter {
 			int pages = Integer.valueOf(
 					doc.getFirstChild().getFirstChild().getAttributes().getNamedItem("totalPages").getNodeValue());
 			if(Reference.isVerbose())
-				System.out.println("pages: " + pages);
+				Reference.getConsole().write("tag pages: " + pages);
 
 			FMObjList list = Parser.parseUserTagList(doc);
 			list.setGroupName(tag);
 			
 			if(Reference.isVerbose())
-				System.out.println("name: " + tag);
+				Reference.getConsole().write("tag: " + tag);
 
 			if (pages > 1) {
 				int counter;
@@ -127,7 +127,7 @@ public class Getter {
 //		}
 		
 		if(Reference.isVerbose())
-			System.out.println("--getArtistTracks");
+			Reference.getConsole().write("--getArtistTracks");
 		
 		FMObjList totalList = new FMObjList();
 		FMObjList list = new FMObjList();
@@ -151,7 +151,7 @@ public class Getter {
 
 	public static ArrayList<Tag> getUserTags(String username) {
 		if(Reference.isVerbose())
-			System.out.println("--getUserTags");
+			Reference.getConsole().write("--getUserTags");
 		
 		String url = URLBuilder.getUserTopTags(username);
 		Document doc = Network.getResponse(url);
