@@ -55,7 +55,7 @@ public class ControllerMain {
 
 	@FXML
 	public void initialize() {
-		Reference.setUserName("sarsoo");
+//		Reference.setUserName("sarsoo");
 
 		Reference.setVerbose(TextAreaConsole.getInstance());
 
@@ -442,6 +442,50 @@ public class ControllerMain {
 		if (event.getCode() == KeyCode.F5) {
 			refresh();
 		}
+	}
+	
+	@FXML
+	protected void handleChangeUsername(ActionEvent event) throws IOException {
+//		System.out.println("USERNAME");
+//		String username = JOptionPane.showInputDialog("enter username:");
+//		if(username != null) {
+//			Reference.setUserName(username);
+//		}
+//		refresh();
+		
+		Service<Void> service = new Service<Void>() {
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+					@Override
+					protected Void call() throws Exception {
+
+						System.out.println("USERNAME");
+						String username = JOptionPane.showInputDialog("enter username:");
+						if(username != null) {
+							Reference.setUserName(username);
+
+
+							final CountDownLatch latch = new CountDownLatch(1);
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									try {
+										refresh();
+									} finally {
+										latch.countDown();
+									}
+								}
+							});
+							latch.await();
+						}
+						// Keep with the background work
+						return null;
+					}
+				};
+			}
+		};
+		service.start();
 	}
 
 	@FXML

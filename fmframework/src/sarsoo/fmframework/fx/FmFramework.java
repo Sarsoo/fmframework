@@ -20,6 +20,7 @@ public class FmFramework extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
+		Reference.setUserName("sarsoo");
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/main.fxml"));
 		
@@ -30,12 +31,13 @@ public class FmFramework extends Application {
 		
 		rootScene = scene;
 //		scene.getStylesheets().add("styles/style.css");
-
+		
+		
 		control = (ControllerMain)loader.getController();
 //		(new Thread(new TagCaller())).start();
 		stage.setMinHeight(800);
 		stage.setMinWidth(960);
-		stage.setTitle("fm framework");
+		stage.setTitle("fmframework");
 		stage.setScene(scene);
 		stage.show();
 

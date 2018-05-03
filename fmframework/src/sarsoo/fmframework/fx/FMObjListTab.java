@@ -34,7 +34,7 @@ public class FMObjListTab extends Tab {
 
 		setContent(pane);
 		
-		setText("list");
+		setText(list.getGroupName());
 
 		FMObjListPaneController control = (FMObjListPaneController) loader.getController();
 
