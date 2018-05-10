@@ -9,7 +9,7 @@ import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
 
-public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>, Serializable{
+public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,57 +25,49 @@ public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>
 	}
 
 	public int getTotalUserScrobbles() {
-		int counter;
-		int totalScrobbles = 0;
-		for (counter = 0; counter < size(); counter++) {
-			FMObj obj = get(counter);
 
-			if (obj.getClass() == Artist.class)
-				totalScrobbles += obj.getUserPlayCount();
-			
-			else if (obj.getClass() == Track.class) {
-				Track track = (Track) obj;
-				
-				Artist artist = track.getArtist();
-				
-				boolean found = false;
-				int counter2;
-				for (counter2 = 0; counter2 < size(); counter2++) {
-					if (artist.equals(get(counter2))) {
-						found = true;
-						break;
+		int totalScrobbles = stream().filter(t -> t.getClass() == Artist.class).mapToInt(FMObj::getUserPlayCount).sum();
+
+		totalScrobbles += stream().filter(t -> {
+			if (t.getClass() == Album.class) {
+
+				Album album = (Album) t;
+
+				if (contains(album.getArtist())) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		}).mapToInt(FMObj::getUserPlayCount).sum();
+
+		totalScrobbles += stream().filter(t -> {
+			if (t.getClass() == Track.class) {
+
+				Track track = (Track) t;
+
+				if (contains(track.getArtist())) {
+					return false;
+				} else {
+
+					if (track.getAlbum() != null) {
+						if (contains(track.getAlbum())) {
+							return false;
+						} else {
+							return true;
+						}
+					} else {
+						return true;
 					}
 				}
-				if (!found) {
-					totalScrobbles += obj.getUserPlayCount();
-				}
-				
-//				if (!super.contains(track.getArtist())) {
-//					Album album = track.getAlbum();
-//					if (album != null) {
-//						if (!super.contains(album))
-//							totalScrobbles += obj.getUserPlayCount();
-//					}
-//				}
-			}
-			else if (obj.getClass() == Album.class) {
-				Album album = (Album) obj;
 
-				Artist artist = album.getArtist();
-
-				boolean found = false;
-				int counter2;
-				for (counter2 = 0; counter2 < size(); counter2++) {
-					if (artist.equals(get(counter2))) {
-						found = true;
-						break;
-					}
-				}
-				if (!found) {
-					totalScrobbles += obj.getUserPlayCount();
-				}
+			} else {
+				return false;
 			}
-		}
+		}).mapToInt(FMObj::getUserPlayCount).sum();
+
 		return totalScrobbles;
 	}
 
@@ -106,12 +98,12 @@ public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>
 	public int compareTo(FMObjList list) {
 		return getTotalUserScrobbles() - list.getTotalUserScrobbles();
 	}
-	
+
 	public void refresh() {
 		int counter;
-		for(counter = 0; counter < size(); counter++) {
+		for (counter = 0; counter < size(); counter++) {
 			get(counter).refresh();
 		}
-		
+
 	}
 }
