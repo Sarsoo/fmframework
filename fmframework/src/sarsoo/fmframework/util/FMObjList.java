@@ -100,10 +100,6 @@ public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>
 	}
 
 	public void refresh() {
-		int counter;
-		for (counter = 0; counter < size(); counter++) {
-			get(counter).refresh();
-		}
-
+		stream().forEach(FMObj::refresh);
 	}
 }

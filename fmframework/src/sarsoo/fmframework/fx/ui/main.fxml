@@ -50,7 +50,7 @@
       </VBox>
    </bottom>
    <center>
-      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" side="LEFT" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" BorderPane.alignment="CENTER">
          <tabs>
             <Tab fx:id="tabHome" closable="false" text="home">
               <content>
