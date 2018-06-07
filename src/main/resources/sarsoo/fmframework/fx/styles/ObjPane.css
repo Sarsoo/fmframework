@@ -1,0 +1,29 @@
+.titleLabel{
+	
+	-fx-font-size: 600%;
+	-fx-font-weight: bolder;
+
+}
+
+.subLabel{
+	
+	-fx-font-size: 300%;
+	-fx-font-weight: bold;
+}
+
+.normalLabel{
+	
+	-fx-font-size: 200%;
+	
+}
+
+.wikiTextArea{
+
+
+}
+
+.stats{
+
+
+
+}
