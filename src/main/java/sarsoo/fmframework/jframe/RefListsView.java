@@ -3,12 +3,8 @@ package sarsoo.fmframework.jframe;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
 
 public class RefListsView extends JFrame {

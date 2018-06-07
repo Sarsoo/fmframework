@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
 
 import javafx.collections.FXCollections;
@@ -30,7 +29,6 @@ import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.layout.*;
 import javafx.scene.chart.*;
-import javafx.scene.chart.PieChart.Data;
 import javafx.stage.FileChooser;
 public class FMObjListPaneEditController {
 

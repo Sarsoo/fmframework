@@ -1,7 +1,6 @@
 package sarsoo.fmframework.fx;
 
 import javafx.scene.control.Tab;
-import javafx.scene.layout.AnchorPane;
 
 public class ConsoleTab extends Tab{
 	

@@ -1,20 +1,10 @@
 package sarsoo.fmframework.fx;
 
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.util.Collections;
-import java.util.Locale;
-
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import sarsoo.fmframework.fx.controller.FMObjListPaneController;
 import sarsoo.fmframework.fx.controller.FMObjListPaneEditController;
-import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.Maths;
-import sarsoo.fmframework.util.Reference;
-
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
 public class FMObjListEditTab extends Tab {

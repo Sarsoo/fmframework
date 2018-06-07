@@ -24,7 +24,6 @@ import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 

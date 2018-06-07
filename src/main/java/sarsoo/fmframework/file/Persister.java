@@ -8,8 +8,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import sarsoo.fmframework.util.FMObjList;
-
 public class Persister<T> {
 	
 	public void saveToFile(File file, T obj) {

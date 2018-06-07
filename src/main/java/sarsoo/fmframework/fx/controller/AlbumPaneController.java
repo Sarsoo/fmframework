@@ -2,31 +2,18 @@ package sarsoo.fmframework.fx.controller;
 
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Locale;
-
-import javax.swing.JOptionPane;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.text.Text;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Wiki;
 import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.chart.*;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 
 public class AlbumPaneController {
 

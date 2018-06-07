@@ -1,8 +1,5 @@
 package sarsoo.fmframework.jframe;
 
-import javax.swing.JOptionPane;
-
-import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
 
 public class Driver {

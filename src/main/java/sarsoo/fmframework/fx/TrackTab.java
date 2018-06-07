@@ -4,9 +4,7 @@ import java.io.IOException;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import sarsoo.fmframework.fx.controller.AlbumPaneController;
 import sarsoo.fmframework.fx.controller.TrackPaneController;
-import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Track;
 import javafx.fxml.FXMLLoader;
 

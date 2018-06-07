@@ -23,7 +23,6 @@ import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.music.Wiki;
-import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Reference;
 

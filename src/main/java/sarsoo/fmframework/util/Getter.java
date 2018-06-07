@@ -9,10 +9,10 @@ import org.w3c.dom.Node;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.net.TestCall;
 import sarsoo.fmframework.net.URLBuilder;
 import sarsoo.fmframework.parser.Parser;
 
+@Deprecated
 public class Getter {
 	public static Track getLastTrack() {
 		if(Reference.isVerbose())

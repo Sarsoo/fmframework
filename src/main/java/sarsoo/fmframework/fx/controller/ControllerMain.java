@@ -12,11 +12,8 @@ import java.util.concurrent.CountDownLatch;
 import javax.swing.JOptionPane;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import sarsoo.fmframework.file.ListPersister;
 import sarsoo.fmframework.fx.AlbumTab;
@@ -35,21 +32,16 @@ import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.chart.*;
 import javafx.scene.chart.PieChart.Data;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.Parent;
-
 import javafx.scene.layout.*;
 
 import javafx.concurrent.*;
 import javafx.application.Platform;
-import javafx.scene.paint.Color;
 
 public class ControllerMain {
 
