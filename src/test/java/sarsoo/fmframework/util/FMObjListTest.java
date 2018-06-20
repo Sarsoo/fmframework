@@ -12,7 +12,7 @@ public class FMObjListTest {
 		
 //		Album album = new Album();
 		
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 }

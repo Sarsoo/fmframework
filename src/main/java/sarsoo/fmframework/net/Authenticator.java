@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Deprecated
 public class Authenticator {
 	public String write() {
 		URL url;

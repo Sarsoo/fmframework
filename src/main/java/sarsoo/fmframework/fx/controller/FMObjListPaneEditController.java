@@ -27,7 +27,6 @@ import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.layout.*;
@@ -144,17 +143,21 @@ public class FMObjListPaneEditController {
 		
 		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
 		
+		FMObjList newList = new FMObjList();
 		int counter;
 		for (counter = 0; counter < list.size(); counter++) {
-			net.refresh(list.get(counter));
+			
+			newList.add(net.refresh(list.get(counter)));
 		}
+		
+		setList(newList);
 	}
 
 	public void refresh() {
 		double percent = Maths.getPercentListening(list, Reference.getUserName());
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
-		labelTotalScrobbles.setText("Σ " + list.getTotalUserScrobbles());
+		labelTotalScrobbles.setText("" + list.getTotalUserScrobbles());
 		labelPercent.setText(String.format("%.2f%%", percent));
 
 		Collections.sort(list);

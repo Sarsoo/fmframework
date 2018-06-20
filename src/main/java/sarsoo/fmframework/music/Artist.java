@@ -66,6 +66,7 @@ public class Artist extends FMObj implements Serializable{
 		return null;
 	}
 
+	@Deprecated
 	public static Artist getArtistByMbid(String mbid, String username) {
 		String url = URLBuilder.getArtistInfoMbidUrl(mbid, username);
 		Document response = Network.getResponse(url);

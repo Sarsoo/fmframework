@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 import sarsoo.fmframework.music.Track;
 
+@Deprecated
 public class URLBuilder {
 	
 	public enum FMObjType{

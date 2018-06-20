@@ -12,6 +12,7 @@ import sarsoo.fmframework.parser.Parser;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Reference;
 
+@Deprecated
 public class User {
 	
 	protected String userName;

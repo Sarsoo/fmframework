@@ -358,14 +358,23 @@ public class FmNetwork {
 	}
 
 	public Album refresh(Album album) {
+		if (ConsoleHandler.isVerbose())
+			ConsoleHandler.getConsole().write(">>refreshAlbum: " + album.getName() + " " + album.getArtist().getName());
+		
 		return getAlbum(album.getName(), album.getArtist().getName());
 	}
 	
 	public Artist refresh(Artist artist) {
+		if (ConsoleHandler.isVerbose())
+			ConsoleHandler.getConsole().write(">>refreshArtist: " + artist.getName());
+		
 		return getArtist(artist.getName());
 	}
 	
 	public Track refresh(Track track) {
+		if (ConsoleHandler.isVerbose())
+			ConsoleHandler.getConsole().write(">>refreshTrack: " + track.getName() + " " + track.getArtist().getName());
+		
 		Track refreshedTrack = getTrack(track.getName(), track.getArtist().getName());
 		
 		refreshedTrack.setAlbum(refresh(track.getAlbum()));
