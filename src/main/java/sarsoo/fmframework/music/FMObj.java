@@ -23,6 +23,11 @@ public abstract class FMObj implements Comparable<FMObj>, Serializable{
 	
 	protected Wiki wiki;
 	
+	public FMObj() {
+		
+	}
+	
+	@Deprecated
 	public FMObj(String name, String url, String mbid, int listeners, int playCount, int userPlayCount, Wiki wiki) {
 		this.name = name;
 		this.url = url;
@@ -33,8 +38,10 @@ public abstract class FMObj implements Comparable<FMObj>, Serializable{
 		this.wiki = wiki;
 	}
 	
+	@Deprecated
 	public abstract void refresh();
 	
+	@Deprecated
 	public void view() {
 		FMObjView view = new FMObjView(this);
 		view.setVisible(true);

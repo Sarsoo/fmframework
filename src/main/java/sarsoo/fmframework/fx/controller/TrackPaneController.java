@@ -6,11 +6,13 @@ import java.util.Locale;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import sarsoo.fmframework.fm.FmNetwork;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.music.Wiki;
+import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
@@ -115,7 +117,7 @@ public class TrackPaneController {
 	}
 
 	public void refresh() {
-		track.refresh();
+		track = new FmNetwork(Key.getKey(), Reference.getUserName()).refresh(track);
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 

@@ -16,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import sarsoo.fmframework.file.ListPersister;
+import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.ConsoleTab;
@@ -28,6 +29,8 @@ import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
+import sarsoo.fmframework.net.Key;
+import sarsoo.fmframework.util.ConsoleHandler;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
@@ -49,7 +52,7 @@ public class ControllerMain {
 	public void initialize() {
 //		Reference.setUserName("sarsoo");
 
-		Reference.setVerbose(TextAreaConsole.getInstance());
+		ConsoleHandler.setVerbose(TextAreaConsole.getInstance());
 
 		refresh();
 	}
@@ -63,11 +66,13 @@ public class ControllerMain {
 					@Override
 					protected Void call() throws Exception {
 						NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+						
+						FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 
-						String scrobblesToday = numberFormat.format(Getter.getScrobblesToday(Reference.getUserName()));
-						String scrobbles = numberFormat.format(Getter.getScrobbles(Reference.getUserName()));
+						String scrobblesToday = numberFormat.format(0);
+						String scrobbles = numberFormat.format(net.getUserScrobbleCount());
 
-						TrackTab tab = new TrackTab(Getter.getLastTrack());
+						TrackTab tab = new TrackTab(net.getLastTrack());
 
 						final CountDownLatch latch = new CountDownLatch(1);
 						Platform.runLater(new Runnable() {
@@ -599,7 +604,7 @@ public class ControllerMain {
 					@Override
 					protected Void call() throws Exception {
 
-						Track track = Getter.getLastTrack();
+						Track track = new FmUserNetwork(Key.getKey(), Reference.getUserName()).getLastTrack();
 
 						if (track != null) {
 							TrackTab tab = new TrackTab(track);

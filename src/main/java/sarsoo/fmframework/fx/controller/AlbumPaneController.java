@@ -6,10 +6,12 @@ import java.util.Locale;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import sarsoo.fmframework.fm.FmNetwork;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Wiki;
+import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
@@ -101,7 +103,7 @@ public class AlbumPaneController {
 	}
 	
 	public void refresh() {
-		album.refresh();
+		album = new FmNetwork(Key.getKey(), Reference.getUserName()).refresh(album);
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 

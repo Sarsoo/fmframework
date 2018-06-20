@@ -15,6 +15,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import sarsoo.fmframework.file.ListPersister;
+import sarsoo.fmframework.fm.FmNetwork;
+import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FmFramework;
@@ -23,6 +25,7 @@ import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
+import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
@@ -59,7 +62,7 @@ public class FMObjListPaneEditController {
 	// double percent = Maths.getPercentListening(list, Reference.getUserName());
 	// NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 	//
-	// labelTotalScrobbles.setText("Σ " + list.getTotalUserScrobbles());
+	// labelTotalScrobbles.setText("Î£ " + list.getTotalUserScrobbles());
 	// labelPercent.setText(String.format("%.2f%%", percent));
 	//
 	// Collections.sort(list);
@@ -138,9 +141,12 @@ public class FMObjListPaneEditController {
 	}
 
 	public void updateList() {
+		
+		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
+		
 		int counter;
 		for (counter = 0; counter < list.size(); counter++) {
-			list.get(counter).refresh();
+			net.refresh(list.get(counter));
 		}
 	}
 
@@ -152,6 +158,7 @@ public class FMObjListPaneEditController {
 		labelPercent.setText(String.format("%.2f%%", percent));
 
 		Collections.sort(list);
+		
 		Collections.reverse(list);
 
 		gridPaneFMObjs.getChildren().clear();
@@ -211,7 +218,7 @@ public class FMObjListPaneEditController {
 
 		}
 
-		int other = Getter.getScrobbles(Reference.getUserName()) - list.getTotalUserScrobbles();
+		int other = new FmUserNetwork(Key.getKey(), Reference.getUserName()).getUserScrobbleCount() - list.getTotalUserScrobbles();
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data(String.format("%d%%", (int) list.getTotalUserScrobbles() * 100 / other),
 						list.getTotalUserScrobbles()),
@@ -238,15 +245,17 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleAddTrack(ActionEvent event) {
+		
+		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
 
 		String name = textTrack.getText();
 		String album = textAlbum.getText();
 		String artist = textArtist.getText();
 
 		if ((name != null) && (artist != null)) {
-			Track track = Track.getTrack(name, artist, Reference.getUserName());
+			Track track = net.getTrack(name, artist);
 			if (album != null) {
-				Album albumObj = Album.getAlbum(album, artist, Reference.getUserName());
+				Album albumObj = net.getAlbum(album, artist);
 				track.setAlbum(albumObj);
 				
 				textAlbum.setText(null);
@@ -264,12 +273,13 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleAddAlbum(ActionEvent event) {
-
+		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
+		
 		String album = textAlbum.getText();
 		String artist = textArtist.getText();
 
 		if ((album != null) && (artist != null)) {
-			Album albumObj = Album.getAlbum(album, artist, Reference.getUserName());
+			Album albumObj = net.getAlbum(album, artist);
 
 			list.add(albumObj);
 			textAlbum.setText(null);
@@ -282,12 +292,13 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleAddArtist(ActionEvent event) {
-
+		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
+		
 		String artist = textArtist.getText();
 
 		if (artist != null) {
 
-			Artist artistObj = Artist.getArtist(artist, Reference.getUserName());
+			Artist artistObj = net.getArtist(artist);
 
 			list.add(artistObj);
 			

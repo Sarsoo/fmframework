@@ -5,7 +5,7 @@ import sarsoo.fmframework.music.Artist;
 
 import org.w3c.dom.Document;
  
-
+@Deprecated
 public class AlbumParser {
 	
 	public static Album parseAlbum(Document doc){
