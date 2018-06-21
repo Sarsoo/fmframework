@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 
 import sarsoo.fmframework.error.ApiCallException;
 
+@Deprecated
 public class Network {
 
 	public static Document getResponse(String urlString) {

@@ -14,6 +14,10 @@ apply plugin: 'eclipse'
 
 mainClassName = 'sarsoo.fmframework.fx.FmFramework'
 
+version = '0.1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -25,6 +29,9 @@ repositories {
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.25'
+    
+    compile 'com.mashape.unirest:unirest-java:1.4.9'
+    compile group: 'org.json', name: 'json', version: '20180130'
 
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
@@ -33,6 +40,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+/*
 jar {
 	manifest {
         attributes 'Implementation-Title': 'fmframework',
@@ -40,5 +48,17 @@ jar {
                    'Main-Class': 'sarsoo.fmframework.fx.FmFramework'
     }
     baseName = 'fmframework'
-    version =  '0.1.0'
+    version =  version
+}*/
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'fmframework',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'sarsoo.fmframework.fx.FmFramework'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }

@@ -6,10 +6,12 @@ import java.util.Locale;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import sarsoo.fmframework.fm.FmNetwork;
 import sarsoo.fmframework.fx.FMObjListTab;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Wiki;
+import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
@@ -104,7 +106,7 @@ public class ArtistPaneController {
 	}
 	
 	public void refresh() {
-		artist.refresh();
+		artist = new FmNetwork(Key.getKey(), Reference.getUserName()).refresh(artist);
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 

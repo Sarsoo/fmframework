@@ -26,6 +26,7 @@ import sarsoo.fmframework.music.Wiki;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Reference;
 
+@Deprecated
 public class Parser {
 
 	public static Album parseAlbum(Document doc) {

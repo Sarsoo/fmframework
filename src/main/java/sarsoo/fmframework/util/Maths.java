@@ -3,12 +3,15 @@ package sarsoo.fmframework.util;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.music.FMObj;
+import sarsoo.fmframework.net.Key;
 
 public class Maths {
 	public static double getPercentListening(FMObj obj, String username) {
 
-		int userScrobbles = Getter.getScrobbles(Reference.getUserName());
+		int userScrobbles = new FmUserNetwork(Key.getKey(), username).getUserScrobbleCount();
 		double plays = (double) obj.getUserPlayCount();
 		if (userScrobbles > 0 && plays > 0) {
 
@@ -24,7 +27,7 @@ public class Maths {
 
 	public static double getPercentListening(FMObjList objList, String username) {
 
-		int userScrobbles = Getter.getScrobbles(Reference.getUserName());
+		int userScrobbles = new FmUserNetwork(Key.getKey(), username).getUserScrobbleCount();
 		double plays = (double) objList.getTotalUserScrobbles();
 		if (userScrobbles > 0 && plays > 0) {
 

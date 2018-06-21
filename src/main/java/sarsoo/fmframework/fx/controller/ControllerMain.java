@@ -16,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import sarsoo.fmframework.file.ListPersister;
+import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.ConsoleTab;
@@ -28,8 +29,9 @@ import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
+import sarsoo.fmframework.net.Key;
+import sarsoo.fmframework.util.ConsoleHandler;
 import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.control.*;
 import javafx.scene.chart.*;
@@ -49,7 +51,7 @@ public class ControllerMain {
 	public void initialize() {
 //		Reference.setUserName("sarsoo");
 
-		Reference.setVerbose(TextAreaConsole.getInstance());
+		ConsoleHandler.setVerbose(TextAreaConsole.getInstance());
 
 		refresh();
 	}
@@ -63,11 +65,13 @@ public class ControllerMain {
 					@Override
 					protected Void call() throws Exception {
 						NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+						
+						FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 
-						String scrobblesToday = numberFormat.format(Getter.getScrobblesToday(Reference.getUserName()));
-						String scrobbles = numberFormat.format(Getter.getScrobbles(Reference.getUserName()));
+						String scrobblesToday = numberFormat.format(net.getScrobblesToday());
+						String scrobbles = numberFormat.format(net.getUserScrobbleCount());
 
-						TrackTab tab = new TrackTab(Getter.getLastTrack());
+						TrackTab tab = new TrackTab(net.getLastTrack());
 
 						final CountDownLatch latch = new CountDownLatch(1);
 						Platform.runLater(new Runnable() {
@@ -100,7 +104,9 @@ public class ControllerMain {
 	}
 
 	public void refreshTagMenu() {
-		tags = Getter.getUserTags(Reference.getUserName());
+		FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+		
+		tags = net.getTags();
 
 		Collections.sort(tags);
 
@@ -126,7 +132,7 @@ public class ControllerMain {
 								protected Void call() throws Exception {
 
 									FMObjListTab tab = new FMObjListTab(
-											Getter.getUserTag(Reference.getUserName(), name));
+											net.getTag(name));
 
 									final CountDownLatch latch = new CountDownLatch(1);
 									Platform.runLater(new Runnable() {
@@ -161,25 +167,27 @@ public class ControllerMain {
 				return new Task<Void>() {
 					@Override
 					protected Void call() throws Exception {
+						
+						FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 
-						int total = Getter.getScrobbles(Reference.getUserName());
+						int total = net.getUserScrobbleCount();
 
-						FMObjList rap = Getter.getUserTag(Reference.getUserName(), "rap");
-						FMObjList classicRap = Getter.getUserTag(Reference.getUserName(), "classic rap");
-						FMObjList grime = Getter.getUserTag(Reference.getUserName(), "grime");
+						FMObjList rap = net.getTag("rap");
+						FMObjList classicRap = net.getTag("classic rap");
+						FMObjList grime = net.getTag("grime");
 
-						FMObjList classicRock = Getter.getUserTag(Reference.getUserName(), "classic rock");
-						FMObjList popPunk = Getter.getUserTag(Reference.getUserName(), "pop punk");
-						FMObjList electronic = Getter.getUserTag(Reference.getUserName(), "electronic");
-						FMObjList metal = Getter.getUserTag(Reference.getUserName(), "metal");
-						FMObjList indie = Getter.getUserTag(Reference.getUserName(), "indie");
-						FMObjList rock = Getter.getUserTag(Reference.getUserName(), "rock");
-						FMObjList jazz = Getter.getUserTag(Reference.getUserName(), "jazz");
-						FMObjList blues = Getter.getUserTag(Reference.getUserName(), "blues");
-						FMObjList core = Getter.getUserTag(Reference.getUserName(), "core");
-						FMObjList rnb = Getter.getUserTag(Reference.getUserName(), "rnb");
-						FMObjList soulFunk = Getter.getUserTag(Reference.getUserName(), "soulfunk");
-						FMObjList punk = Getter.getUserTag(Reference.getUserName(), "punk");
+						FMObjList classicRock = net.getTag("classic rock");
+						FMObjList popPunk = net.getTag("pop punk");
+						FMObjList electronic = net.getTag("electronic");
+						FMObjList metal = net.getTag("metal");
+						FMObjList indie = net.getTag("indie");
+						FMObjList rock = net.getTag("rock");
+						FMObjList jazz = net.getTag("jazz");
+						FMObjList blues = net.getTag("blues");
+						FMObjList core = net.getTag("core");
+						FMObjList rnb = net.getTag("rnb");
+						FMObjList soulFunk = net.getTag("soulfunk");
+						FMObjList punk = net.getTag("punk");
 
 						int rapTotal = rap.getTotalUserScrobbles() + classicRap.getTotalUserScrobbles()
 								+ grime.getTotalUserScrobbles();
@@ -599,7 +607,7 @@ public class ControllerMain {
 					@Override
 					protected Void call() throws Exception {
 
-						Track track = Getter.getLastTrack();
+						Track track = new FmUserNetwork(Key.getKey(), Reference.getUserName()).getLastTrack();
 
 						if (track != null) {
 							TrackTab tab = new TrackTab(track);

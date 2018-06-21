@@ -14,12 +14,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
+import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.layout.*;
@@ -51,7 +52,7 @@ public class FMObjListPaneController {
 		double percent = Maths.getPercentListening(list, Reference.getUserName());
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
-		labelTotalScrobbles.setText("Σ " + list.getTotalUserScrobbles());
+		labelTotalScrobbles.setText("" + list.getTotalUserScrobbles());
 		labelPercent.setText(String.format("%.2f%%", percent));
 
 		Collections.sort(list);
@@ -94,7 +95,7 @@ public class FMObjListPaneController {
 		
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data(list.getGroupName(), list.getTotalUserScrobbles()),
-				new PieChart.Data("other", Getter.getScrobbles(Reference.getUserName()) - list.getTotalUserScrobbles()));
+				new PieChart.Data("other", new FmUserNetwork(Key.getKey(), Reference.getUserName()).getUserScrobbleCount() - list.getTotalUserScrobbles()));
 		
 		ObservableList<PieChart.Data> pieChartArtistsData = FXCollections.observableArrayList();		
 		int counter2;
@@ -122,13 +123,13 @@ public class FMObjListPaneController {
 	@FXML
 	protected void handleRefresh(ActionEvent event) {
 		
-		list = Getter.getUserTag(Reference.getUserName(), list.getGroupName());		
+		list = new FmUserNetwork(Key.getKey(), Reference.getUserName()).getTag(list.getGroupName());		
 		
 		
 		double percent = Maths.getPercentListening(list, Reference.getUserName());
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
-		labelTotalScrobbles.setText("Σ " + list.getTotalUserScrobbles());
+		labelTotalScrobbles.setText("Î£ " + list.getTotalUserScrobbles());
 		labelPercent.setText(String.format("%.2f%%", percent));
 
 		Collections.sort(list);
@@ -174,7 +175,7 @@ public class FMObjListPaneController {
 		
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data(list.getGroupName(), list.getTotalUserScrobbles()),
-				new PieChart.Data("other", Getter.getScrobbles(Reference.getUserName()) - list.getTotalUserScrobbles()));
+				new PieChart.Data("other", new FmUserNetwork(Key.getKey(), Reference.getUserName()).getUserScrobbleCount() - list.getTotalUserScrobbles()));
 		pieChart.setData(pieChartData);
 	}
 	

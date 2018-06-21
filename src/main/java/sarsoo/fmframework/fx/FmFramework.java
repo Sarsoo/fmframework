@@ -47,10 +47,10 @@ public class FmFramework extends Application {
 		launch(args);
 	}
 	
-	public void changeScene() throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("ui/changed.fxml"));
-		
-	}
+//	public void changeScene() throws IOException {
+//		Parent root = FXMLLoader.load(getClass().getResource("ui/changed.fxml"));
+//		
+//	}
 	
 	public static ControllerMain getController() {
 		return control;
