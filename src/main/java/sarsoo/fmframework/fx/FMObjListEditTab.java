@@ -8,7 +8,7 @@ import sarsoo.fmframework.util.FMObjList;
 import javafx.fxml.FXMLLoader;
 
 public class FMObjListEditTab extends Tab {
-	
+
 	public FMObjListEditTab() throws IOException {
 
 		setText("List");
@@ -21,21 +21,24 @@ public class FMObjListEditTab extends Tab {
 		AnchorPane.setLeftAnchor(pane, 0.0);
 		AnchorPane.setRightAnchor(pane, 0.0);
 		AnchorPane.setBottomAnchor(pane, 0.0);
-		
+
 //		BorderPane
 
 		setText("list");
-		
+
 		setContent(pane);
 
-		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();		
-		
+		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();
 
 	}
-	
+
 	public FMObjListEditTab(FMObjList list) throws IOException {
 
-		setText("List");
+		if (list.getGroupName() != null) {
+			setText(list.getGroupName());
+		}else {
+			setText("list");
+		}
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FMObjListPaneEdit.fxml"));
 
@@ -45,12 +48,12 @@ public class FMObjListEditTab extends Tab {
 		AnchorPane.setLeftAnchor(pane, 0.0);
 		AnchorPane.setRightAnchor(pane, 0.0);
 		AnchorPane.setBottomAnchor(pane, 0.0);
-		
+
 //		BorderPane
 
 		setContent(pane);
 
-		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();		
+		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();
 		control.setList(list);
 		control.refresh();
 	}

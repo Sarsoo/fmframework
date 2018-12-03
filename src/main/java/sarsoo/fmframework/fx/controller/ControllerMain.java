@@ -680,6 +680,8 @@ public class ControllerMain {
 
 			ListPersister persist = new ListPersister();
 			FMObjList list = persist.readListFromFile(file);
+			list.setGroupName(file.getName());
+			list.refresh();
 			try {
 				addTab(new FMObjListEditTab(list));
 			} catch (IOException e) {
