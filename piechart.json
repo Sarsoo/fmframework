@@ -1,0 +1,52 @@
+{
+  "pie":
+    {
+
+        "tags":[
+          "electronic",
+          "jazz",
+          "blues",
+          "rnb",
+          "soulfunk",
+        ],
+        "hierarchies":[
+          "rap",
+          "rock",
+          "metal"
+        ]
+
+    }
+  ,
+
+  "genrehierarchy":{
+    "genres":[
+      {
+        "tags":[
+          "rap",
+          "classic rap",
+          "grime",
+        ],
+        "name":"rap"
+      },
+      {
+        "tags":[
+          "rock",
+          "classic rock",
+          "indie",
+          "pop punk",
+          "punk",
+          "emo"
+        ],
+        "name":"rock"
+      },
+      {
+        "tags":[
+          "metal",
+          "industrial",
+          "thrash"
+        ],
+        "name":"metal"
+      }
+    ]
+  }
+}

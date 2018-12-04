@@ -1,11 +1,12 @@
 package sarsoo.fmframework.fx.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
@@ -24,6 +25,8 @@ import sarsoo.fmframework.fx.FMObjListEditTab;
 import sarsoo.fmframework.fx.TextAreaConsole;
 import sarsoo.fmframework.fx.FMObjListTab;
 import sarsoo.fmframework.fx.FmFramework;
+import sarsoo.fmframework.fx.GenrePieChartTitledPane;
+import sarsoo.fmframework.fx.PieChartTitledPane;
 import sarsoo.fmframework.fx.TrackTab;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
@@ -33,17 +36,16 @@ import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.ConsoleHandler;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Reference;
+import sarsoo.fmframework.util.tagpool.TagPool;
 import javafx.scene.control.*;
-import javafx.scene.chart.*;
-import javafx.scene.chart.PieChart.Data;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 
 import javafx.concurrent.*;
 import javafx.application.Platform;
+
+import org.json.*;
 
 public class ControllerMain {
 
@@ -65,7 +67,7 @@ public class ControllerMain {
 					@Override
 					protected Void call() throws Exception {
 						NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-						
+
 						FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 
 						String scrobblesToday = numberFormat.format(net.getScrobblesToday());
@@ -105,7 +107,7 @@ public class ControllerMain {
 
 	public void refreshTagMenu() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
-		
+
 		tags = net.getTags();
 
 		Collections.sort(tags);
@@ -130,10 +132,9 @@ public class ControllerMain {
 							return new Task<Void>() {
 								@Override
 								protected Void call() throws Exception {
-
-									FMObjListTab tab = new FMObjListTab(
-											net.getTag(name));
-
+									
+									FMObjListTab tab = new FMObjListTab(TagPool.getPool().getTag(name));
+									
 									final CountDownLatch latch = new CountDownLatch(1);
 									Platform.runLater(new Runnable() {
 										@Override
@@ -161,266 +162,93 @@ public class ControllerMain {
 	}
 
 	public void refreshPieCharts() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("open pie chart json");
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+		File file = fileChooser.showOpenDialog(FmFramework.getStage());
+
 		Service<Void> service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
 				return new Task<Void>() {
 					@Override
 					protected Void call() throws Exception {
+
+						String jsonString = null;
+//						System.out.println(file.getPath());
+						if (file != null) {
+
+							BufferedReader br = new BufferedReader(new FileReader(file));
+							StringBuilder sb = new StringBuilder();
+							String jsonLine = br.readLine();
+							while (jsonLine != null) {
+								sb.append(jsonLine);
+								jsonLine = br.readLine();
+							}
+							
+							br.close();
+
+							jsonString = sb.toString();
+							System.out.println("json read");
+						}
+
+						JSONObject rootParsedJsonObj = new JSONObject(jsonString);
+
+						JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy")
+								.getJSONArray("genres");
+						JSONObject pieJson = rootParsedJsonObj.getJSONObject("pie");
+
+						System.out.println("arrays parsed");
+
+						int counter;
+						ArrayList<TitledPane> paneList = new ArrayList<TitledPane>();
+
+						ArrayList<String> allTags = new ArrayList<String>();
 						
-						FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+						for (counter = 0; counter < hierarchiesJsonArray.length(); counter++) {
+							JSONObject hierarchyJsonObj = (JSONObject) hierarchiesJsonArray.get(counter);
+							JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
+							ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
 
-						int total = net.getUserScrobbleCount();
+							String hierarchyName = hierarchyJsonObj.getString("name");
 
-						FMObjList rap = net.getTag("rap");
-						FMObjList classicRap = net.getTag("classic rap");
-						FMObjList grime = net.getTag("grime");
-
-						FMObjList classicRock = net.getTag("classic rock");
-						FMObjList popPunk = net.getTag("pop punk");
-						FMObjList electronic = net.getTag("electronic");
-						FMObjList metal = net.getTag("metal");
-						FMObjList indie = net.getTag("indie");
-						FMObjList rock = net.getTag("rock");
-						FMObjList jazz = net.getTag("jazz");
-						FMObjList blues = net.getTag("blues");
-						FMObjList core = net.getTag("core");
-						FMObjList rnb = net.getTag("rnb");
-						FMObjList soulFunk = net.getTag("soulfunk");
-						FMObjList punk = net.getTag("punk");
-
-						int rapTotal = rap.getTotalUserScrobbles() + classicRap.getTotalUserScrobbles()
-								+ grime.getTotalUserScrobbles();
-
-						ObservableList<PieChart.Data> rapData = FXCollections
-								.observableArrayList(
-										new PieChart.Data(
-												String.format("rap %d%%",
-														(int) rap.getTotalUserScrobbles() * 100 / rapTotal),
-												rap.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("classic rap %d%%",
-														(int) classicRap.getTotalUserScrobbles() * 100 / rapTotal),
-												classicRap.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("grime %d%%",
-														(int) grime.getTotalUserScrobbles() * 100 / rapTotal),
-												grime.getTotalUserScrobbles()));
-
-						Collections.sort(rapData, new Comparator<PieChart.Data>() {
-
-							@Override
-							public int compare(Data arg0, Data arg1) {
-								return (int) (arg1.getPieValue() - arg0.getPieValue());
+							int i;
+							for (i = 0; i < hierarchyTagsJsonArray.length(); i++) {
+								hierarchyTagNameList.add(hierarchyTagsJsonArray.getString(i));
+								allTags.add(hierarchyTagsJsonArray.getString(i));
+								System.out.println(hierarchyTagsJsonArray.getString(i));
 							}
-						});
 
-						int other = total - rapTotal;
-
-						ObservableList<PieChart.Data> rapTotalData = FXCollections
-								.observableArrayList(
-										new PieChart.Data(
-												String.format("rap %d%%",
-														(int) rap.getTotalUserScrobbles() * 100 / total),
-												rap.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("classic rap %d%%",
-														(int) classicRap.getTotalUserScrobbles() * 100 / total),
-												classicRap.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("grime %d%%",
-														(int) grime.getTotalUserScrobbles() * 100 / total),
-												grime.getTotalUserScrobbles()));
-
-						Collections.sort(rapTotalData, new Comparator<PieChart.Data>() {
-
-							@Override
-							public int compare(Data arg0, Data arg1) {
-								return (int) (arg1.getPieValue() - arg0.getPieValue());
-							}
-						});
-
-						rapTotalData
-								.add(new PieChart.Data(String.format("other %d%%", (int) other * 100 / total), other));
-
-						int rockTotal = rock.getTotalUserScrobbles() + classicRock.getTotalUserScrobbles()
-								+ indie.getTotalUserScrobbles() + popPunk.getTotalUserScrobbles()
-								+ punk.getTotalUserScrobbles();
-
-						ObservableList<PieChart.Data> rockData = FXCollections
-								.observableArrayList(
-										new PieChart.Data(
-												String.format("rock %d%%",
-														(int) rock.getTotalUserScrobbles() * 100 / rockTotal),
-												rock.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("classic rock %d%%",
-														(int) classicRock.getTotalUserScrobbles() * 100 / rockTotal),
-												classicRock.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("indie %d%%",
-														(int) indie.getTotalUserScrobbles() * 100 / rockTotal),
-												indie.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("pop punk %d%%",
-														(int) popPunk.getTotalUserScrobbles() * 100 / rockTotal),
-												popPunk.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("punk %d%%",
-														(int) punk.getTotalUserScrobbles() * 100 / rockTotal),
-												punk.getTotalUserScrobbles()));
-
-						Collections.sort(rockData, new Comparator<PieChart.Data>() {
-
-							@Override
-							public int compare(Data arg0, Data arg1) {
-								return (int) (arg1.getPieValue() - arg0.getPieValue());
-							}
-						});
-
-						int rockOther = total - rockTotal;
-
-						ObservableList<PieChart.Data> rockTotalData = FXCollections
-								.observableArrayList(
-										new PieChart.Data(
-												String.format("rock %d%%",
-														(int) rock.getTotalUserScrobbles() * 100 / total),
-												rock.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("classic rock %d%%",
-														(int) classicRock.getTotalUserScrobbles() * 100 / total),
-												classicRock.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("indie %d%%",
-														(int) indie.getTotalUserScrobbles() * 100 / total),
-												indie.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("pop punk %d%%",
-														(int) popPunk.getTotalUserScrobbles() * 100 / total),
-												popPunk.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("punk %d%%",
-														(int) punk.getTotalUserScrobbles() * 100 / total),
-												punk.getTotalUserScrobbles()));
-
-						Collections.sort(rockTotalData, new Comparator<PieChart.Data>() {
-
-							@Override
-							public int compare(Data arg0, Data arg1) {
-								return (int) (arg1.getPieValue() - arg0.getPieValue());
-							}
-						});
-
-						rockTotalData.add(new PieChart.Data(String.format("other %d%%", (int) rockOther * 100 / total),
-								rockOther));
-
-						int totalOther = total - rap.getTotalUserScrobbles() - classicRap.getTotalUserScrobbles()
-								- grime.getTotalUserScrobbles() - classicRock.getTotalUserScrobbles()
-								- popPunk.getTotalUserScrobbles() - electronic.getTotalUserScrobbles()
-								- metal.getTotalUserScrobbles() - indie.getTotalUserScrobbles()
-								- rock.getTotalUserScrobbles() - jazz.getTotalUserScrobbles()
-								- blues.getTotalUserScrobbles() - core.getTotalUserScrobbles()
-								- rnb.getTotalUserScrobbles() - soulFunk.getTotalUserScrobbles()
-								- punk.getTotalUserScrobbles();
-
-						ObservableList<PieChart.Data> genreData = FXCollections
-								.observableArrayList(
-										new PieChart.Data(
-												String.format("rap %d%%",
-														(int) rap.getTotalUserScrobbles() * 100 / total),
-												rap.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("classic rap %d%%",
-														(int) classicRap.getTotalUserScrobbles() * 100 / total),
-												classicRap.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("grime %d%%",
-														(int) grime.getTotalUserScrobbles() * 100 / total),
-												grime.getTotalUserScrobbles()),
-
-										new PieChart.Data(
-												String.format("classic rock %d%%",
-														(int) classicRock.getTotalUserScrobbles() * 100 / total),
-												classicRock.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("pop punk %d%%",
-														(int) popPunk.getTotalUserScrobbles() * 100 / total),
-												popPunk.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("electronic %d%%",
-														(int) electronic.getTotalUserScrobbles() * 100 / total),
-												electronic.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("metal %d%%",
-														(int) metal.getTotalUserScrobbles() * 100 / total),
-												metal.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("indie %d%%",
-														(int) indie.getTotalUserScrobbles() * 100 / total),
-												indie.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("rock %d%%",
-														(int) rock.getTotalUserScrobbles() * 100 / total),
-												rock.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("jazz %d%%",
-														(int) jazz.getTotalUserScrobbles() * 100 / total),
-												jazz.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("blues %d%%",
-														(int) blues.getTotalUserScrobbles() * 100 / total),
-												blues.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("core %d%%",
-														(int) core.getTotalUserScrobbles() * 100 / total),
-												core.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("soul/funk %d%%",
-														(int) soulFunk.getTotalUserScrobbles() * 100 / total),
-												soulFunk.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("rnb %d%%",
-														(int) rnb.getTotalUserScrobbles() * 100 / total),
-												rnb.getTotalUserScrobbles()),
-										new PieChart.Data(
-												String.format("punk %d%%",
-														(int) punk.getTotalUserScrobbles() * 100 / total),
-												punk.getTotalUserScrobbles()));
-
-						Collections.sort(genreData, new Comparator<PieChart.Data>() {
-
-							@Override
-							public int compare(Data arg0, Data arg1) {
-								return (int) (arg1.getPieValue() - arg0.getPieValue());
-							}
-						});
-
-						genreData.add(new PieChart.Data(String.format("other %d%%", (int) totalOther * 100 / total),
-								totalOther));
+							System.out.println("hierarchy: " + hierarchyName);
+							System.out.println(hierarchyTagNameList);
+							
+							paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
+						}
+						
+						JSONArray totalPieTags = pieJson.getJSONArray("tags");
+						int i;
+						for (i = 0; i < totalPieTags.length(); i++) {
+							allTags.add((totalPieTags).getString(i));
+						}
+						System.out.println(allTags);
+						paneList.add(new PieChartTitledPane("total", allTags));
 
 						final CountDownLatch latch = new CountDownLatch(1);
 						Platform.runLater(new Runnable() {
 							@Override
 							public void run() {
 								try {
-									pieChartRap.setData(rapData);
-
-									pieChartRapTotal.setData(rapTotalData);
-									
-									pieChartRock.setData(rockData);
-
-									pieChartRockTotal.setData(rockTotalData);
-
-									pieChartGenres.setData(genreData);
-
-									accordionCharts.setExpandedPane(titledPaneGenres);
+									accordionCharts.getPanes().clear();
+									int i;
+									for (i = 0; i < paneList.size(); i++) {
+										accordionCharts.getPanes().add(paneList.get(i));
+									}
 								} finally {
 									latch.countDown();
 								}
 							}
 						});
 						latch.await();
-						// Keep with the background work
 						return null;
 					}
 				};
@@ -443,7 +271,7 @@ public class ControllerMain {
 			refresh();
 		}
 	}
-	
+
 	@FXML
 	protected void handleChangeUsername(ActionEvent event) throws IOException {
 //		System.out.println("USERNAME");
@@ -452,7 +280,7 @@ public class ControllerMain {
 //			Reference.setUserName(username);
 //		}
 //		refresh();
-		
+
 		Service<Void> service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
@@ -462,9 +290,8 @@ public class ControllerMain {
 
 						System.out.println("USERNAME");
 						String username = JOptionPane.showInputDialog("enter username:");
-						if(username != null) {
+						if (username != null) {
 							Reference.setUserName(username);
-
 
 							final CountDownLatch latch = new CountDownLatch(1);
 							Platform.runLater(new Runnable() {
@@ -656,11 +483,11 @@ public class ControllerMain {
 
 	@FXML
 	protected void handleScrobble(ActionEvent event) throws IOException {
-		Album album = sarsoo.fmframework.jframe.Getter.getAlbum();
-		if (album != null) {
-			Track track = sarsoo.fmframework.jframe.Getter.getTrack(album);
-
-		}
+//		Album album = sarsoo.fmframework.jframe.Getter.getAlbum();
+//		if (album != null) {
+//			Track track = sarsoo.fmframework.jframe.Getter.getTrack(album);
+//
+//		}
 	}
 
 	@FXML
@@ -705,27 +532,27 @@ public class ControllerMain {
 
 	@FXML
 	private Label labelStatsScrobblesTotal;
-
-	@FXML
-	private PieChart pieChartGenres;
+//
+//	@FXML
+//	private PieChart pieChartGenres;
 
 	@FXML
 	private TabPane tabPane;
 
 	@FXML
 	private Menu menuTag;
-
-	@FXML
-	private PieChart pieChartRap;
-
-	@FXML
-	private PieChart pieChartRapTotal;
-	
-	@FXML
-	private PieChart pieChartRock;
-
-	@FXML
-	private PieChart pieChartRockTotal;
+//
+//	@FXML
+//	private PieChart pieChartRap;
+//
+//	@FXML
+//	private PieChart pieChartRapTotal;
+//	
+//	@FXML
+//	private PieChart pieChartRock;
+//
+//	@FXML
+//	private PieChart pieChartRockTotal;
 
 	@FXML
 	private Accordion accordionCharts;
