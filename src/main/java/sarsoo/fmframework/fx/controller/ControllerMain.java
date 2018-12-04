@@ -89,6 +89,7 @@ public class ControllerMain {
 
 									// refreshPieCharts();
 									refreshTagMenu();
+									refreshPieChartMenu();
 
 								} finally {
 									latch.countDown();
@@ -132,9 +133,9 @@ public class ControllerMain {
 							return new Task<Void>() {
 								@Override
 								protected Void call() throws Exception {
-									
+
 									FMObjListTab tab = new FMObjListTab(TagPool.getPool().getTag(name));
-									
+
 									final CountDownLatch latch = new CountDownLatch(1);
 									Platform.runLater(new Runnable() {
 										@Override
@@ -161,12 +162,111 @@ public class ControllerMain {
 		}
 	}
 
-	public void refreshPieCharts() {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("open pie chart json");
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
-		File file = fileChooser.showOpenDialog(FmFramework.getStage());
+	public void refreshPieChartMenu() {
 
+		try {
+			if (new File("./piechart.json").isFile()) {
+				File file = new File("./piechart.json");
+
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				StringBuilder sb = new StringBuilder();
+				String jsonLine = br.readLine();
+				while (jsonLine != null) {
+					sb.append(jsonLine);
+					jsonLine = br.readLine();
+				}
+
+				br.close();
+
+				String jsonString = sb.toString();
+
+				JSONObject rootParsedJsonObj = new JSONObject(jsonString);
+
+				JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy")
+						.getJSONArray("genres");
+
+				int counter;
+				for (counter = 0; counter < hierarchiesJsonArray.length(); counter++) {
+					JSONObject hierarchyJsonObj = (JSONObject) hierarchiesJsonArray.get(counter);
+//					JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
+//					ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
+
+					String hierarchyName = hierarchyJsonObj.getString("name");
+					JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
+					ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
+
+					int i;
+					for (i = 0; i < hierarchyTagsJsonArray.length(); i++) {
+						hierarchyTagNameList.add(hierarchyTagsJsonArray.getString(i));
+//						allTags.add(hierarchyTagsJsonArray.getString(i));
+						System.out.println(hierarchyTagsJsonArray.getString(i));
+					}
+
+					System.out.println("hierarchy: " + hierarchyName);
+					System.out.println(hierarchyTagNameList);
+
+//					paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
+
+					MenuItem item = new MenuItem(hierarchyName);
+
+					item.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent e) {
+
+							// TAG ITEM HANDLER SERVICE
+							Service<Void> service = new Service<Void>() {
+								@Override
+								protected Task<Void> createTask() {
+									return new Task<Void>() {
+										@Override
+										protected Void call() throws Exception {
+
+											GenrePieChartTitledPane pane = new GenrePieChartTitledPane(hierarchyName,
+													hierarchyTagNameList);
+
+											final CountDownLatch latch = new CountDownLatch(1);
+											Platform.runLater(new Runnable() {
+												@Override
+												public void run() {
+													try {
+														accordionCharts.getPanes().add(pane);
+													} finally {
+														latch.countDown();
+													}
+												}
+											});
+											latch.await();
+											// Keep with the background work
+											return null;
+										}
+									};
+								}
+							};
+							service.start();
+						}
+					});
+
+					menuPieChart.getItems().add(item);
+				}
+
+			}
+		} catch (IOException e) {
+
+		}
+
+	}
+
+	public void refreshPieCharts(File file) {
+//		File file = null;
+//		String path = null;
+//		if (new File("./piechart.json").isFile()) {
+//			file = new File("./piechart.json");
+//		} else {
+//			FileChooser fileChooser = new FileChooser();
+//			fileChooser.setTitle("open pie chart json");
+//			fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+//			file = fileChooser.showOpenDialog(FmFramework.getStage());
+//		}
 		Service<Void> service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
@@ -185,7 +285,7 @@ public class ControllerMain {
 								sb.append(jsonLine);
 								jsonLine = br.readLine();
 							}
-							
+
 							br.close();
 
 							jsonString = sb.toString();
@@ -204,7 +304,7 @@ public class ControllerMain {
 						ArrayList<TitledPane> paneList = new ArrayList<TitledPane>();
 
 						ArrayList<String> allTags = new ArrayList<String>();
-						
+
 						for (counter = 0; counter < hierarchiesJsonArray.length(); counter++) {
 							JSONObject hierarchyJsonObj = (JSONObject) hierarchiesJsonArray.get(counter);
 							JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
@@ -221,10 +321,10 @@ public class ControllerMain {
 
 							System.out.println("hierarchy: " + hierarchyName);
 							System.out.println(hierarchyTagNameList);
-							
+
 							paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
 						}
-						
+
 						JSONArray totalPieTags = pieJson.getJSONArray("tags");
 						int i;
 						for (i = 0; i < totalPieTags.length(); i++) {
@@ -465,7 +565,18 @@ public class ControllerMain {
 	@FXML
 	protected void handleRefreshPieChart(ActionEvent event) throws IOException {
 
-		refreshPieCharts();
+		File file = null;
+		String path = null;
+		if (new File("./piechart.json").isFile()) {
+			file = new File("./piechart.json");
+		} else {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("open pie chart json");
+			fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+			file = fileChooser.showOpenDialog(FmFramework.getStage());
+		}
+
+		refreshPieCharts(file);
 
 	}
 
@@ -541,6 +652,9 @@ public class ControllerMain {
 
 	@FXML
 	private Menu menuTag;
+
+	@FXML
+	private Menu menuPieChart;
 //
 //	@FXML
 //	private PieChart pieChartRap;

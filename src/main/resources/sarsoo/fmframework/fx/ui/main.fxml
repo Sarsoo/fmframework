@@ -14,6 +14,7 @@
               <items>
                   <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="new list" />
                   <MenuItem fx:id="menuItemListEdit" mnemonicParsing="false" onAction="#handleListEdit" text="open list" />
+                  <Menu fx:id="menuPieChart" mnemonicParsing="false" text="open pie chart" />
               </items>
             </Menu>
           <Menu fx:id="menuLookup" mnemonicParsing="false" text="lookup">
