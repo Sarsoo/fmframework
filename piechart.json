@@ -3,7 +3,6 @@
     {
 
         "tags":[
-          "electronic",
           "jazz",
           "blues",
           "rnb",
@@ -45,9 +44,21 @@
         "tags":[
           "metal",
           "industrial",
-          "thrash"
+          "thrash",
+          "metalcore",
         ],
         "name":"metal"
+      },
+      {
+        "tags":[
+          "electronic",
+          "house",
+          "dnb",
+          "future bass",
+          "edm",
+          "garage"
+        ],
+        "name":"electronic"
       }
     ]
   }
