@@ -27,6 +27,7 @@ import sarsoo.fmframework.fx.FMObjListTab;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.GenrePieChartTitledPane;
 import sarsoo.fmframework.fx.PieChartTitledPane;
+import sarsoo.fmframework.fx.ScrobbleChartTab;
 import sarsoo.fmframework.fx.TrackTab;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
@@ -604,6 +605,17 @@ public class ControllerMain {
 	@FXML
 	protected void handleOpenConsole(ActionEvent event) {
 		addTab(new ConsoleTab());
+	}
+	
+	@FXML
+	protected void handleScrobbleChart(ActionEvent event) {
+			try {
+				addTab(new ScrobbleChartTab());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 	}
 
 	@FXML

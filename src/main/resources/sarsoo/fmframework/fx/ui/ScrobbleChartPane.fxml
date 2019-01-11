@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.ScrobbleChartPaneController">
+   <children>
+      <BorderPane fx:id="chartBorderPane" prefHeight="327.0" prefWidth="600.0" stylesheets="@../styles/ObjPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <bottom>
+                                    <ToolBar fx:id="toolBar" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                      <items>
+                  <ChoiceBox fx:id="dropDownTimeRange" prefHeight="25.0" prefWidth="208.0" />
+                  <Button fx:id="buttonRefresh" mnemonicParsing="false" onAction="#handleRefresh" text="refresh" />
+                                      </items>
+                                    </ToolBar>
+                                 </bottom>
+         <center>
+            <LineChart fx:id="lineChartScrobbles" BorderPane.alignment="CENTER">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </center>
+                              </BorderPane>
+   </children>
+</AnchorPane>
