@@ -124,6 +124,75 @@ public class FmUserNetwork extends FmNetwork {
 		
 		return 0;
 	}
+	
+	public int getScrobbleCountByDate(int day, int month, int year) {
+		if (ConsoleHandler.isVerbose())
+			ConsoleHandler.getConsole().write(">>getScrobblesByDate " + day + "." + month + "." + year);
+		
+		LocalDate startDate = LocalDate.of(year, month, day);
+		
+		ZoneId zoneId = ZoneId.systemDefault(); 
+		long epoch = startDate.atStartOfDay(zoneId).toEpochSecond();
+		long endEpoch = epoch + (24*60*60);
+		
+		try {
+			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/").
+					header("Accept",  "application/json").
+			        header("User-Agent",  "fmframework").
+			        queryString("method","user.getrecenttracks").
+			        queryString("user", userName).
+			        queryString("from", epoch).
+			        queryString("to", endEpoch).
+			        queryString("limit", 1).
+			        queryString("api_key", key).
+			        queryString("format", "json").
+			        asJson();
+			
+			int total = new JSONObject(response.getBody().toString()).getJSONObject("recenttracks").getJSONObject("@attr").getInt("total");
+			
+			return total;
+			
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	public int getScrobbleCountByDeltaDay(int day) {
+		if (ConsoleHandler.isVerbose())
+			ConsoleHandler.getConsole().write(">>getScrobblesByDeltaDay " + day);
+		
+		LocalDate local = LocalDate.now();
+		
+		ZoneId zoneId = ZoneId.systemDefault(); 
+		long epoch = local.atStartOfDay(zoneId).toEpochSecond();
+		epoch -= (day * (24*60*60));
+		long endEpoch = epoch + (24*60*60);
+		
+		try {
+			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/").
+					header("Accept",  "application/json").
+			        header("User-Agent",  "fmframework").
+			        queryString("method","user.getrecenttracks").
+			        queryString("user", userName).
+			        queryString("from", epoch).
+			        queryString("to", endEpoch).
+			        queryString("limit", 1).
+			        queryString("api_key", key).
+			        queryString("format", "json").
+			        asJson();
+			
+			int total = new JSONObject(response.getBody().toString()).getJSONObject("recenttracks").getJSONObject("@attr").getInt("total");
+			
+			return total;
+			
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
 
 	public ArrayList<Tag> getTags(){
 		if (ConsoleHandler.isVerbose())
