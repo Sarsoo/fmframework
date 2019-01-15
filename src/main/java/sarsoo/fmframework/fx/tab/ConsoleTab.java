@@ -1,6 +1,7 @@
-package sarsoo.fmframework.fx;
+package sarsoo.fmframework.fx.tab;
 
 import javafx.scene.control.Tab;
+import sarsoo.fmframework.fx.TextAreaConsole;
 
 public class ConsoleTab extends Tab{
 	

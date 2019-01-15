@@ -1,22 +1,23 @@
-package sarsoo.fmframework.fx;
+package sarsoo.fmframework.fx.tab;
 
 import java.io.IOException;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import sarsoo.fmframework.fx.controller.AlbumPaneController;
+import sarsoo.fmframework.fx.controller.ScrobbleChartPaneController;
 import sarsoo.fmframework.music.Album;
 
 
 import javafx.fxml.FXMLLoader;
 
-public class AlbumTab extends Tab {
+public class ScrobbleChartTab extends Tab {
 
-	public AlbumTab(Album album) throws IOException {
+	public ScrobbleChartTab() throws IOException {
 
-		setText(album.getName());
+		setText("scrobbles");
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/AlbumPane.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/ScrobbleChartPane.fxml"));
 
 		AnchorPane pane = (AnchorPane) loader.load();
 
@@ -27,9 +28,9 @@ public class AlbumTab extends Tab {
 
 		setContent(pane);
 
-		AlbumPaneController control = (AlbumPaneController) loader.getController();
+		ScrobbleChartPaneController control = (ScrobbleChartPaneController) loader.getController();
 
-		control.populate(album);
+		//control.populate();
 		
 		
 
