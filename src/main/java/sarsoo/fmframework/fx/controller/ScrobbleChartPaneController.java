@@ -2,6 +2,7 @@ package sarsoo.fmframework.fx.controller;
 
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
@@ -38,7 +39,7 @@ public class ScrobbleChartPaneController {
 	private Button buttonRefresh;
 
 	@FXML
-	private ChoiceBox dropDownTimeRange;
+	private ChoiceBox<String> dropDownTimeRange;
 
 	@FXML
 	private LineChart lineChartScrobbles;
@@ -99,7 +100,8 @@ public class ScrobbleChartPaneController {
 						for (counter = 0; counter < dayLength; counter++) {
 							int scrobble = net.getScrobbleCountByDeltaDay(dayLength - counter - 1);
 //							System.out.println(scrobble);
-							series.getData().add(new XYChart.Data(String.valueOf(dayLength - counter), scrobble));
+//							series.getData().add(new XYChart.Data(String.valueOf(dayLength - counter), scrobble));
+							series.getData().add(new XYChart.Data(LocalDate.now().minusDays(dayLength - counter - 1).toString(), scrobble));
 						}
 
 						final CountDownLatch latch = new CountDownLatch(1);

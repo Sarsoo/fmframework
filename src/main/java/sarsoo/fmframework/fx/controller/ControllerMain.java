@@ -185,6 +185,10 @@ public class ControllerMain {
 
 				JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy")
 						.getJSONArray("genres");
+				
+				if(hierarchiesJsonArray.length() > 0) {
+					menuPieChart.setVisible(true);
+				}
 
 				int counter;
 				for (counter = 0; counter < hierarchiesJsonArray.length(); counter++) {
@@ -667,6 +671,9 @@ public class ControllerMain {
 
 	@FXML
 	private Menu menuPieChart;
+	
+	@FXML
+	private Menu menuChart;
 //
 //	@FXML
 //	private PieChart pieChartRap;

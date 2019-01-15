@@ -14,7 +14,6 @@
               <items>
                   <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="new list" />
                   <MenuItem fx:id="menuItemListEdit" mnemonicParsing="false" onAction="#handleListEdit" text="open list" />
-                  <Menu fx:id="menuPieChart" mnemonicParsing="false" text="open pie chart" />
               </items>
             </Menu>
           <Menu fx:id="menuLookup" mnemonicParsing="false" text="lookup">
@@ -24,12 +23,17 @@
                   <MenuItem fx:id="menuItemArtist" mnemonicParsing="false" onAction="#handleLookupArtist" text="artist" />
             </items>
           </Menu>
+            <Menu fx:id="menuChart" mnemonicParsing="false" text="chart">
+              <items>
+                  <MenuItem fx:id="menuItemScrobbleChart" mnemonicParsing="false" onAction="#handleScrobbleChart" text="daily scrobbles" />
+                  <Menu fx:id="menuPieChart" mnemonicParsing="false" text="load pie chart" visible="false" />
+              </items>
+            </Menu>
           <Menu fx:id="menuTag" mnemonicParsing="false" text="tags" />
             <Menu fx:id="menuUtil" mnemonicParsing="false" text="util">
               <items>
                 <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
                   <MenuItem fx:id="menuItemCurrentTrack" mnemonicParsing="false" onAction="#handleCurrentTrack" text="current track" />
-                  <MenuItem fx:id="menuItemScrobbleChart" mnemonicParsing="false" onAction="#handleScrobbleChart" text="scrobble chart" />
                   <MenuItem fx:id="menuItemOpenConsole" mnemonicParsing="false" onAction="#handleOpenConsole" text="open console" />
                   <MenuItem mnemonicParsing="false" onAction="#handleChangeUsername" text="set username" />
               </items>
