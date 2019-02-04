@@ -1,4 +1,4 @@
-package sarsoo.fmframework.fx.tab;
+package sarsoo.fmframework.fx;
 
 import java.io.IOException;
 

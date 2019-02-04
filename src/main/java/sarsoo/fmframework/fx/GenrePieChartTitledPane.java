@@ -1,4 +1,4 @@
-package sarsoo.fmframework.fx.pane;
+package sarsoo.fmframework.fx;
 
 import java.io.IOException;
 import java.util.ArrayList;
