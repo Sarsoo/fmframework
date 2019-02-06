@@ -2,12 +2,14 @@ package sarsoo.fmframework.fm;
 
 import org.junit.Test;
 
+import sarsoo.fmframework.net.Key;
+
+import static org.junit.Assert.*;
+
 public class FmUserNetworkTest {
 
 	@Test
-	public void test() {
-		FmUserNetwork network = new FmUserNetwork("54a9f5c4c36f5d2cba0d4ffe3846e8b4", "sarsoo");
-		
-		network.getScrobblesToday();
+	public void testNetworkInstantiate() {
+		assertNotNull(new FmUserNetwork(Key.getKey(), "sarsoo"));
 	}
 }
