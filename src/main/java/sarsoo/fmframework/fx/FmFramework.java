@@ -1,7 +1,5 @@
 package sarsoo.fmframework.fx;
 
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +17,7 @@ public class FmFramework extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		this.stage = stage;
+		FmFramework.stage = stage;
 		Reference.setUserName("sarsoo");
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/main.fxml"));

@@ -1,30 +1,16 @@
 package sarsoo.fmframework.fx.controller;
 
-import java.io.IOException;
-import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JOptionPane;
-
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import sarsoo.fmframework.fm.FmNetwork;
 import sarsoo.fmframework.fm.FmUserNetwork;
-import sarsoo.fmframework.fx.ArtistTab;
-import sarsoo.fmframework.fx.FmFramework;
-import sarsoo.fmframework.fx.TrackTab;
 import sarsoo.fmframework.music.Album;
-import sarsoo.fmframework.music.Wiki;
 import sarsoo.fmframework.net.Key;
-import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.util.Maths;
-import sarsoo.fmframework.util.Reference;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.w3c.dom.Document;
 
 import sarsoo.fmframework.jframe.TrackView;
-import sarsoo.fmframework.music.Artist.ArtistBuilder;
 import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.net.URLBuilder;
 //import sarsoo.fmframework.net.TestCall;

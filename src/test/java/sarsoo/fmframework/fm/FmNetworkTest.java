@@ -1,11 +1,7 @@
 package sarsoo.fmframework.fm;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import sarsoo.fmframework.music.Album;
-import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Track;
 
 public class FmNetworkTest {

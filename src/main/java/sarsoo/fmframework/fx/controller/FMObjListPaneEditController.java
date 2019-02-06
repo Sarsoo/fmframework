@@ -141,7 +141,7 @@ public class FMObjListPaneEditController {
 
 	public void updateList() {
 		
-		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
+		FmNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 		
 		FMObjList newList = new FMObjList();
 		int counter;
@@ -249,7 +249,7 @@ public class FMObjListPaneEditController {
 	@FXML
 	protected void handleAddTrack(ActionEvent event) {
 		
-		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
+		FmNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 
 		String name = textTrack.getText();
 		String album = textAlbum.getText();
@@ -276,7 +276,7 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleAddAlbum(ActionEvent event) {
-		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
+		FmNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 		
 		String album = textAlbum.getText();
 		String artist = textArtist.getText();
@@ -295,7 +295,7 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleAddArtist(ActionEvent event) {
-		FmNetwork net = new FmNetwork(Key.getKey(), Reference.getUserName());
+		FmNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 		
 		String artist = textArtist.getText();
 

@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import sarsoo.fmframework.fm.FmNetwork;
+import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.AlbumTab;
 import sarsoo.fmframework.fx.ArtistTab;
 import sarsoo.fmframework.fx.FmFramework;
@@ -117,7 +117,7 @@ public class TrackPaneController {
 	}
 
 	public void refresh() {
-		track = new FmNetwork(Key.getKey(), Reference.getUserName()).refresh(track);
+		track = new FmUserNetwork(Key.getKey(), Reference.getUserName()).refresh(track);
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 

@@ -3,7 +3,6 @@ package sarsoo.fmframework.util.tagpool;
 import java.util.ArrayList;
 
 import sarsoo.fmframework.fm.FmUserNetwork;
-import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Reference;
