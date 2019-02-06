@@ -24,12 +24,48 @@ public class FmUserNetwork extends FmNetwork {
 		ARTIST, ALBUM, TRACK
 	}
 
+	/**
+	 * FmNetwork for user specific Last.FM information
+	 * 
+	 * @param key Last.FM API Key
+	 * @param userName Last.FM username
+	 */
 	public FmUserNetwork(String key, String userName) {
 		// super(key, userName);
 		super(key);
 		this.userName = userName;
 	}
+	
+	/**
+	 * Set network's Last.FM username
+	 * 
+	 * @param userName Last.FM username
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
+	/**
+	 * Return network's Last.FM username
+	 * 
+	 * @return Last.FM username
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * Clears username from network
+	 */
+	public void clearUser() {
+		this.userName = null;
+	}
+
+	/**
+	 * Return user object from Last.FM
+	 * 
+	 * @return User
+	 */
 	public User getUser() {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getUser");
@@ -63,6 +99,11 @@ public class FmUserNetwork extends FmNetwork {
 		return null;
 	}
 
+	/**
+	 * Return user real name
+	 * 
+	 * @return User real name
+	 */
 	public String getUserRealName() {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getUserRealname");
@@ -70,6 +111,11 @@ public class FmUserNetwork extends FmNetwork {
 		return getUser().getRealName();
 	}
 
+	/**
+	 * Return user's total scrobble count
+	 * 
+	 * @return Total scrobble count
+	 */
 	public int getUserScrobbleCount() {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getUserScrobbleCount");
@@ -77,6 +123,11 @@ public class FmUserNetwork extends FmNetwork {
 		return getUser().getScrobbleCount();
 	}
 
+	/**
+	 * Returns last or currently listening track
+	 * 
+	 * @return Last track
+	 */
 	public Track getLastTrack() {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getLastTrack");
@@ -115,6 +166,11 @@ public class FmUserNetwork extends FmNetwork {
 		return null;
 	}
 
+	/**
+	 * Return scrobble count from today
+	 * 
+	 * @return Scrobble count today
+	 */
 	public int getScrobblesToday() {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getScrobblesToday");
@@ -153,6 +209,14 @@ public class FmUserNetwork extends FmNetwork {
 		return 0;
 	}
 
+	/**
+	 * Return scrobble count by date
+	 * 
+	 * @param day Day int
+	 * @param month Month int
+	 * @param year Year int
+	 * @return Scrobble count
+	 */
 	public int getScrobbleCountByDate(int day, int month, int year) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getScrobblesByDate " + day + "." + month + "." + year);
@@ -194,6 +258,13 @@ public class FmUserNetwork extends FmNetwork {
 		return 0;
 	}
 
+	/**
+	 * Returns scrobble count of day 
+	 * by today - {int day}
+	 * 
+	 * @param day Negative day offset
+	 * @return Scrobble count
+	 */
 	public int getScrobbleCountByDeltaDay(int day) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getScrobblesByDeltaDay " + day);
@@ -235,6 +306,11 @@ public class FmUserNetwork extends FmNetwork {
 		return 0;
 	}
 
+	/**
+	 * Returns list of user tags
+	 * 
+	 * @return List of tags
+	 */
 	public ArrayList<Tag> getTags() {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getTags");
@@ -283,6 +359,12 @@ public class FmUserNetwork extends FmNetwork {
 
 	}
 
+	/**
+	 * Returns FMObjList of tagged artists 
+	 * 
+	 * @param tagName Tag to explore
+	 * @return FMObjList of artists 
+	 */
 	public FMObjList getTag(String tagName) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getTag: " + tagName);

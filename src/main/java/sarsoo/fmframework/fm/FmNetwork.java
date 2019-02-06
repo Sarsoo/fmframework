@@ -24,6 +24,11 @@ public class FmNetwork {
 	protected String key;
 	protected String userName;
 
+	/**
+	 * FmNetwork for raw and user independent Last.FM information
+	 * 
+	 * @param key Last.FM API Key
+	 */
 	public FmNetwork(String key) {
 		this.key = key;
 	}
@@ -33,19 +38,14 @@ public class FmNetwork {
 		this.key = key;
 		this.userName = userName;
 	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void clearUser() {
-		this.userName = null;
-	}
-
+	
+	/**
+	 * Get an album from Last.FM
+	 * 
+	 * @param name Album Name
+	 * @param artist Artist Name
+	 * @return Album
+	 */
 	public Album getAlbum(String name, String artist) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getAlbum: " + name + " " + artist);
@@ -162,7 +162,12 @@ public class FmNetwork {
 		return null;
 
 	}
-
+	
+	/**
+	 * Get an artist from Last.FM
+	 * @param name Artist Name
+	 * @return Artist
+	 */
 	public Artist getArtist(String name) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getArtist: " + name);
@@ -277,7 +282,14 @@ public class FmNetwork {
 		return null;
 
 	}
-
+	
+	/**
+	 * Get a track from Last.FM
+	 * 
+	 * @param name Track Name
+	 * @param artist Artist Name
+	 * @return Track
+	 */
 	public Track getTrack(String name, String artist) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getTrack: " + name + " " + artist);
@@ -393,6 +405,12 @@ public class FmNetwork {
 		return null;
 	}
 
+	/**
+	 * Exchanges album object for stat-updated album from Last.FM
+	 * 
+	 * @param album Old Album Object
+	 * @return Refreshed Album
+	 */
 	public Album refresh(Album album) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>refreshAlbum: " + album.getName() + " " + album.getArtist().getName());
@@ -400,6 +418,12 @@ public class FmNetwork {
 		return getAlbum(album.getName(), album.getArtist().getName());
 	}
 
+	/**
+	 * Exchanges artist object for stat-updated artist from Last.FM
+	 * 
+	 * @param artist Old Artist Object
+	 * @return Refreshed Artist
+	 */
 	public Artist refresh(Artist artist) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>refreshArtist: " + artist.getName());
@@ -407,6 +431,12 @@ public class FmNetwork {
 		return getArtist(artist.getName());
 	}
 
+	/**
+	 * Exchanges track object for stat-updated track from Last.FM
+	 * 
+	 * @param track Old Track Object
+	 * @return Refreshed Track
+	 */
 	public Track refresh(Track track) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>refreshTrack: " + track.getName() + " " + track.getArtist().getName());
@@ -418,6 +448,13 @@ public class FmNetwork {
 		return refreshedTrack;
 	}
 
+	/**
+	 * Catch-all refresh method to update an FMObj
+	 * by routing based on object class
+	 * 
+	 * @param obj FMObj for refreshing
+	 * @return Updated FMObj
+	 */
 	public FMObj refresh(FMObj obj) {
 		if (obj.getClass() == Track.class)
 			return refresh((Track) obj);
