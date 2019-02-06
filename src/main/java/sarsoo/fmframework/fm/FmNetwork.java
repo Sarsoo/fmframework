@@ -27,7 +27,8 @@ public class FmNetwork {
 	public FmNetwork(String key) {
 		this.key = key;
 	}
-
+	
+	@Deprecated
 	public FmNetwork(String key, String userName) {
 		this.key = key;
 		this.userName = userName;
@@ -61,85 +62,97 @@ public class FmNetwork {
 
 			HttpResponse<JsonNode> response = request.asJson();
 
-			JSONObject obj = new JSONObject(response.getBody().toString());
+			if (response.getStatus() == 200) {
 
-			String nameIn;
-			String artistIn;
+				JSONObject obj = new JSONObject(response.getBody().toString());
 
-			try {
-
-				JSONObject albumJson = obj.getJSONObject("album");
-
-				nameIn = albumJson.getString("name");
-				artistIn = albumJson.getString("artist");
-
-				AlbumBuilder builder = new AlbumBuilder(nameIn, getArtist(artistIn));
+				String nameIn;
+				String artistIn;
 
 				try {
-					builder.setMbid(albumJson.getString("mbid"));
+
+					JSONObject albumJson = obj.getJSONObject("album");
+
+					nameIn = albumJson.getString("name");
+					artistIn = albumJson.getString("artist");
+
+					AlbumBuilder builder = new AlbumBuilder(nameIn, getArtist(artistIn));
+
+					try {
+						builder.setMbid(albumJson.getString("mbid"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole().write("ERROR: No MBID for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No MBID for " + nameIn + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setUrl(albumJson.getString("url"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole().write("ERROR: No Url for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No Url for " + nameIn + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setListeners(albumJson.getInt("listeners"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No listeners for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No listeners for " + nameIn + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setPlayCount(albumJson.getInt("playcount"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No play count for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No play count for " + nameIn + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setUserPlayCount(albumJson.getInt("userplaycount"));
+					} catch (JSONException e) {
+
+					}
+
+					try {
+						JSONObject wikiJson = albumJson.getJSONObject("wiki");
+
+						Wiki wiki = new Wiki(wikiJson.getString("published"), wikiJson.getString("summary"),
+								wikiJson.getString("content"));
+
+						builder.setWiki(wiki);
+
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole().write("ERROR: No wiki for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No wiki for " + nameIn + " , " + e.getMessage());
+					}
+
+					return builder.build();
+
 				} catch (JSONException e) {
 					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No MBID for " + nameIn + " , " + e.getMessage());
+						ConsoleHandler.getConsole().write("ERROR: Album Name Not Found, " + e.getMessage());
 					else
-						System.err.println("ERROR: No MBID for " + nameIn + " , " + e.getMessage());
+						System.err.println("ERROR: Album Name Not Found, " + e.getMessage());
 				}
 
-				try {
-					builder.setUrl(albumJson.getString("url"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No Url for " + nameIn + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No Url for " + nameIn + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setListeners(albumJson.getInt("listeners"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No listeners for " + nameIn + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No listeners for " + nameIn + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setPlayCount(albumJson.getInt("playcount"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole()
-								.write("ERROR: No play count for " + nameIn + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No play count for " + nameIn + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setUserPlayCount(albumJson.getInt("userplaycount"));
-				} catch (JSONException e) {
-
-				}
-
-				try {
-					JSONObject wikiJson = albumJson.getJSONObject("wiki");
-
-					Wiki wiki = new Wiki(wikiJson.getString("published"), wikiJson.getString("summary"),
-							wikiJson.getString("content"));
-
-					builder.setWiki(wiki);
-
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No wiki for " + nameIn + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No wiki for " + nameIn + " , " + e.getMessage());
-				}
-
-				return builder.build();
-
-			} catch (JSONException e) {
+			} else {
 				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR: Album Name Not Found, " + e.getMessage());
+					ConsoleHandler.getConsole()
+							.write("ERROR (getAlbum): " + name + " " + artist + " HTTP REQUEST ERROR");
 				else
-					System.err.println("ERROR: Album Name Not Found, " + e.getMessage());
+					System.err.println("ERROR (getAlbum): " + name + " " + artist + " HTTP REQUEST ERROR");
+				return null;
 			}
 
 		} catch (UnirestException e) {
@@ -165,84 +178,96 @@ public class FmNetwork {
 
 			HttpResponse<JsonNode> response = request.asJson();
 
-			JSONObject obj = new JSONObject(response.getBody().toString());
+			if (response.getStatus() == 200) {
 
-			String artistName;
+				JSONObject obj = new JSONObject(response.getBody().toString());
 
-			try {
-
-				JSONObject artistJson = obj.getJSONObject("artist");
-
-				artistName = artistJson.getString("name");
-
-				ArtistBuilder builder = new ArtistBuilder(artistName);
+				String artistName;
 
 				try {
-					builder.setMbid(artistJson.getString("mbid"));
+
+					JSONObject artistJson = obj.getJSONObject("artist");
+
+					artistName = artistJson.getString("name");
+
+					ArtistBuilder builder = new ArtistBuilder(artistName);
+
+					try {
+						builder.setMbid(artistJson.getString("mbid"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No MBID for " + artistName + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No MBID for " + artistName + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setUrl(artistJson.getString("url"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No Url for " + artistName + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No Url for " + artistName + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setListeners(artistJson.getJSONObject("stats").getInt("listeners"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No listeners for " + artistName + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No listeners for " + artistName + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setPlayCount(artistJson.getJSONObject("stats").getInt("playcount"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No play count for " + artistName + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No play count for " + artistName + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setUserPlayCount(artistJson.getJSONObject("stats").getInt("userplaycount"));
+					} catch (JSONException e) {
+
+					}
+
+					try {
+						JSONObject wikiJson = artistJson.getJSONObject("bio");
+
+						Wiki wiki = new Wiki(wikiJson.getString("published"), wikiJson.getString("summary"),
+								wikiJson.getString("content"));
+
+						builder.setWiki(wiki);
+
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No wiki for " + artistName + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No wiki for " + artistName + " , " + e.getMessage());
+					}
+
+					return builder.build();
+
 				} catch (JSONException e) {
 					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No MBID for " + artistName + " , " + e.getMessage());
+						ConsoleHandler.getConsole().write("ERROR: Arist Name Not Found, " + e.getMessage());
 					else
-						System.err.println("ERROR: No MBID for " + artistName + " , " + e.getMessage());
+						System.err.println("ERROR: Arist Name Not Found, " + e.getMessage());
 				}
-
-				try {
-					builder.setUrl(artistJson.getString("url"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No Url for " + artistName + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No Url for " + artistName + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setListeners(artistJson.getJSONObject("stats").getInt("listeners"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole()
-								.write("ERROR: No listeners for " + artistName + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No listeners for " + artistName + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setPlayCount(artistJson.getJSONObject("stats").getInt("playcount"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole()
-								.write("ERROR: No play count for " + artistName + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No play count for " + artistName + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setUserPlayCount(artistJson.getJSONObject("stats").getInt("userplaycount"));
-				} catch (JSONException e) {
-
-				}
-
-				try {
-					JSONObject wikiJson = artistJson.getJSONObject("bio");
-
-					Wiki wiki = new Wiki(wikiJson.getString("published"), wikiJson.getString("summary"),
-							wikiJson.getString("content"));
-
-					builder.setWiki(wiki);
-
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No wiki for " + artistName + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No wiki for " + artistName + " , " + e.getMessage());
-				}
-
-				return builder.build();
-
-			} catch (JSONException e) {
+			} else {
 				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR: Arist Name Not Found, " + e.getMessage());
+					ConsoleHandler.getConsole().write("ERROR (getArtist): " + name + " HTTP REQUEST ERROR");
 				else
-					System.err.println("ERROR: Arist Name Not Found, " + e.getMessage());
+					System.err.println("ERROR (getArtist): " + name + " HTTP REQUEST ERROR");
+				return null;
 			}
 
 		} catch (UnirestException e) {
@@ -269,85 +294,96 @@ public class FmNetwork {
 
 			HttpResponse<JsonNode> response = request.asJson();
 
-			JSONObject obj = new JSONObject(response.getBody().toString());
+			if (response.getStatus() == 200) {
 
-			String nameIn;
-			String artistIn;
+				JSONObject obj = new JSONObject(response.getBody().toString());
 
-			try {
-
-				JSONObject trackJson = obj.getJSONObject("track");
-
-				nameIn = trackJson.getString("name");
-				artistIn = trackJson.getJSONObject("artist").getString("name");
-
-				TrackBuilder builder = new TrackBuilder(nameIn, getArtist(artistIn));
+				String nameIn;
+				String artistIn;
 
 				try {
-					builder.setMbid(trackJson.getString("mbid"));
+
+					JSONObject trackJson = obj.getJSONObject("track");
+
+					nameIn = trackJson.getString("name");
+					artistIn = trackJson.getJSONObject("artist").getString("name");
+
+					TrackBuilder builder = new TrackBuilder(nameIn, getArtist(artistIn));
+
+					try {
+						builder.setMbid(trackJson.getString("mbid"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole().write("ERROR: No MBID for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No MBID for " + nameIn + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setUrl(trackJson.getString("url"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole().write("ERROR: No Url for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No Url for " + nameIn + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setListeners(trackJson.getInt("listeners"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No listeners for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No listeners for " + nameIn + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setPlayCount(trackJson.getInt("playcount"));
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole()
+									.write("ERROR: No play count for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No play count for " + nameIn + " , " + e.getMessage());
+					}
+
+					try {
+						builder.setUserPlayCount(trackJson.getInt("userplaycount"));
+					} catch (JSONException e) {
+
+					}
+
+					try {
+						JSONObject wikiJson = trackJson.getJSONObject("wiki");
+
+						Wiki wiki = new Wiki(wikiJson.getString("published"), wikiJson.getString("summary"),
+								wikiJson.getString("content"));
+
+						builder.setWiki(wiki);
+
+					} catch (JSONException e) {
+						if (ConsoleHandler.isVerbose())
+							ConsoleHandler.getConsole().write("ERROR: No wiki for " + nameIn + " , " + e.getMessage());
+						else
+							System.err.println("ERROR: No wiki for " + nameIn + " , " + e.getMessage());
+					}
+
+					return builder.build();
+
 				} catch (JSONException e) {
 					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No MBID for " + nameIn + " , " + e.getMessage());
+						ConsoleHandler.getConsole().write("ERROR: Album Name Not Found, " + e.getMessage());
 					else
-						System.err.println("ERROR: No MBID for " + nameIn + " , " + e.getMessage());
+						System.err.println("ERROR: Album Name Not Found, " + e.getMessage());
 				}
 
-				try {
-					builder.setUrl(trackJson.getString("url"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No Url for " + nameIn + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No Url for " + nameIn + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setListeners(trackJson.getInt("listeners"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No listeners for " + nameIn + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No listeners for " + nameIn + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setPlayCount(trackJson.getInt("playcount"));
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole()
-								.write("ERROR: No play count for " + nameIn + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No play count for " + nameIn + " , " + e.getMessage());
-				}
-
-				try {
-					builder.setUserPlayCount(trackJson.getInt("userplaycount"));
-				} catch (JSONException e) {
-
-				}
-
-				try {
-					JSONObject wikiJson = trackJson.getJSONObject("wiki");
-
-					Wiki wiki = new Wiki(wikiJson.getString("published"), wikiJson.getString("summary"),
-							wikiJson.getString("content"));
-
-					builder.setWiki(wiki);
-
-				} catch (JSONException e) {
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write("ERROR: No wiki for " + nameIn + " , " + e.getMessage());
-					else
-						System.err.println("ERROR: No wiki for " + nameIn + " , " + e.getMessage());
-				}
-
-				return builder.build();
-
-			} catch (JSONException e) {
+			} else {
 				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR: Album Name Not Found, " + e.getMessage());
+					ConsoleHandler.getConsole().write("ERROR (getTrack): " + name + " " + artist + " HTTP REQUEST ERROR");
 				else
-					System.err.println("ERROR: Album Name Not Found, " + e.getMessage());
+					System.err.println("ERROR (getTrack): " + name + " " + artist + " HTTP REQUEST ERROR");
+				return null;
 			}
 
 		} catch (UnirestException e) {
@@ -360,32 +396,35 @@ public class FmNetwork {
 	public Album refresh(Album album) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>refreshAlbum: " + album.getName() + " " + album.getArtist().getName());
-		
+
 		return getAlbum(album.getName(), album.getArtist().getName());
 	}
-	
+
 	public Artist refresh(Artist artist) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>refreshArtist: " + artist.getName());
-		
+
 		return getArtist(artist.getName());
 	}
-	
+
 	public Track refresh(Track track) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>refreshTrack: " + track.getName() + " " + track.getArtist().getName());
-		
+
 		Track refreshedTrack = getTrack(track.getName(), track.getArtist().getName());
-		
+
 		refreshedTrack.setAlbum(refresh(track.getAlbum()));
-		
+
 		return refreshedTrack;
 	}
-	
+
 	public FMObj refresh(FMObj obj) {
-		if(obj.getClass() == Track.class) return refresh((Track)obj);
-		if(obj.getClass() == Album.class) return refresh((Album)obj);
-		if(obj.getClass() == Artist.class) return refresh((Artist)obj);
+		if (obj.getClass() == Track.class)
+			return refresh((Track) obj);
+		if (obj.getClass() == Album.class)
+			return refresh((Album) obj);
+		if (obj.getClass() == Artist.class)
+			return refresh((Artist) obj);
 		return null;
 	}
 }
