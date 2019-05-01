@@ -18,6 +18,7 @@
             </Menu>
           <Menu fx:id="menuLookup" mnemonicParsing="false" text="lookup">
             <items>
+                  <MenuItem fx:id="menuItemCurrentTrack" mnemonicParsing="false" onAction="#handleCurrentTrack" text="current track" />
               <MenuItem fx:id="menuItemTrack" mnemonicParsing="false" onAction="#handleLookupTrack" text="track" />
                   <MenuItem fx:id="menuItemAlbum" mnemonicParsing="false" onAction="#handleLookupAlbum" text="album" />
                   <MenuItem fx:id="menuItemArtist" mnemonicParsing="false" onAction="#handleLookupArtist" text="artist" />
@@ -33,7 +34,6 @@
             <Menu fx:id="menuUtil" mnemonicParsing="false" text="util">
               <items>
                 <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
-                  <MenuItem fx:id="menuItemCurrentTrack" mnemonicParsing="false" onAction="#handleCurrentTrack" text="current track" />
                   <MenuItem fx:id="menuItemOpenConsole" mnemonicParsing="false" onAction="#handleOpenConsole" text="open console" />
                   <MenuItem mnemonicParsing="false" onAction="#handleChangeUsername" text="set username" />
               </items>

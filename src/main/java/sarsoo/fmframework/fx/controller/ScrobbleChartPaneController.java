@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.net.Key;
-import javafx.scene.chart.LineChart;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -28,7 +28,7 @@ public class ScrobbleChartPaneController {
 	private ChoiceBox<String> dropDownTimeRange;
 
 	@FXML
-	private LineChart lineChartScrobbles;
+	private BarChart barChartScrobbles;
 
 	@FXML
 	private BorderPane chartBorderPane;
@@ -95,8 +95,8 @@ public class ScrobbleChartPaneController {
 							@Override
 							public void run() {
 								try {
-									lineChartScrobbles.getData().clear();
-									lineChartScrobbles.getData().add(series);
+									barChartScrobbles.getData().clear();
+									barChartScrobbles.getData().add(series);
 
 								} finally {
 									latch.countDown();
