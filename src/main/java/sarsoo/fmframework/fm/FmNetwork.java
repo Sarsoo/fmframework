@@ -10,6 +10,8 @@ import sarsoo.fmframework.music.Track.TrackBuilder;
 import sarsoo.fmframework.music.Wiki;
 import sarsoo.fmframework.util.ConsoleHandler;
 
+import java.util.HashMap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,17 +34,17 @@ public class FmNetwork {
 	public FmNetwork(String key) {
 		this.key = key;
 	}
-	
+
 	@Deprecated
 	public FmNetwork(String key, String userName) {
 		this.key = key;
 		this.userName = userName;
 	}
-	
+
 	/**
 	 * Get an album from Last.FM
 	 * 
-	 * @param name Album Name
+	 * @param name   Album Name
 	 * @param artist Artist Name
 	 * @return Album
 	 */
@@ -162,9 +164,10 @@ public class FmNetwork {
 		return null;
 
 	}
-	
+
 	/**
 	 * Get an artist from Last.FM
+	 * 
 	 * @param name Artist Name
 	 * @return Artist
 	 */
@@ -282,11 +285,11 @@ public class FmNetwork {
 		return null;
 
 	}
-	
+
 	/**
 	 * Get a track from Last.FM
 	 * 
-	 * @param name Track Name
+	 * @param name   Track Name
 	 * @param artist Artist Name
 	 * @return Track
 	 */
@@ -392,7 +395,8 @@ public class FmNetwork {
 
 			} else {
 				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR (getTrack): " + name + " " + artist + " HTTP REQUEST ERROR");
+					ConsoleHandler.getConsole()
+							.write("ERROR (getTrack): " + name + " " + artist + " HTTP REQUEST ERROR");
 				else
 					System.err.println("ERROR (getTrack): " + name + " " + artist + " HTTP REQUEST ERROR");
 				return null;
@@ -449,8 +453,7 @@ public class FmNetwork {
 	}
 
 	/**
-	 * Catch-all refresh method to update an FMObj
-	 * by routing based on object class
+	 * Catch-all refresh method to update an FMObj by routing based on object class
 	 * 
 	 * @param obj FMObj for refreshing
 	 * @return Updated FMObj
@@ -462,6 +465,37 @@ public class FmNetwork {
 			return refresh((Album) obj);
 		if (obj.getClass() == Artist.class)
 			return refresh((Artist) obj);
+		return null;
+	}
+
+	protected JSONObject makeGetRequest(String method, HashMap<String, String> parameters) {
+
+		HttpRequest request;
+		try {
+			request = Unirest.get("http://ws.audioscrobbler.com/2.0/").header("Accept", "application/json")
+					.header("User-Agent", "fmframework").queryString("api_key", key).queryString("format", "json");
+
+			for (String key : parameters.keySet()) {
+				request = request.queryString(key, parameters.get(key));
+			}
+
+			HttpResponse<JsonNode> response = request.asJson();
+
+			if (response.getStatus() == 200) {
+				
+				return new JSONObject(response.getBody().toString());
+				
+			} else {
+				if (ConsoleHandler.isVerbose())
+					ConsoleHandler.getConsole().write("ERROR (getAlbum): HTTP REQUEST ERROR");
+				else
+					System.err.println("ERROR (getAlbum): HTTP REQUEST ERROR");
+				return null;
+			}
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 }
