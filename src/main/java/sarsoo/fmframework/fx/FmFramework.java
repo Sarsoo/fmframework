@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sarsoo.fmframework.fx.controller.ControllerMain;
+import sarsoo.fmframework.fx.controller.RootController;
 import sarsoo.fmframework.util.Reference;
 
 public class FmFramework extends Application {
@@ -13,14 +13,14 @@ public class FmFramework extends Application {
 	private static Stage stage;
 	private Scene rootScene;
 	
-	private static ControllerMain control;
+	private static RootController control;
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		FmFramework.stage = stage;
 		Reference.setUserName("sarsoo");
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/main.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/RootPane.fxml"));
 		
 //		Parent root = FXMLLoader.load(getClass().getResource("ui/main.fxml"));
 		Parent root = (Parent)loader.load();
@@ -31,7 +31,7 @@ public class FmFramework extends Application {
 //		scene.getStylesheets().add("styles/style.css");
 		
 		
-		control = (ControllerMain)loader.getController();
+		control = (RootController)loader.getController();
 //		(new Thread(new TagCaller())).start();
 		stage.setMinHeight(800);
 		stage.setMinWidth(960);
@@ -50,7 +50,7 @@ public class FmFramework extends Application {
 //		
 //	}
 	
-	public static ControllerMain getController() {
+	public static RootController getController() {
 		return control;
 	}
 

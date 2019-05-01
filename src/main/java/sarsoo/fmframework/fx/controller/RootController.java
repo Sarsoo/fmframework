@@ -19,6 +19,8 @@ import javafx.stage.FileChooser;
 import sarsoo.fmframework.file.ListPersister;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.TextAreaConsole;
+import sarsoo.fmframework.fx.chart.GenrePieChartTitledPane;
+import sarsoo.fmframework.fx.chart.PieChartTitledPane;
 import sarsoo.fmframework.fx.tab.AlbumTab;
 import sarsoo.fmframework.fx.tab.ArtistTab;
 import sarsoo.fmframework.fx.tab.ConsoleTab;
@@ -27,8 +29,6 @@ import sarsoo.fmframework.fx.tab.FMObjListTab;
 import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
 import sarsoo.fmframework.fx.FmFramework;
-import sarsoo.fmframework.fx.GenrePieChartTitledPane;
-import sarsoo.fmframework.fx.PieChartTitledPane;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
@@ -48,7 +48,7 @@ import javafx.application.Platform;
 
 import org.json.*;
 
-public class ControllerMain {
+public class RootController {
 
 	@FXML
 	public void initialize() {

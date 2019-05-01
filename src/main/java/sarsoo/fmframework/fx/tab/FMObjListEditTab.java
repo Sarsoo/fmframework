@@ -13,7 +13,7 @@ public class FMObjListEditTab extends Tab {
 
 		setText("List");
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjListPaneEdit.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjListEditPane.fxml"));
 
 		AnchorPane pane = (AnchorPane) loader.load();
 
@@ -40,7 +40,7 @@ public class FMObjListEditTab extends Tab {
 			setText("list");
 		}
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjListPaneEdit.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjListEditPane.fxml"));
 
 		AnchorPane pane = (AnchorPane) loader.load();
 
