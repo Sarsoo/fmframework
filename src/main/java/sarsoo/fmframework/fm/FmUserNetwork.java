@@ -3,6 +3,7 @@ package sarsoo.fmframework.fm;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,7 +28,7 @@ public class FmUserNetwork extends FmNetwork {
 	/**
 	 * FmNetwork for user specific Last.FM information
 	 * 
-	 * @param key Last.FM API Key
+	 * @param key      Last.FM API Key
 	 * @param userName Last.FM username
 	 */
 	public FmUserNetwork(String key, String userName) {
@@ -35,7 +36,7 @@ public class FmUserNetwork extends FmNetwork {
 		super(key);
 		this.userName = userName;
 	}
-	
+
 	/**
 	 * Set network's Last.FM username
 	 * 
@@ -70,33 +71,16 @@ public class FmUserNetwork extends FmNetwork {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getUser");
 
-		try {
-			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/")
-					.header("Accept", "application/json").header("User-Agent", "fmframework")
-					.queryString("method", "user.getinfo").queryString("user", userName).queryString("api_key", key)
-					.queryString("format", "json").asJson();
+		HashMap<String, String> parameters = new HashMap<String, String>();
 
-			if (response.getStatus() == 200) {
+		parameters.put("user", userName);
 
-				JSONObject obj = new JSONObject(response.getBody().toString()).getJSONObject("user");
+		JSONObject obj = makeGetRequest("user.getinfo", parameters).getJSONObject("user");
 
-				return new User(obj.getString("name"), obj.getString("realname"), obj.getString("url"),
-						obj.getString("country"), obj.getInt("age"), obj.getString("gender").charAt(0),
-						obj.getInt("playcount"));
+		return new User(obj.getString("name"), obj.getString("realname"), obj.getString("url"),
+				obj.getString("country"), obj.getInt("age"), obj.getString("gender").charAt(0),
+				obj.getInt("playcount"));
 
-			} else {
-				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR (getUser): HTTP REQUEST ERROR");
-				else
-					System.err.println("ERROR (getUser): HTTP REQUEST ERROR");
-				return null;
-			}
-
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 
 	/**
@@ -132,38 +116,22 @@ public class FmUserNetwork extends FmNetwork {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getLastTrack");
 
-		try {
-			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/")
-					.header("Accept", "application/json").header("User-Agent", "fmframework")
-					.queryString("method", "user.getrecenttracks").queryString("user", userName)
-					.queryString("api_key", key).queryString("format", "json").queryString("limit", "1").asJson();
+		HashMap<String, String> parameters = new HashMap<String, String>();
 
-			if (response.getStatus() == 200) {
+		parameters.put("user", userName);
+		parameters.put("limit", "1");
 
-				JSONArray obj = new JSONObject(response.getBody().toString()).getJSONObject("recenttracks")
-						.getJSONArray("track");
+		JSONArray obj = makeGetRequest("user.getrecenttracks", parameters).getJSONObject("recenttracks")
+				.getJSONArray("track");
 
-				JSONObject track = (JSONObject) obj.get(0);
+		JSONObject track = (JSONObject) obj.get(0);
 
-				Track trackObj = getTrack(track.getString("name"), track.getJSONObject("artist").getString("#text"));
-				trackObj.setAlbum(getAlbum(track.getJSONObject("album").getString("#text"),
-						track.getJSONObject("artist").getString("#text")));
+		Track trackObj = getTrack(track.getString("name"), track.getJSONObject("artist").getString("#text"));
+		trackObj.setAlbum(getAlbum(track.getJSONObject("album").getString("#text"),
+				track.getJSONObject("artist").getString("#text")));
 
-				return trackObj;
+		return trackObj;
 
-			} else {
-				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR (getLastTrack): HTTP REQUEST ERROR");
-				else
-					System.err.println("ERROR (getLastTrack): HTTP REQUEST ERROR");
-				return null;
-			}
-
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 
 	/**
@@ -180,41 +148,26 @@ public class FmUserNetwork extends FmNetwork {
 		ZoneId zoneId = ZoneId.systemDefault();
 		long epoch = local.atStartOfDay(zoneId).toEpochSecond();
 
-		try {
-			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/")
-					.header("Accept", "application/json").header("User-Agent", "fmframework")
-					.queryString("method", "user.getrecenttracks").queryString("user", userName)
-					.queryString("from", epoch).queryString("limit", 1).queryString("api_key", key)
-					.queryString("format", "json").asJson();
+		HashMap<String, String> parameters = new HashMap<String, String>();
 
-			if (response.getStatus() == 200) {
+		parameters.put("user", userName);
+		parameters.put("from", Long.toString(epoch));
+		parameters.put("limit", "1");
 
-				int total = new JSONObject(response.getBody().toString()).getJSONObject("recenttracks")
-						.getJSONObject("@attr").getInt("total");
+		JSONObject obj = makeGetRequest("user.getrecenttracks", parameters);
 
-				return total;
+		int total = obj.getJSONObject("recenttracks").getJSONObject("@attr").getInt("total");
 
-			} else {
-				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR (getScrobblesToday): HTTP REQUEST ERROR");
-				else
-					System.err.println("ERROR (getScrobblesToday): HTTP REQUEST ERROR");
-				return 0;
-			}
+		return total;
 
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
-
-		return 0;
 	}
 
 	/**
 	 * Return scrobble count by date
 	 * 
-	 * @param day Day int
+	 * @param day   Day int
 	 * @param month Month int
-	 * @param year Year int
+	 * @param year  Year int
 	 * @return Scrobble count
 	 */
 	public int getScrobbleCountByDate(int day, int month, int year) {
@@ -227,40 +180,23 @@ public class FmUserNetwork extends FmNetwork {
 		long epoch = startDate.atStartOfDay(zoneId).toEpochSecond();
 		long endEpoch = epoch + (24 * 60 * 60);
 
-		try {
-			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/")
-					.header("Accept", "application/json").header("User-Agent", "fmframework")
-					.queryString("method", "user.getrecenttracks").queryString("user", userName)
-					.queryString("from", epoch).queryString("to", endEpoch).queryString("limit", 1)
-					.queryString("api_key", key).queryString("format", "json").asJson();
+		HashMap<String, String> parameters = new HashMap<String, String>();
 
-			if (response.getStatus() == 200) {
+		parameters.put("user", userName);
+		parameters.put("from", Long.toString(epoch));
+		parameters.put("to", Long.toString(endEpoch));
+		parameters.put("limit", "1");
 
-				int total = new JSONObject(response.getBody().toString()).getJSONObject("recenttracks")
-						.getJSONObject("@attr").getInt("total");
+		JSONObject obj = makeGetRequest("user.getrecenttracks", parameters);
 
-				return total;
+		int total = obj.getJSONObject("recenttracks").getJSONObject("@attr").getInt("total");
 
-			} else {
-				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR (getScrobbleCountByDate): " + day + " " + month + " "
-							+ year + " HTTP REQUEST ERROR");
-				else
-					System.err.println("ERROR (getScrobbleCountByDate): " + day + " " + month + " " + year
-							+ " HTTP REQUEST ERROR");
-				return 0;
-			}
+		return total;
 
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
-
-		return 0;
 	}
 
 	/**
-	 * Returns scrobble count of day 
-	 * by today - {int day}
+	 * Returns scrobble count of day by today - {int day}
 	 * 
 	 * @param day Negative day offset
 	 * @return Scrobble count
@@ -276,34 +212,19 @@ public class FmUserNetwork extends FmNetwork {
 		epoch -= (day * (24 * 60 * 60));
 		long endEpoch = epoch + (24 * 60 * 60);
 
-		try {
-			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/")
-					.header("Accept", "application/json").header("User-Agent", "fmframework")
-					.queryString("method", "user.getrecenttracks").queryString("user", userName)
-					.queryString("from", epoch).queryString("to", endEpoch).queryString("limit", 1)
-					.queryString("api_key", key).queryString("format", "json").asJson();
+		HashMap<String, String> parameters = new HashMap<String, String>();
 
-			if (response.getStatus() == 200) {
+		parameters.put("user", userName);
+		parameters.put("from", Long.toString(epoch));
+		parameters.put("to", Long.toString(endEpoch));
+		parameters.put("limit", "1");
 
-				int total = new JSONObject(response.getBody().toString()).getJSONObject("recenttracks")
-						.getJSONObject("@attr").getInt("total");
+		JSONObject obj = makeGetRequest("user.getrecenttracks", parameters);
 
-				return total;
+		int total = obj.getJSONObject("recenttracks").getJSONObject("@attr").getInt("total");
 
-			} else {
-				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole()
-							.write("ERROR (getScrobbleCountByDeltaDay): " + day + " HTTP REQUEST ERROR");
-				else
-					System.err.println("ERROR (getScrobbleCountByDeltaDay): " + day + " HTTP REQUEST ERROR");
-				return 0;
-			}
+		return total;
 
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
-
-		return 0;
 	}
 
 	/**
@@ -315,107 +236,76 @@ public class FmUserNetwork extends FmNetwork {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getTags");
 
-		try {
-			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/")
-					.header("Accept", "application/json").header("User-Agent", "fmframework")
-					.queryString("method", "user.gettoptags").queryString("user", userName).queryString("api_key", key)
-					.queryString("format", "json").asJson();
+		HashMap<String, String> parameters = new HashMap<String, String>();
 
-			if (response.getStatus() == 200) {
+		parameters.put("user", userName);
 
-				JSONArray tagJsonArray = new JSONObject(response.getBody().toString()).getJSONObject("toptags")
-						.getJSONArray("tag");
+		JSONObject obj = makeGetRequest("user.gettoptags", parameters);
 
-				JSONObject tagJson;
+		JSONArray tagJsonArray = obj.getJSONObject("toptags").getJSONArray("tag");
 
-				ArrayList<Tag> tags = new ArrayList<Tag>();
+		JSONObject tagJson;
 
-				int counter;
-				for (counter = 0; counter < tagJsonArray.length(); counter++) {
+		ArrayList<Tag> tags = new ArrayList<Tag>();
 
-					tagJson = (JSONObject) tagJsonArray.get(counter);
+		int counter;
+		for (counter = 0; counter < tagJsonArray.length(); counter++) {
 
-					Tag tag = new Tag(tagJson.getString("name"), tagJson.getString("url"), tagJson.getInt("count"));
+			tagJson = (JSONObject) tagJsonArray.get(counter);
 
-					tags.add(tag);
+			Tag tag = new Tag(tagJson.getString("name"), tagJson.getString("url"), tagJson.getInt("count"));
 
-				}
+			tags.add(tag);
 
-				return tags;
-
-			} else {
-				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR (getTags): HTTP REQUEST ERROR");
-				else
-					System.err.println("ERROR (getTags): HTTP REQUEST ERROR");
-				return null;
-			}
-
-		} catch (UnirestException e) {
-			e.printStackTrace();
 		}
 
-		return null;
+		return tags;
 
 	}
 
 	/**
-	 * Returns FMObjList of tagged artists 
+	 * Returns FMObjList of tagged artists
 	 * 
 	 * @param tagName Tag to explore
-	 * @return FMObjList of artists 
+	 * @return FMObjList of artists
 	 */
 	public FMObjList getTag(String tagName) {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getTag: " + tagName);
 
-		try {
-			HttpResponse<JsonNode> response = Unirest.get("http://ws.audioscrobbler.com/2.0/")
-					.header("Accept", "application/json").header("User-Agent", "fmframework")
-					.queryString("method", "user.getpersonaltags").queryString("user", userName)
-					.queryString("tag", tagName).queryString("taggingtype", "artist").queryString("limit", 70)
-					.queryString("api_key", key).queryString("format", "json").asJson();
+		HashMap<String, String> parameters = new HashMap<String, String>();
 
-			if (response.getStatus() == 200) {
+		parameters.put("user", userName);
+		parameters.put("tag", tagName);
+		parameters.put("taggingtype", "artist");
+		parameters.put("limit", "70");
 
-				JSONArray tagJsonArray = new JSONObject(response.getBody().toString()).getJSONObject("taggings")
-						.getJSONObject("artists").getJSONArray("artist");
+		JSONObject obj = makeGetRequest("user.getpersonaltags", parameters);
 
-				JSONObject artistJson;
+		JSONArray tagJsonArray = obj.getJSONObject("taggings")
+				.getJSONObject("artists").getJSONArray("artist");
 
-				FMObjList list = new FMObjList();
+		JSONObject artistJson;
 
-				list.setGroupName(tagName);
+		FMObjList list = new FMObjList();
 
-				int counter;
-				for (counter = 0; counter < tagJsonArray.length(); counter++) {
+		list.setGroupName(tagName);
 
-					artistJson = (JSONObject) tagJsonArray.get(counter);
+		int counter;
+		for (counter = 0; counter < tagJsonArray.length(); counter++) {
 
-					Artist artist = getArtist(artistJson.getString("name"));
+			artistJson = (JSONObject) tagJsonArray.get(counter);
 
-					if (ConsoleHandler.isVerbose())
-						ConsoleHandler.getConsole().write(">Tag: " + tagName + ", " + artist.getName());
+			Artist artist = getArtist(artistJson.getString("name"));
 
-					list.add(artist);
+			if (ConsoleHandler.isVerbose())
+				ConsoleHandler.getConsole().write(">Tag: " + tagName + ", " + artist.getName());
 
-				}
+			list.add(artist);
 
-				return list;
-
-			} else {
-				if (ConsoleHandler.isVerbose())
-					ConsoleHandler.getConsole().write("ERROR (getTag): " + tagName + " HTTP REQUEST ERROR");
-				else
-					System.err.println("ERROR (getTag): " + tagName + " HTTP REQUEST ERROR");
-				return null;
-			}
-
-		} catch (UnirestException e) {
-			e.printStackTrace();
 		}
 
-		return null;
+		return list;
 
 	}
 

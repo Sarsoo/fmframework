@@ -35,5 +35,14 @@ public class FmNetworkTest {
 		Artist artist= new FmNetwork(Key.getKey()).getArtist("Kendrick Lamar");
 		assertEquals(artist.getName(), "Kendrick Lamar");
 	}
+	
+	@Test
+	public void testNullParameters() {
+		FmNetwork network = new FmNetwork(Key.getKey());
+
+		network.makeGetRequest("artist.getinfo", null);
+		
+		assertTrue(true);
+	}
 
 }
