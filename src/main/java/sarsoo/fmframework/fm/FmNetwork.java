@@ -175,21 +175,29 @@ public class FmNetwork {
 		if (ConsoleHandler.isVerbose())
 			ConsoleHandler.getConsole().write(">>getArtist: " + name);
 
-		HttpRequest request;
-		try {
-			request = Unirest.get("http://ws.audioscrobbler.com/2.0/").header("Accept", "application/json")
-					.header("User-Agent", "fmframework").queryString("method", "artist.getinfo")
-					.queryString("artist", name).queryString("api_key", key).queryString("format", "json");
+		//HttpRequest request;
+//		try {
+//			request = Unirest.get("http://ws.audioscrobbler.com/2.0/").header("Accept", "application/json")
+//					.header("User-Agent", "fmframework").queryString("method", "artist.getinfo")
+//					.queryString("artist", name).queryString("api_key", key).queryString("format", "json");
 
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			
+			parameters.put("artist", name);
+			
 			if (userName != null)
-				request.queryString("username", userName);
+				parameters.put("username", userName);
+				//request.queryString("username", userName);
 
-			HttpResponse<JsonNode> response = request.asJson();
+//			HttpResponse<JsonNode> response = request.asJson();
 
-			if (response.getStatus() == 200) {
+			if (true) {
+//			if (response.getStatus() == 200) {
 
-				JSONObject obj = new JSONObject(response.getBody().toString());
+//				JSONObject obj = new JSONObject(response.getBody().toString());
 
+				JSONObject obj = makeGetRequest("artist.getinfo", parameters);
+						
 				String artistName;
 
 				try {
@@ -278,9 +286,10 @@ public class FmNetwork {
 				return null;
 			}
 
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
+//		} 
+//		catch (UnirestException e) {
+//			e.printStackTrace();
+//		}
 
 		return null;
 
@@ -477,6 +486,7 @@ public class FmNetwork {
 
 			for (String key : parameters.keySet()) {
 				request = request.queryString(key, parameters.get(key));
+				System.out.println(key + " " + parameters.get(key));
 			}
 
 			HttpResponse<JsonNode> response = request.asJson();
