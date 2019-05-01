@@ -1,4 +1,4 @@
-package sarsoo.fmframework.fx;
+package sarsoo.fmframework.fx.tab;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class AlbumTab extends Tab {
 
 		setText(album.getName());
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/AlbumPane.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/AlbumPane.fxml"));
 
 		AnchorPane pane = (AnchorPane) loader.load();
 

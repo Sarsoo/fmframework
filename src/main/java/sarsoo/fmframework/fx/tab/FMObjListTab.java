@@ -1,4 +1,4 @@
-package sarsoo.fmframework.fx;
+package sarsoo.fmframework.fx.tab;
 
 import java.io.IOException;
 import javafx.scene.control.*;
@@ -13,7 +13,7 @@ public class FMObjListTab extends Tab {
 
 		setText(list.getGroupName());
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FMObjListPane.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjListPane.fxml"));
 
 		AnchorPane pane = (AnchorPane) loader.load();
 

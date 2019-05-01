@@ -1,4 +1,4 @@
-package sarsoo.fmframework.fx;
+package sarsoo.fmframework.fx.tab;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class TrackTab extends Tab {
 
 		setText(track.getName());
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/TrackPane.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/TrackPane.fxml"));
 
 		AnchorPane pane = (AnchorPane) loader.load();
 
