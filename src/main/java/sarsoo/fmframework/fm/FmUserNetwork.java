@@ -8,9 +8,7 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import sarsoo.fmframework.log.Log;
 import sarsoo.fmframework.log.Logger;
-import sarsoo.fmframework.log.console.ConsoleHandler;
 import sarsoo.fmframework.log.entry.InfoEntry;
 import sarsoo.fmframework.log.entry.LogEntry;
 import sarsoo.fmframework.music.Artist;
@@ -297,7 +295,7 @@ public class FmUserNetwork extends FmNetwork {
 
 			Artist artist = getArtist(artistJson.getString("name"));
 
-			Logger.getLog().log(new InfoEntry("Tag").addArg(tagName).addArg(artist.getName()));
+			Logger.getLog().logInfo(new InfoEntry("Tag").addArg(tagName).addArg(artist.getName()));
 
 			list.add(artist);
 

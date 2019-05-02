@@ -22,11 +22,6 @@ public class LogEntry {
 		return args;
 	}
 	
-	public LogEntry setArgs(ArrayList<String> argsIn) {
-		args = argsIn;
-		return this;
-	}
-	
 	public LocalDateTime getTimeStamp() {
 		return timestamp;
 	}

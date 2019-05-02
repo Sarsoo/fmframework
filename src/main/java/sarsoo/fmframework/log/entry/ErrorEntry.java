@@ -1,5 +1,7 @@
 package sarsoo.fmframework.log.entry;
 
+import java.util.ArrayList;
+
 public class ErrorEntry extends LogEntry {
 
 	protected int errorCode;
@@ -10,6 +12,15 @@ public class ErrorEntry extends LogEntry {
 
 	public ErrorEntry setErrorCode(int error) {
 		errorCode = error;
+		return this;
+	}
+	
+	@Override
+	public ErrorEntry addArg(String arg) {
+		if (args == null) {
+			args = new ArrayList<String>();
+		}
+		args.add(arg);	
 		return this;
 	}
 

@@ -2,7 +2,6 @@ package sarsoo.fmframework.fm;
 
 import sarsoo.fmframework.log.Log;
 import sarsoo.fmframework.log.Logger;
-import sarsoo.fmframework.log.console.ConsoleHandler;
 import sarsoo.fmframework.log.entry.ErrorEntry;
 import sarsoo.fmframework.log.entry.InfoEntry;
 import sarsoo.fmframework.log.entry.LogEntry;
@@ -77,31 +76,32 @@ public class FmNetwork {
 			try {
 				builder.setMbid(albumJson.getString("mbid"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getAlbum").addArg("no mbid for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getAlbum").addArg("no mbid for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setUrl(albumJson.getString("url"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getAlbum").addArg("no url for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getAlbum").addArg("no url for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setListeners(albumJson.getInt("listeners"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getAlbum").addArg("no listeners for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getAlbum").addArg("no listeners for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setPlayCount(albumJson.getInt("playcount"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getAlbum").addArg("no play count for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(
+						new InfoEntry("getAlbum").addArg("no play count for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setUserPlayCount(albumJson.getInt("userplaycount"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getAlbum").addArg("no user play count for").addArg(nameIn)
+				log.logInfo(new InfoEntry("getAlbum").addArg("no user play count for").addArg(nameIn)
 						.addArg(e.getMessage()));
 			}
 
@@ -114,13 +114,13 @@ public class FmNetwork {
 				builder.setWiki(wiki);
 
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getAlbum").addArg("no wiki for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getAlbum").addArg("no wiki for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			return builder.build();
 
 		} catch (JSONException e) {
-			log.log(new InfoEntry("getAlbum").addArg("album name not found").addArg(e.getMessage()));
+			log.logInfo(new InfoEntry("getAlbum").addArg("album name not found").addArg(e.getMessage()));
 		}
 
 		return null;
@@ -160,33 +160,33 @@ public class FmNetwork {
 			try {
 				builder.setMbid(artistJson.getString("mbid"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getArtist").addArg("no mbid for").addArg(artistName).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getArtist").addArg("no mbid for").addArg(artistName).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setUrl(artistJson.getString("url"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getArtist").addArg("no url for").addArg(artistName).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getArtist").addArg("no url for").addArg(artistName).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setListeners(artistJson.getJSONObject("stats").getInt("listeners"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getArtist").addArg("no listeners for").addArg(artistName)
+				log.logInfo(new InfoEntry("getArtist").addArg("no listeners for").addArg(artistName)
 						.addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setPlayCount(artistJson.getJSONObject("stats").getInt("playcount"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getArtist").addArg("no play count for").addArg(artistName)
+				log.logInfo(new InfoEntry("getArtist").addArg("no play count for").addArg(artistName)
 						.addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setUserPlayCount(artistJson.getJSONObject("stats").getInt("userplaycount"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getArtist").addArg("no user play count for").addArg(artistName)
+				log.logInfo(new InfoEntry("getArtist").addArg("no user play count for").addArg(artistName)
 						.addArg(e.getMessage()));
 			}
 
@@ -199,13 +199,13 @@ public class FmNetwork {
 				builder.setWiki(wiki);
 
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getArtist").addArg("no wiki for").addArg(artistName).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getArtist").addArg("no wiki for").addArg(artistName).addArg(e.getMessage()));
 			}
 
 			return builder.build();
 
 		} catch (JSONException e) {
-			log.log(new InfoEntry("getArtist").addArg("artist name not found").addArg(e.getMessage()));
+			log.logInfo(new InfoEntry("getArtist").addArg("artist name not found").addArg(e.getMessage()));
 		}
 
 		return null;
@@ -249,31 +249,31 @@ public class FmNetwork {
 			try {
 				builder.setMbid(trackJson.getString("mbid"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getTrack").addArg("no mbid for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getTrack").addArg("no mbid for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setUrl(trackJson.getString("url"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getTrack").addArg("no url for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getTrack").addArg("no url for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setListeners(trackJson.getInt("listeners"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getTrack").addArg("no listeners for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getTrack").addArg("no listeners for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setPlayCount(trackJson.getInt("playcount"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getTrack").addArg("no play count for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getTrack").addArg("no play count for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setUserPlayCount(trackJson.getInt("userplaycount"));
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getTrack").addArg("no user play count for").addArg(nameIn)
+				log.logInfo(new InfoEntry("getTrack").addArg("no user play count for").addArg(nameIn)
 						.addArg(e.getMessage()));
 			}
 
@@ -286,13 +286,13 @@ public class FmNetwork {
 				builder.setWiki(wiki);
 
 			} catch (JSONException e) {
-				log.log(new InfoEntry("getTrack").addArg("no wiki for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("getTrack").addArg("no wiki for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			return builder.build();
 
 		} catch (JSONException e) {
-			log.log(new InfoEntry("getTrack").addArg("track name not found").addArg(e.getMessage()));
+			log.logInfo(new InfoEntry("getTrack").addArg("track name not found").addArg(e.getMessage()));
 		}
 
 		return null;
