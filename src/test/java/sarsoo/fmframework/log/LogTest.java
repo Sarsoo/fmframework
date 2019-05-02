@@ -19,9 +19,9 @@ public class LogTest {
 		log.logInfo(new InfoEntry("log test"));
 		log.logError(new ErrorEntry("log test"));
 		
-		log.dumpLog();
-		log.dumpInfoLog();
-		log.dumpErrorLog();
+//		log.dumpLog();
+//		log.dumpInfoLog();
+//		log.dumpErrorLog();
 		
 		assertTrue(true);
 	}
