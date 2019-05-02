@@ -231,6 +231,9 @@ public class FmUserNetwork extends FmNetwork {
 	}
 
 	public ArrayList<Scrobble> getRecentTracks(int number) {
+		
+		Logger.getLog().log(new LogEntry("getRecentTracks").addArg(Integer.toString(number)));
+		
 		int limit = 50;
 
 		int pages = 0;
