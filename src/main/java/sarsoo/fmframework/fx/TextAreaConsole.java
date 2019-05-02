@@ -2,7 +2,7 @@ package sarsoo.fmframework.fx;
 
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
-import sarsoo.fmframework.util.Console;
+import sarsoo.fmframework.log.console.Console;
 
 public class TextAreaConsole implements Console{
 	

@@ -28,13 +28,15 @@ import sarsoo.fmframework.fx.tab.FMObjListEditTab;
 import sarsoo.fmframework.fx.tab.FMObjListTab;
 import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
+import sarsoo.fmframework.log.Log;
+import sarsoo.fmframework.log.Logger;
+import sarsoo.fmframework.log.console.ConsoleHandler;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Key;
-import sarsoo.fmframework.util.ConsoleHandler;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Reference;
 import sarsoo.fmframework.util.tagpool.TagPool;
@@ -54,7 +56,8 @@ public class RootController {
 	public void initialize() {
 //		Reference.setUserName("sarsoo");
 
-		ConsoleHandler.setVerbose(TextAreaConsole.getInstance());
+		Logger.setLog(new Log(TextAreaConsole.getInstance(), false));
+//		ConsoleHandler.setVerbose(TextAreaConsole.getInstance());
 
 		refresh();
 	}

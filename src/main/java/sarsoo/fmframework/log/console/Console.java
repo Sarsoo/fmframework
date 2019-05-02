@@ -1,4 +1,4 @@
-package sarsoo.fmframework.util;
+package sarsoo.fmframework.log.console;
 
 public interface Console {
 	

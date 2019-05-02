@@ -8,10 +8,14 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import sarsoo.fmframework.log.Log;
+import sarsoo.fmframework.log.Logger;
+import sarsoo.fmframework.log.console.ConsoleHandler;
+import sarsoo.fmframework.log.entry.InfoEntry;
+import sarsoo.fmframework.log.entry.LogEntry;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
-import sarsoo.fmframework.util.ConsoleHandler;
 import sarsoo.fmframework.util.FMObjList;
 
 public class FmUserNetwork extends FmNetwork {
@@ -63,8 +67,8 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return User
 	 */
 	public User getUser() {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getUser");
+
+		Logger.getLog().log(new LogEntry("getUser"));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
 
@@ -84,8 +88,8 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return User real name
 	 */
 	public String getUserRealName() {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getUserRealname");
+
+		Logger.getLog().log(new LogEntry("getUserRealName"));
 
 		return getUser().getRealName();
 	}
@@ -96,8 +100,8 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return Total scrobble count
 	 */
 	public int getUserScrobbleCount() {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getUserScrobbleCount");
+
+		Logger.getLog().log(new LogEntry("getUserScrobbleCount"));
 
 		return getUser().getScrobbleCount();
 	}
@@ -108,8 +112,8 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return Last track
 	 */
 	public Track getLastTrack() {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getLastTrack");
+
+		Logger.getLog().log(new LogEntry("getLastTrack"));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
 
@@ -135,8 +139,8 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return Scrobble count today
 	 */
 	public int getScrobblesToday() {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getScrobblesToday");
+
+		Logger.getLog().log(new LogEntry("getScrobblesToday"));
 
 		LocalDate local = LocalDate.now();
 
@@ -166,8 +170,9 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return Scrobble count
 	 */
 	public int getScrobbleCountByDate(int day, int month, int year) {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getScrobblesByDate " + day + "." + month + "." + year);
+
+		Logger.getLog().log(new LogEntry("getScrobblesByDate").addArg(Integer.toString(day))
+				.addArg(Integer.toString(month)).addArg(Integer.toString(year)));
 
 		LocalDate startDate = LocalDate.of(year, month, day);
 
@@ -197,8 +202,8 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return Scrobble count
 	 */
 	public int getScrobbleCountByDeltaDay(int day) {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getScrobblesByDeltaDay " + day);
+		
+		Logger.getLog().log(new LogEntry("getScrobblesByDeltaDay").addArg(Integer.toString(day)));
 
 		LocalDate local = LocalDate.now();
 
@@ -228,8 +233,8 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return List of tags
 	 */
 	public ArrayList<Tag> getTags() {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getTags");
+		
+		Logger.getLog().log(new LogEntry("getTags"));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
 
@@ -265,8 +270,8 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return FMObjList of artists
 	 */
 	public FMObjList getTag(String tagName) {
-		if (ConsoleHandler.isVerbose())
-			ConsoleHandler.getConsole().write(">>getTag: " + tagName);
+		
+		Logger.getLog().log(new LogEntry("getTag").addArg(tagName));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
 
@@ -277,8 +282,7 @@ public class FmUserNetwork extends FmNetwork {
 
 		JSONObject obj = makeGetRequest("user.getpersonaltags", parameters);
 
-		JSONArray tagJsonArray = obj.getJSONObject("taggings")
-				.getJSONObject("artists").getJSONArray("artist");
+		JSONArray tagJsonArray = obj.getJSONObject("taggings").getJSONObject("artists").getJSONArray("artist");
 
 		JSONObject artistJson;
 
@@ -293,8 +297,7 @@ public class FmUserNetwork extends FmNetwork {
 
 			Artist artist = getArtist(artistJson.getString("name"));
 
-			if (ConsoleHandler.isVerbose())
-				ConsoleHandler.getConsole().write(">Tag: " + tagName + ", " + artist.getName());
+			Logger.getLog().log(new InfoEntry("Tag").addArg(tagName).addArg(artist.getName()));
 
 			list.add(artist);
 

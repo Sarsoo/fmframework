@@ -12,4 +12,9 @@ public class FmUserNetworkTest {
 	public void testNetworkInstantiate() {
 		assertNotNull(new FmUserNetwork(Key.getKey(), "sarsoo"));
 	}
+	
+	@Test
+	public void testGetLastTrack() {
+		assertNotNull(new FmUserNetwork(Key.getKey(), "sarsoo").getLastTrack());
+	}
 }
