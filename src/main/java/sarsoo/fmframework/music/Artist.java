@@ -3,14 +3,6 @@ package sarsoo.fmframework.music;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.w3c.dom.Document;
-
-import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.net.URLBuilder;
-//import sarsoo.fmframework.net.TestCall;
-import sarsoo.fmframework.parser.Parser;
-import sarsoo.fmframework.util.Reference;
-
 public class Artist extends FMObj implements Serializable{
 	
 	/**
@@ -23,16 +15,6 @@ public class Artist extends FMObj implements Serializable{
 	protected ArrayList<Artist> similarArtists;
 	protected ArrayList<Tag> tagList;
 
-	@Deprecated
-	public Artist(String name) {
-		super(name, null, null, 0, 0, 0, null);
-	}
-
-	@Deprecated
-	public Artist(String name, String url, String mbid, int listeners, int playCount, int userPlayCount, Wiki wiki) {
-		super(name, url, mbid, listeners, playCount, userPlayCount, wiki);
-	}
-	
 	private Artist(ArtistBuilder builder) {
 		this.name = builder.name;
 		
@@ -51,26 +33,6 @@ public class Artist extends FMObj implements Serializable{
 		this.tagList = builder.tagList;
 		
 		
-	}
-
-	@Deprecated
-	public static Artist getArtist(String name, String username) {
-		String url = URLBuilder.getArtistInfoUrl(name, username);
-//		TestCall.test(url);
-		Document response = Network.getResponse(url);
-		if (response != null) {
-			Artist artist = Parser.parseArtist(response);
-			return artist;
-		}
-		return null;
-	}
-
-	@Deprecated
-	public static Artist getArtistByMbid(String mbid, String username) {
-		String url = URLBuilder.getArtistInfoMbidUrl(mbid, username);
-		Document response = Network.getResponse(url);
-		Artist artist = Parser.parseArtist(response);
-		return artist;
 	}
 
 	public ArrayList<Album> getAlbum() {
@@ -109,20 +71,7 @@ public class Artist extends FMObj implements Serializable{
 	public String toString() {
 		return "Artist: " + name;
 	}
-	
-	@Deprecated
-	@Override
-	public void refresh() {
-		Artist artist = Artist.getArtist(name, Reference.getUserName());
-		
-		this.listeners = artist.listeners;
-		this.userPlayCount = artist.userPlayCount;
-		this.playCount = artist.playCount;
-		this.wiki = artist.wiki;
-		this.mbid = artist.mbid;
-		
-		
-	}
+
 	
 public static class ArtistBuilder{
 		

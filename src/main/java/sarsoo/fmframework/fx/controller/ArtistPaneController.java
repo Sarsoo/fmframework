@@ -1,19 +1,15 @@
 package sarsoo.fmframework.fx.controller;
 
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import sarsoo.fmframework.fm.FmUserNetwork;
-import sarsoo.fmframework.fx.FmFramework;
-import sarsoo.fmframework.fx.tab.FMObjListTab;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Wiki;
 import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.util.Getter;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.control.*;
@@ -98,11 +94,7 @@ public class ArtistPaneController {
 	@FXML
 	protected void handleViewTracks(ActionEvent event) {
 
-		try {
-			FmFramework.getController().addTab(new FMObjListTab(Getter.getArtistTracks(artist.getName(), Reference.getUserName())));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
 	public void refresh() {

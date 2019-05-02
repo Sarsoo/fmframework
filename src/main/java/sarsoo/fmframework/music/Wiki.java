@@ -2,8 +2,6 @@ package sarsoo.fmframework.music;
 
 import java.io.Serializable;
 
-import sarsoo.fmframework.jframe.WikiView;
-
 public class Wiki implements Serializable{
 	
 	/**
@@ -20,11 +18,6 @@ public class Wiki implements Serializable{
 		this.setContent(content);
 	}
 	
-	public void view(String name) {
-		WikiView view = new WikiView(this, name);
-		view.setVisible(true);
-	}
-
 	public String getDate() {
 		return date;
 	}

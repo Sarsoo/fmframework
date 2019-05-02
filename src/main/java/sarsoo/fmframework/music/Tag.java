@@ -18,12 +18,6 @@ public class Tag implements Comparable<Tag>, Serializable{
 		this.setUrl(url);
 		this.count = count;
 	}
-	
-	@Deprecated
-	public Tag(String name, String url) {
-		this.setName(name);
-		this.setUrl(url);
-	}
 
 	public String getName() {
 		return name;

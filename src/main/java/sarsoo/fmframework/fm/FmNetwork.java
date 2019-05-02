@@ -40,12 +40,6 @@ public class FmNetwork {
 		this.key = key;
 	}
 
-	@Deprecated
-	public FmNetwork(String key, String userName) {
-		this.key = key;
-		this.userName = userName;
-	}
-
 	/**
 	 * Get an album from Last.FM
 	 * 
