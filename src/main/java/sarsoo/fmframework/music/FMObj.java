@@ -2,8 +2,8 @@ package sarsoo.fmframework.music;
 
 import java.io.Serializable;
 
-import sarsoo.fmframework.jframe.FMObjView;
-import sarsoo.fmframework.util.Getter;
+import sarsoo.fmframework.fm.FmUserNetwork;
+import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 
@@ -27,29 +27,6 @@ public abstract class FMObj implements Comparable<FMObj>, Serializable{
 		
 	}
 	
-	@Deprecated
-	public FMObj(String name, String url, String mbid, int listeners, int playCount, int userPlayCount, Wiki wiki) {
-		this.name = name;
-		this.url = url;
-		this.mbid = mbid;
-		this.listeners = listeners;
-		this.playCount = playCount;
-		this.userPlayCount = userPlayCount;
-		this.wiki = wiki;
-	}
-	
-	@Deprecated
-	public abstract void refresh();
-	
-	@Deprecated
-	public void view() {
-		FMObjView view = new FMObjView(this);
-		view.setVisible(true);
-	}
-	
-	public String toString() {
-		return name;
-	}
 	
 	@Override
 	public int compareTo(FMObj obj) {
@@ -86,7 +63,8 @@ public abstract class FMObj implements Comparable<FMObj>, Serializable{
 	}
 	
 	public double getPercent() {
-		return ((double)userPlayCount*100)/(double) Getter.getScrobbles(Reference.getUserName());
+		FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+		return ((double)userPlayCount*100)/(double) net.getUser().getScrobbleCount();
 	}
 	
 	public Wiki getWiki() {

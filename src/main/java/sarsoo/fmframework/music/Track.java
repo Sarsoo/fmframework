@@ -5,11 +5,7 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 
-import sarsoo.fmframework.jframe.TrackView;
 import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.net.URLBuilder;
-//import sarsoo.fmframework.net.TestCall;
-import sarsoo.fmframework.parser.Parser;
 import sarsoo.fmframework.util.Reference;
 
 public class Track extends FMObj implements Serializable {
@@ -26,19 +22,6 @@ public class Track extends FMObj implements Serializable {
 	protected ArrayList<Tag> tagList;
 
 	private int utsFirstListen;
-
-	@Deprecated
-	public Track(String name, String artist) {
-		super(name, null, null, 0, 0, 0, null);
-		this.artist = new Artist(artist);
-	}
-
-	@Deprecated
-	public Track(String name, String url, String mbid, Artist artist, int listeners, int playCount, int userPlayCount,
-			Wiki wiki) {
-		super(name, url, mbid, listeners, playCount, userPlayCount, wiki);
-		this.artist = artist;
-	}
 	
 	private Track(TrackBuilder builder) {
 		
@@ -63,20 +46,6 @@ public class Track extends FMObj implements Serializable {
 		
 	}
 
-	@Deprecated
-	public static Track getTrack(String name, String artist, String username) {
-		// System.out.println("Artist " + artist);
-		// System.out.println("track " + name);
-		String url = URLBuilder.getTrackInfoUrl(name, artist, username);
-		// TestCall.test(url);
-		Document response = Network.getResponse(url);
-		if (response != null) {
-			Track track = Parser.parseTrack(response);
-			return track;
-		}
-		return null;
-	}
-
 	public Artist getArtist() {
 		return artist;
 	}
@@ -95,7 +64,10 @@ public class Track extends FMObj implements Serializable {
 	}
 
 	public String getLyricsURL() {
-		return URLBuilder.getLyricsUrl(name, artist.getName());
+		String trackName = name.replaceAll(" ", "-");
+		String artistName = artist.getName().replaceAll(" ", "-");
+		String urlString = String.format("http://genius.com/%s-%s-lyrics", artistName, trackName);
+		return urlString;
 	}
 
 	public Album getAlbum() {
@@ -115,31 +87,11 @@ public class Track extends FMObj implements Serializable {
 		return false;
 	}
 
-	@Deprecated
-	@Override
-	public void view() {
-		TrackView view = new TrackView(this);
-		view.setVisible(true);
-	}
 
 	public String toString() {
 		if (album != null)
 			return "Track: " + name + " - " + album.getName() + " - " + artist.getName();
 		return "Track: " + name + " - " + artist.getName();
-
-	}
-
-	@Deprecated
-	@Override
-	public void refresh() {
-		Track track = Track.getTrack(name, artist.getName(), Reference.getUserName());
-
-		this.listeners = track.listeners;
-		this.userPlayCount = track.userPlayCount;
-		this.playCount = track.playCount;
-		this.wiki = track.wiki;
-		this.mbid = track.mbid;
-		this.isLoved = track.isLoved;
 
 	}
 

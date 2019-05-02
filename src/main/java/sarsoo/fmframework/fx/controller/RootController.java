@@ -30,7 +30,6 @@ import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
 import sarsoo.fmframework.log.Log;
 import sarsoo.fmframework.log.Logger;
-import sarsoo.fmframework.log.console.ConsoleHandler;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;

@@ -3,11 +3,12 @@ package sarsoo.fmframework.util;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import sarsoo.fmframework.jframe.FMObjListView;
+import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
+import sarsoo.fmframework.net.Key;
 
 public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>, Serializable {
 
@@ -71,21 +72,6 @@ public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>
 		return totalScrobbles;
 	}
 
-	public void view(String title) {
-		FMObjListView view = new FMObjListView(this, title);
-		view.setVisible(true);
-	}
-
-	public void view() {
-		if (groupName != null) {
-			FMObjListView view = new FMObjListView(this, getGroupName());
-			view.setVisible(true);
-		} else {
-			FMObjListView view = new FMObjListView(this, "List View");
-			view.setVisible(true);
-		}
-	}
-
 	public String getGroupName() {
 		return groupName;
 	}
@@ -100,6 +86,7 @@ public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>
 	}
 
 	public void refresh() {
-		stream().forEach(FMObj::refresh);
+		FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+		stream().forEach(item->net.refresh(item));
 	}
 }
