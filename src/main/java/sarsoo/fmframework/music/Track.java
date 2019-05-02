@@ -20,6 +20,7 @@ public class Track extends FMObj implements Serializable {
 	protected int duration;
 	protected boolean isLoved;
 	protected ArrayList<Tag> tagList;
+	protected ArrayList<Scrobble> scrobbles;
 
 	private int utsFirstListen;
 	
@@ -43,6 +44,8 @@ public class Track extends FMObj implements Serializable {
 		this.duration = builder.duration;
 		this.isLoved = builder.isLoved;
 		this.tagList = builder.tagList;
+		
+		this.scrobbles = new ArrayList<Scrobble>();
 		
 	}
 
@@ -72,6 +75,14 @@ public class Track extends FMObj implements Serializable {
 
 	public Album getAlbum() {
 		return album;
+	}
+	
+	public void addScrobble(Scrobble scrobble) {
+		scrobbles.add(scrobble);
+	}
+	
+	public void setScrobbles(ArrayList<Scrobble> scrobble) {
+		scrobbles = scrobble;
 	}
 
 	@Override

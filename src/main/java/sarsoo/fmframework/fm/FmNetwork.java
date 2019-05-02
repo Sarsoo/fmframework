@@ -267,7 +267,8 @@ public class FmNetwork {
 			try {
 				builder.setPlayCount(trackJson.getInt("playcount"));
 			} catch (JSONException e) {
-				log.logInfo(new InfoEntry("getTrack").addArg("no play count for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(
+						new InfoEntry("getTrack").addArg("no play count for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
@@ -392,7 +393,9 @@ public class FmNetwork {
 				return new JSONObject(response.getBody().toString());
 
 			} else {
-				Logger.getLog().logError(new ErrorEntry("HTTP Get").setErrorCode(response.getStatus()));
+				JSONObject obj = new JSONObject(response.getBody().toString());
+				Logger.getLog().logError(new ErrorEntry("HTTP Get").setErrorCode(response.getStatus())
+						.addArg(Integer.toString(obj.getInt("error"))).addArg(obj.getString("message")));
 				return null;
 			}
 		} catch (UnirestException e) {

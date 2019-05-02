@@ -17,5 +17,9 @@ public class Scrobble {
 	public Track getTrack() {
 		return track;
 	}
+	
+	public String toString() {
+		return utc + " " + track.toString();
+	}
 
 }

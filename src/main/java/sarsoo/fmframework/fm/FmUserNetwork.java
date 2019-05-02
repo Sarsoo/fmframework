@@ -11,9 +11,14 @@ import org.json.JSONObject;
 import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.log.entry.InfoEntry;
 import sarsoo.fmframework.log.entry.LogEntry;
+import sarsoo.fmframework.music.Album;
+import sarsoo.fmframework.music.Album.AlbumBuilder;
 import sarsoo.fmframework.music.Artist;
+import sarsoo.fmframework.music.Artist.ArtistBuilder;
+import sarsoo.fmframework.music.Scrobble;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
+import sarsoo.fmframework.music.Track.TrackBuilder;
 import sarsoo.fmframework.util.FMObjList;
 
 public class FmUserNetwork extends FmNetwork {
@@ -200,7 +205,7 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return Scrobble count
 	 */
 	public int getScrobbleCountByDeltaDay(int day) {
-		
+
 		Logger.getLog().log(new LogEntry("getScrobblesByDeltaDay").addArg(Integer.toString(day)));
 
 		LocalDate local = LocalDate.now();
@@ -225,13 +230,59 @@ public class FmUserNetwork extends FmNetwork {
 
 	}
 
+	public ArrayList<Scrobble> getRecentTracks(int number) {
+		int limit = 50;
+
+		int pages = 0;
+
+		System.out.println(number / limit);
+		if ((double) number % (double) limit != 0) {
+			pages = (number / limit) + 1;
+		} else {
+			pages = number / limit;
+		}
+
+		ArrayList<Scrobble> scrobbles = new ArrayList<Scrobble>();
+		int counter;
+		for (counter = 0; counter < pages; counter++) {
+
+			HashMap<String, String> parameters = new HashMap<String, String>();
+
+			parameters.put("user", userName);
+			parameters.put("limit", Integer.toString(limit));
+			parameters.put("page", Integer.toString(counter + 1));
+
+			JSONObject obj = makeGetRequest("user.getrecenttracks", parameters);
+			
+			JSONArray tracks = obj.getJSONObject("recenttracks").getJSONArray("track");
+
+			for (int i = 0; i < tracks.length(); i++) {
+				JSONObject json = (JSONObject) tracks.get(i);
+
+				if (scrobbles.size() < number) {
+					Artist artist = new ArtistBuilder(json.getJSONObject("artist").getString("#text")).build();
+					Album album = new AlbumBuilder(json.getJSONObject("album").getString("#text"), artist).build();
+
+					Track track = new TrackBuilder(json.getString("name"), artist).build();
+					track.setAlbum(album);
+
+					Scrobble scrobble = new Scrobble(json.getJSONObject("date").getLong("uts"), track);
+
+					scrobbles.add(scrobble);
+				}
+			}
+		}
+
+		return scrobbles;
+	}
+
 	/**
 	 * Returns list of user tags
 	 * 
 	 * @return List of tags
 	 */
 	public ArrayList<Tag> getTags() {
-		
+
 		Logger.getLog().log(new LogEntry("getTags"));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -268,7 +319,7 @@ public class FmUserNetwork extends FmNetwork {
 	 * @return FMObjList of artists
 	 */
 	public FMObjList getTag(String tagName) {
-		
+
 		Logger.getLog().log(new LogEntry("getTag").addArg(tagName));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();

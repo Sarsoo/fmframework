@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ErrorEntry extends LogEntry {
 
-	protected int errorCode;
+	protected int errorCode = 0;
 
 	public ErrorEntry(String methodIn) {
 		super(methodIn);
@@ -29,7 +29,7 @@ public class ErrorEntry extends LogEntry {
 		String logString = String.format("%s !!%s", timestamp, method);
 		
 		if (errorCode != 0) {
-			logString += String.format(" (%i)", errorCode);
+			logString += String.format(" (%d)", errorCode);
 		}
 
 		if (args != null) {
