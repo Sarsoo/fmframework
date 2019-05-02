@@ -155,9 +155,9 @@ public class FMObjListPaneEditController {
 
 	public void refresh() {
 		double percent = Maths.getPercentListening(list, Reference.getUserName());
-		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
 
-		labelTotalScrobbles.setText("" + list.getTotalUserScrobbles());
+		labelTotalScrobbles.setText(numberFormat.format(list.getTotalUserScrobbles()));
 		labelPercent.setText(String.format("%.2f%%", percent));
 
 		Collections.sort(list);

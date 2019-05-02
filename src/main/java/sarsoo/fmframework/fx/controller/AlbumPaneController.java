@@ -53,7 +53,7 @@ public class AlbumPaneController {
 		
 		this.album = album;
 		
-		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
 
 		labelAlbumName.setText(album.getName());
 		labelArtistName.setText(album.getArtist().getName());

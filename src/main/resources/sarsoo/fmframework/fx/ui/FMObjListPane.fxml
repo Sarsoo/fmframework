@@ -47,7 +47,7 @@
                      <children>
                         <Label fx:id="labelTotalScrobbles" styleClass="stats" text="Label" GridPane.halignment="CENTER" />
                         <Label fx:id="labelPercent" styleClass="stats" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                        <Button fx:id="buttonRefresh" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="25.0" prefWidth="57.0" text="refresh" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
+                        <Button fx:id="buttonRefresh" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="25.0" prefWidth="97.0" text="refresh" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
                      </children>
                   </GridPane>
                </children>
