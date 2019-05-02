@@ -416,7 +416,7 @@ public class FmNetwork {
 
 		HttpRequest request;
 		try {
-			request = Unirest.get("http://ws.audioscrobbler.com/2.0/").header("Accept", "application/json")
+			request = Unirest.get("https://ws.audioscrobbler.com/2.0/").header("Accept", "application/json")
 					.header("User-Agent", "fmframework").queryString("method", method);
 
 			if (headers != null) {
