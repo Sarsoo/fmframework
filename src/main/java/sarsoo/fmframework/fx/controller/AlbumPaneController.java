@@ -16,6 +16,8 @@ import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 public class AlbumPaneController {
 
@@ -39,7 +41,13 @@ public class AlbumPaneController {
 	
 	@FXML
 	private TextArea textAreaWiki;
-
+	
+	@FXML
+	private BorderPane albumBorderPane;
+	
+	@FXML
+	private AnchorPane infoAnchorPane;
+	
 	@FXML
 	public void initialize() {
 
@@ -79,6 +87,8 @@ public class AlbumPaneController {
 		if(wiki != null) {
 			
 			textAreaWiki.setText(wiki.getContent()+ "\n\n" + wiki.getDate());
+		}else {
+			albumBorderPane.setCenter(infoAnchorPane);
 		}
 	}
 	

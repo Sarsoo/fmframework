@@ -13,6 +13,8 @@ import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.Maths;
 import sarsoo.fmframework.util.Reference;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 public class ArtistPaneController {
 	
@@ -33,6 +35,12 @@ public class ArtistPaneController {
 	
 	@FXML
 	private TextArea textAreaWiki;
+	
+	@FXML
+	private BorderPane artistBorderPane;
+	
+	@FXML
+	private AnchorPane infoAnchorPane;
 
 	@FXML
 	public void initialize() {
@@ -72,6 +80,8 @@ public class ArtistPaneController {
 		if(wiki != null) {
 			
 			textAreaWiki.setText(wiki.getContent()+ "\n\n" + wiki.getDate());
+		}else {
+			artistBorderPane.setCenter(infoAnchorPane);
 		}
 	}
 	

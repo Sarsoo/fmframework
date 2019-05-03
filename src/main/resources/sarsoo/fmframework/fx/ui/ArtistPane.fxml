@@ -9,11 +9,11 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.ArtistPaneController">
    <children>
-      <BorderPane fx:id="albumBorderPane" prefHeight="800.0" prefWidth="1000.0" stylesheets="@../styles/ObjPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="artistBorderPane" prefHeight="800.0" prefWidth="1000.0" stylesheets="@../styles/ObjPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <center>
                                     <SplitPane dividerPositions="0.6983967935871743" prefHeight="327.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                                       <items>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                        <AnchorPane fx:id="infoAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                              <children>
                                                 <GridPane prefHeight="325.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                   <columnConstraints>
