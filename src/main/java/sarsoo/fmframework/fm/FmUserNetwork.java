@@ -127,10 +127,12 @@ public class FmUserNetwork extends FmNetwork {
 				.getJSONArray("track");
 
 		JSONObject track = (JSONObject) obj.get(0);
+		
+		Artist artistObj = getArtist(track.getJSONObject("artist").getString("#text"));
 
-		Track trackObj = getTrack(track.getString("name"), track.getJSONObject("artist").getString("#text"));
+		Track trackObj = getTrack(track.getString("name"), artistObj);
 		trackObj.setAlbum(getAlbum(track.getJSONObject("album").getString("#text"),
-				track.getJSONObject("artist").getString("#text")));
+				artistObj));
 
 		return trackObj;
 

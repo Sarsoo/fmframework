@@ -38,6 +38,10 @@ public class FmNetwork {
 	public FmNetwork(String key) {
 		this.key = key;
 	}
+	
+	public Album getAlbum(String name, String artist) {
+		return getAlbum(name, getArtist(artist));
+	}
 
 	/**
 	 * Get an album from Last.FM
@@ -46,15 +50,15 @@ public class FmNetwork {
 	 * @param artist Artist Name
 	 * @return Album
 	 */
-	public Album getAlbum(String name, String artist) {
+	public Album getAlbum(String name, Artist artist) {
 
 		Log log = Logger.getLog();
-		log.log(new LogEntry("getAlbum").addArg(name).addArg(artist));
+		log.log(new LogEntry("getAlbum").addArg(name).addArg(artist.getName()));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
 
 		parameters.put("album", name);
-		parameters.put("artist", artist);
+		parameters.put("artist", artist.getName());
 
 		if (userName != null)
 			parameters.put("username", userName);
@@ -62,16 +66,14 @@ public class FmNetwork {
 		JSONObject obj = makeGetRequest("album.getinfo", parameters);
 
 		String nameIn;
-		String artistIn;
 
 		try {
 
 			JSONObject albumJson = obj.getJSONObject("album");
 
 			nameIn = albumJson.getString("name");
-			artistIn = albumJson.getString("artist");
 
-			AlbumBuilder builder = new AlbumBuilder(nameIn, getArtist(artistIn));
+			AlbumBuilder builder = new AlbumBuilder(nameIn, artist);
 
 			try {
 				builder.setMbid(albumJson.getString("mbid"));
@@ -211,6 +213,10 @@ public class FmNetwork {
 		return null;
 
 	}
+	
+	public Track getTrack(String name, String artist) {
+		return getTrack(name, getArtist(artist));
+	}
 
 	/**
 	 * Get a track from Last.FM
@@ -219,14 +225,14 @@ public class FmNetwork {
 	 * @param artist Artist Name
 	 * @return Track
 	 */
-	public Track getTrack(String name, String artist) {
+	public Track getTrack(String name, Artist artist) {
 
 		Log log = Logger.getLog();
-		log.log(new LogEntry("getTrack").addArg(name).addArg(artist));
+		log.log(new LogEntry("getTrack").addArg(name).addArg(artist.getName()));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
 
-		parameters.put("artist", artist);
+		parameters.put("artist", artist.getName());
 		parameters.put("track", name);
 
 		if (userName != null)
@@ -235,16 +241,14 @@ public class FmNetwork {
 		JSONObject obj = makeGetRequest("track.getinfo", parameters);
 
 		String nameIn;
-		String artistIn;
 
 		try {
 
 			JSONObject trackJson = obj.getJSONObject("track");
 
 			nameIn = trackJson.getString("name");
-			artistIn = trackJson.getJSONObject("artist").getString("name");
 
-			TrackBuilder builder = new TrackBuilder(nameIn, getArtist(artistIn));
+			TrackBuilder builder = new TrackBuilder(nameIn, artist);
 
 			try {
 				builder.setMbid(trackJson.getString("mbid"));
@@ -334,10 +338,12 @@ public class FmNetwork {
 	public Track refresh(Track track) {
 
 		Logger.getLog().log(new LogEntry("refreshTrack").addArg(track.getName()).addArg(track.getArtist().getName()));
+		
+		Artist refreshedArtist = getArtist(track.getArtist().getName());
 
-		Track refreshedTrack = getTrack(track.getName(), track.getArtist().getName());
+		Track refreshedTrack = getTrack(track.getName(), refreshedArtist);
 
-		refreshedTrack.setAlbum(refresh(track.getAlbum()));
+		refreshedTrack.setAlbum(getAlbum(track.getAlbum().getName(), refreshedArtist));
 
 		return refreshedTrack;
 	}
