@@ -21,6 +21,11 @@ import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.TextAreaConsole;
 import sarsoo.fmframework.fx.chart.GenrePieChartTitledPane;
 import sarsoo.fmframework.fx.chart.PieChartTitledPane;
+import sarsoo.fmframework.fx.service.GetLastTrackService;
+import sarsoo.fmframework.fx.service.GetScrobbleCountService;
+import sarsoo.fmframework.fx.service.GetTagMenuItemsService;
+import sarsoo.fmframework.fx.service.GetTagsService;
+import sarsoo.fmframework.fx.service.ScrobbleCount;
 import sarsoo.fmframework.fx.tab.AlbumTab;
 import sarsoo.fmframework.fx.tab.ArtistTab;
 import sarsoo.fmframework.fx.tab.ConsoleTab;
@@ -55,116 +60,100 @@ public class RootController {
 
 	@FXML
 	public void initialize() {
-//		Reference.setUserName("sarsoo");
-
 		Logger.setLog(new Log(TextAreaConsole.getInstance(), false));
-//		ConsoleHandler.setVerbose(TextAreaConsole.getInstance());
-
 		refresh();
 	}
 
 	public void refresh() {
+		labelStatsUsername.setText(Reference.getUserName());
+		refreshScrobbleCounts();
+		addLastTrackTab();
+		refreshTagMenu();
+	}
 
-		Service<Void> service = new Service<Void>() {
+	public void refreshScrobbleCounts() {
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
+
+		GetScrobbleCountService getScrobbles = new GetScrobbleCountService();
+		getScrobbles.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
 			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
+			public void handle(WorkerStateEvent t) {
+				Platform.runLater(new Runnable() {
+
 					@Override
-					protected Void call() throws Exception {
-						NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-
-						FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
-
-						String scrobblesToday = numberFormat.format(net.getScrobblesToday());
-						String scrobbles = numberFormat.format(net.getUserScrobbleCount());
-
-						TrackTab tab = new TrackTab(net.getLastTrack());
-
-						final CountDownLatch latch = new CountDownLatch(1);
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								try {
-
-									labelStatsScrobblesToday.setText(scrobblesToday);
-									labelStatsUsername.setText(Reference.getUserName());
-									labelStatsScrobblesTotal.setText(scrobbles);
-
-									addTab(tab);
-
-									// refreshPieCharts();
-									refreshTagMenu();
-									refreshPieChartMenu();
-
-								} finally {
-									latch.countDown();
-								}
-							}
-						});
-						latch.await();
-						// Keep with the background work
-						return null;
+					public void run() {
+						labelStatsScrobblesToday.setText(
+								numberFormat.format(((ScrobbleCount) t.getSource().getValue()).getDailyCount()));
+						labelStatsScrobblesTotal.setText(
+								numberFormat.format(((ScrobbleCount) t.getSource().getValue()).getTotalCount()));
 					}
-				};
+
+				});
 			}
-		};
-		service.start();
+		});
+		getScrobbles.start();
+	}
+
+	public void addLastTrackTab() {
+		GetLastTrackService getLastTrack = new GetLastTrackService();
+		getLastTrack.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent t) {
+				try {
+					TrackTab tab = new TrackTab(((Track) t.getSource().getValue()));
+
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							addTab(tab);
+						}
+
+					});
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		getLastTrack.start();
 	}
 
 	public void refreshTagMenu() {
-		FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
 
-		tags = net.getTags();
+		GetTagsService getTags = new GetTagsService();
+		getTags.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent t) {
 
-		Collections.sort(tags);
+				tags = (ArrayList<Tag>) t.getSource().getValue();
 
-		int counter;
-		for (counter = 0; counter < tags.size(); counter++) {
+				Collections.sort(tags);
 
-			String name = tags.get(counter).getName().toLowerCase();
+				GetTagMenuItemsService getTagMenuItems = new GetTagMenuItemsService(tags);
 
-			// System.out.println(name);
+				getTagMenuItems.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+					@Override
+					public void handle(WorkerStateEvent t) {
 
-			MenuItem item = new MenuItem(name);
+						Platform.runLater(new Runnable() {
 
-			item.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent e) {
+							@Override
+							public void run() {
+								menuTag.getItems().setAll((ArrayList<MenuItem>) t.getSource().getValue());
+							}
 
-					// TAG ITEM HANDLER SERVICE
-					Service<Void> service = new Service<Void>() {
-						@Override
-						protected Task<Void> createTask() {
-							return new Task<Void>() {
-								@Override
-								protected Void call() throws Exception {
+						});
 
-									FMObjListTab tab = new FMObjListTab(TagPool.getPool().getTag(name));
+					}
+				});
 
-									final CountDownLatch latch = new CountDownLatch(1);
-									Platform.runLater(new Runnable() {
-										@Override
-										public void run() {
-											try {
-												tabPane.getTabs().add(tab);
-											} finally {
-												latch.countDown();
-											}
-										}
-									});
-									latch.await();
-									// Keep with the background work
-									return null;
-								}
-							};
-						}
-					};
-					service.start();
-				}
-			});
+				getTagMenuItems.start();
 
-			menuTag.getItems().add(item);
-		}
+			}
+		});
+
+		getTags.start();
+
 	}
 
 	public void refreshPieChartMenu() {
@@ -189,8 +178,8 @@ public class RootController {
 
 				JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy")
 						.getJSONArray("genres");
-				
-				if(hierarchiesJsonArray.length() > 0) {
+
+				if (hierarchiesJsonArray.length() > 0) {
 					menuPieChart.setVisible(true);
 				}
 
@@ -229,18 +218,18 @@ public class RootController {
 											GenrePieChartTitledPane pane = new GenrePieChartTitledPane(hierarchyName,
 													hierarchyTagNameList);
 
-											final CountDownLatch latch = new CountDownLatch(1);
+//											final CountDownLatch latch = new CountDownLatch(1);
 											Platform.runLater(new Runnable() {
 												@Override
 												public void run() {
 													try {
 														accordionCharts.getPanes().add(pane);
 													} finally {
-														latch.countDown();
+//														latch.countDown();
 													}
 												}
 											});
-											latch.await();
+//											latch.await();
 											// Keep with the background work
 											return null;
 										}
@@ -262,9 +251,9 @@ public class RootController {
 	}
 
 	public void refreshPieCharts(File file) {
-		
+
 		Logger.getLog().log(new LogEntry("refreshPieCharts"));
-		
+
 		Service<Void> service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
@@ -325,7 +314,7 @@ public class RootController {
 						}
 						paneList.add(new PieChartTitledPane("total", allTags));
 
-						final CountDownLatch latch = new CountDownLatch(1);
+//						final CountDownLatch latch = new CountDownLatch(1);
 						Platform.runLater(new Runnable() {
 							@Override
 							public void run() {
@@ -336,11 +325,11 @@ public class RootController {
 										accordionCharts.getPanes().add(paneList.get(i));
 									}
 								} finally {
-									latch.countDown();
+//									latch.countDown();
 								}
 							}
 						});
-						latch.await();
+//						latch.await();
 						return null;
 					}
 				};
@@ -366,13 +355,6 @@ public class RootController {
 
 	@FXML
 	protected void handleChangeUsername(ActionEvent event) throws IOException {
-//		System.out.println("USERNAME");
-//		String username = JOptionPane.showInputDialog("enter username:");
-//		if(username != null) {
-//			Reference.setUserName(username);
-//		}
-//		refresh();
-
 		Service<Void> service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
@@ -380,25 +362,17 @@ public class RootController {
 					@Override
 					protected Void call() throws Exception {
 
-						System.out.println("USERNAME");
 						String username = JOptionPane.showInputDialog("enter username:");
 						if (username != null) {
 							Reference.setUserName(username);
 
-							final CountDownLatch latch = new CountDownLatch(1);
 							Platform.runLater(new Runnable() {
 								@Override
 								public void run() {
-									try {
-										refresh();
-									} finally {
-										latch.countDown();
-									}
+									refresh();
 								}
 							});
-							latch.await();
 						}
-						// Keep with the background work
 						return null;
 					}
 				};
@@ -421,18 +395,18 @@ public class RootController {
 						if (album != null) {
 							AlbumTab tab = new AlbumTab(album);
 
-							final CountDownLatch latch = new CountDownLatch(1);
+//							final CountDownLatch latch = new CountDownLatch(1);
 							Platform.runLater(new Runnable() {
 								@Override
 								public void run() {
 									try {
 										tabPane.getTabs().add(tab);
 									} finally {
-										latch.countDown();
+//										latch.countDown();
 									}
 								}
 							});
-							latch.await();
+//							latch.await();
 						}
 						// Keep with the background work
 						return null;
@@ -458,20 +432,19 @@ public class RootController {
 						if (artist != null) {
 							ArtistTab tab = new ArtistTab(artist);
 
-							final CountDownLatch latch = new CountDownLatch(1);
+//							final CountDownLatch latch = new CountDownLatch(1);
 							Platform.runLater(new Runnable() {
 								@Override
 								public void run() {
 									try {
 										tabPane.getTabs().add(tab);
 									} finally {
-										latch.countDown();
+//										latch.countDown();
 									}
 								}
 							});
-							latch.await();
+//							latch.await();
 						}
-						// Keep with the background work
 						return null;
 					}
 				};
@@ -495,18 +468,18 @@ public class RootController {
 						if (track != null) {
 							TrackTab tab = new TrackTab(track);
 
-							final CountDownLatch latch = new CountDownLatch(1);
+//							final CountDownLatch latch = new CountDownLatch(1);
 							Platform.runLater(new Runnable() {
 								@Override
 								public void run() {
 									try {
 										tabPane.getTabs().add(tab);
 									} finally {
-										latch.countDown();
+//										latch.countDown();
 									}
 								}
 							});
-							latch.await();
+//							latch.await();
 						}
 						// Keep with the background work
 						return null;
@@ -519,39 +492,7 @@ public class RootController {
 
 	@FXML
 	protected void handleCurrentTrack(ActionEvent event) throws IOException {
-		Service<Void> service = new Service<Void>() {
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
-					@Override
-					protected Void call() throws Exception {
-
-						Track track = new FmUserNetwork(Key.getKey(), Reference.getUserName()).getLastTrack();
-
-						if (track != null) {
-							TrackTab tab = new TrackTab(track);
-
-							final CountDownLatch latch = new CountDownLatch(1);
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									try {
-										tabPane.getTabs().add(tab);
-									} finally {
-										latch.countDown();
-									}
-								}
-							});
-							latch.await();
-						}
-						// Keep with the background work
-						return null;
-					}
-				};
-			}
-		};
-		service.start();
-
+		addLastTrackTab();
 	}
 
 	@FXML
@@ -597,15 +538,15 @@ public class RootController {
 	protected void handleOpenConsole(ActionEvent event) {
 		addTab(new ConsoleTab());
 	}
-	
+
 	@FXML
 	protected void handleScrobbleChart(ActionEvent event) {
-			try {
-				addTab(new ScrobbleChartTab());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			addTab(new ScrobbleChartTab());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -658,7 +599,7 @@ public class RootController {
 
 	@FXML
 	private Menu menuPieChart;
-	
+
 	@FXML
 	private Menu menuChart;
 //
