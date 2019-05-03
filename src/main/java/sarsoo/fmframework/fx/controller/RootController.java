@@ -30,6 +30,8 @@ import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
 import sarsoo.fmframework.log.Log;
 import sarsoo.fmframework.log.Logger;
+import sarsoo.fmframework.log.entry.InfoEntry;
+import sarsoo.fmframework.log.entry.LogEntry;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
@@ -206,11 +208,7 @@ public class RootController {
 					for (i = 0; i < hierarchyTagsJsonArray.length(); i++) {
 						hierarchyTagNameList.add(hierarchyTagsJsonArray.getString(i));
 //						allTags.add(hierarchyTagsJsonArray.getString(i));
-						System.out.println(hierarchyTagsJsonArray.getString(i));
 					}
-
-					System.out.println("hierarchy: " + hierarchyName);
-					System.out.println(hierarchyTagNameList);
 
 //					paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
 
@@ -264,16 +262,9 @@ public class RootController {
 	}
 
 	public void refreshPieCharts(File file) {
-//		File file = null;
-//		String path = null;
-//		if (new File("./piechart.json").isFile()) {
-//			file = new File("./piechart.json");
-//		} else {
-//			FileChooser fileChooser = new FileChooser();
-//			fileChooser.setTitle("open pie chart json");
-//			fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
-//			file = fileChooser.showOpenDialog(FmFramework.getStage());
-//		}
+		
+		Logger.getLog().log(new LogEntry("refreshPieCharts"));
+		
 		Service<Void> service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
@@ -282,7 +273,6 @@ public class RootController {
 					protected Void call() throws Exception {
 
 						String jsonString = null;
-//						System.out.println(file.getPath());
 						if (file != null) {
 
 							BufferedReader br = new BufferedReader(new FileReader(file));
@@ -296,7 +286,7 @@ public class RootController {
 							br.close();
 
 							jsonString = sb.toString();
-							System.out.println("json read");
+							Logger.getLog().logInfo(new InfoEntry("refreshPieCharts").addArg("json read"));
 						}
 
 						JSONObject rootParsedJsonObj = new JSONObject(jsonString);
@@ -305,7 +295,7 @@ public class RootController {
 								.getJSONArray("genres");
 						JSONObject pieJson = rootParsedJsonObj.getJSONObject("pie");
 
-						System.out.println("arrays parsed");
+						Logger.getLog().logInfo(new InfoEntry("refreshPieCharts").addArg("arrays parsed"));
 
 						int counter;
 						ArrayList<TitledPane> paneList = new ArrayList<TitledPane>();
@@ -323,11 +313,7 @@ public class RootController {
 							for (i = 0; i < hierarchyTagsJsonArray.length(); i++) {
 								hierarchyTagNameList.add(hierarchyTagsJsonArray.getString(i));
 								allTags.add(hierarchyTagsJsonArray.getString(i));
-								System.out.println(hierarchyTagsJsonArray.getString(i));
 							}
-
-							System.out.println("hierarchy: " + hierarchyName);
-							System.out.println(hierarchyTagNameList);
 
 							paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
 						}
@@ -337,7 +323,6 @@ public class RootController {
 						for (i = 0; i < totalPieTags.length(); i++) {
 							allTags.add((totalPieTags).getString(i));
 						}
-						System.out.println(allTags);
 						paneList.add(new PieChartTitledPane("total", allTags));
 
 						final CountDownLatch latch = new CountDownLatch(1);

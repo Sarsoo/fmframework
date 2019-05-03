@@ -37,7 +37,6 @@ public class GenrePieChart extends PieChart{
 		
 		for(i = 0; i < tagNames.size(); i++) {
 			FMObjList list = tagObjs.get(i);
-			System.out.println(list.getGroupName());
 			pieChartData.add(new PieChart.Data(
 					String.format("%s %d%%", list.getGroupName(),(int) list.getTotalUserScrobbles() * 100 / genreTotal), list.getTotalUserScrobbles()));
 		}
