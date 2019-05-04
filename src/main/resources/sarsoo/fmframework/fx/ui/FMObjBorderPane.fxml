@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="1000.0" stylesheets="@../styles/ObjPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <bottom>
+                                    <ToolBar fx:id="toolBar" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                      <items>
+                  <Button fx:id="buttonRefresh" mnemonicParsing="false" onAction="#handleRefresh" text="refresh" />
+                  <Button fx:id="buttonViewInfo" mnemonicParsing="false" onAction="#handleViewInfo" text="view info" />
+                                        <Button fx:id="buttonViewScrobbles" mnemonicParsing="false" onAction="#handleViewScrobbles" text="view scrobbles" />
+                  <Button fx:id="buttonViewOnline" mnemonicParsing="false" onAction="#handleViewOnline" text="view online" />
+                                      </items>
+                                    </ToolBar>
+                                 </bottom>
+         <top>
+            <AnchorPane fx:id="progressBarAnchorPane" prefHeight="0.0" prefWidth="1000.0">
+               <children>
+                  <ProgressBar fx:id="progressBar" prefHeight="30.0" prefWidth="1000.0" progress="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
+               </children>
+            </AnchorPane>
+         </top>
+                              </BorderPane>
+   </children>
+</AnchorPane>

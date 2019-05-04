@@ -1,4 +1,4 @@
-package sarsoo.fmframework.fx.controller;
+package sarsoo.fmframework.fx.controller.info;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -16,7 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
-public class ArtistPaneController {
+public class ArtistPaneController{
 	
 	@FXML
 	private Label labelArtistName;
@@ -45,15 +45,11 @@ public class ArtistPaneController {
 	@FXML
 	public void initialize() {
 
-		
 
 	}
 	
-	Artist artist;
 
-	public void populate(Artist artist) {
-		
-		this.artist = artist;
+	public void refresh(Artist artist) {
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
@@ -84,57 +80,34 @@ public class ArtistPaneController {
 			artistBorderPane.setCenter(infoAnchorPane);
 		}
 	}
-	
-	@FXML
-	protected void handleRefresh(ActionEvent event) {
-		refresh();
-	}	
-	
-	@FXML
-	protected void viewOnline(ActionEvent event) {
-		Network.openURL(artist.getUrl());
-	}
-	
-	
-	@FXML
-	protected void viewRYM(ActionEvent event) {
-		Network.openURL(artist.getRymURL());
-	}
-	
-	@FXML
-	protected void handleViewTracks(ActionEvent event) {
-
-		
-	}
-	
-	public void refresh() {
-		artist = new FmUserNetwork(Key.getKey(), Reference.getUserName()).refresh(artist);
-		
-		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-
-		labelUserScrobbles.setText(numberFormat.format(artist.getUserPlayCount())
-				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(artist, Reference.getUserName())));
-
-		labelTotalListeners.setText(numberFormat.format(artist.getListeners()) + " Listeners");
-		labelTotalScrobbles.setText(numberFormat.format(artist.getPlayCount()) + " Total Scrobbles");
-
-		double ratio = artist.getTimeListenRatio();
-
-		
-		if (ratio > 1) {
-			labelRatio.setText(String.format("listen every %.2f days", ratio));
-		} else if (ratio == 1) {
-			labelRatio.setText("listen every day");
-		} else {
-			labelRatio.setText(String.format("%.2f times a day", 1 / ratio));
-		}
-		
-		Wiki wiki = artist.getWiki();
-		
-		if(wiki != null) {
-			
-			textAreaWiki.setText(wiki.getContent()+ "\n\n" + wiki.getDate());
-		}
-	}
+//	
+//	public void refresh(Artist artist) {
+//		
+//		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+//
+//		labelUserScrobbles.setText(numberFormat.format(artist.getUserPlayCount())
+//				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(artist, Reference.getUserName())));
+//
+//		labelTotalListeners.setText(numberFormat.format(artist.getListeners()) + " Listeners");
+//		labelTotalScrobbles.setText(numberFormat.format(artist.getPlayCount()) + " Total Scrobbles");
+//
+//		double ratio = artist.getTimeListenRatio();
+//
+//		
+//		if (ratio > 1) {
+//			labelRatio.setText(String.format("listen every %.2f days", ratio));
+//		} else if (ratio == 1) {
+//			labelRatio.setText("listen every day");
+//		} else {
+//			labelRatio.setText(String.format("%.2f times a day", 1 / ratio));
+//		}
+//		
+//		Wiki wiki = artist.getWiki();
+//		
+//		if(wiki != null) {
+//			
+//			textAreaWiki.setText(wiki.getContent()+ "\n\n" + wiki.getDate());
+//		}
+//	}
 
 }

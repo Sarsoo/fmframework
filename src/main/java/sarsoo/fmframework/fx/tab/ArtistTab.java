@@ -4,33 +4,33 @@ import java.io.IOException;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import sarsoo.fmframework.fx.controller.ArtistPaneController;
+import sarsoo.fmframework.fx.controller.borderpane.ArtistBorderPaneController;
 import sarsoo.fmframework.music.Artist;
 import javafx.fxml.FXMLLoader;
 
-public class ArtistTab extends Tab {
-
+public class ArtistTab extends Tab{
+	
 	public ArtistTab(Artist artist) throws IOException {
-
+		
 		setText(artist.getName());
-
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/ArtistPane.fxml"));
-
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjBorderPane.fxml"));
+		
+		ArtistBorderPaneController controller = new ArtistBorderPaneController();
+		
+		loader.setController(controller);
+		
 		AnchorPane pane = (AnchorPane) loader.load();
 
 		AnchorPane.setTopAnchor(pane, 0.0);
 		AnchorPane.setLeftAnchor(pane, 0.0);
 		AnchorPane.setRightAnchor(pane, 0.0);
 		AnchorPane.setBottomAnchor(pane, 0.0);
-
+		
 		setContent(pane);
-
-		ArtistPaneController control = (ArtistPaneController) loader.getController();
-
-		control.populate(artist);
 		
+		controller.populate(artist);
 		
-
 	}
 
 }

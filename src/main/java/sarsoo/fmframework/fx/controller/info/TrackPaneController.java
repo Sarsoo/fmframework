@@ -1,4 +1,4 @@
-package sarsoo.fmframework.fx.controller;
+package sarsoo.fmframework.fx.controller.info;
 
 import java.io.IOException;
 import java.text.NumberFormat;
