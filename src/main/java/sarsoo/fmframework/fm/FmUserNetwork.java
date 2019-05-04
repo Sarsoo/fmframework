@@ -128,12 +128,11 @@ public class FmUserNetwork extends FmNetwork {
 				.getJSONArray("track");
 
 		JSONObject track = (JSONObject) obj.get(0);
-		
+
 		Artist artistObj = getArtist(track.getJSONObject("artist").getString("#text"));
 
 		Track trackObj = getTrack(track.getString("name"), artistObj);
-		trackObj.setAlbum(getAlbum(track.getJSONObject("album").getString("#text"),
-				artistObj));
+		trackObj.setAlbum(getAlbum(track.getJSONObject("album").getString("#text"), artistObj));
 
 		return trackObj;
 
@@ -233,10 +232,53 @@ public class FmUserNetwork extends FmNetwork {
 
 	}
 
+	public Artist getArtistTracks(String artistName) {
+		return getArtistTracks(getArtist(artistName));
+	}
+
+	public Artist getArtistTracks(Artist artist) {
+
+		Logger.getLog().log(new LogEntry("getArtistTracks").addArg(artist.getName()));
+
+		int limit = 50;
+
+		ArrayList<Scrobble> scrobbles = new ArrayList<Scrobble>();
+
+		Boolean done = false;
+		int counter = 1;
+		while (!done) {
+
+			HashMap<String, String> parameters = new HashMap<String, String>();
+
+			parameters.put("user", userName);
+			parameters.put("artist", artist.getName());
+			parameters.put("limit", Integer.toString(limit));
+			parameters.put("page", Integer.toString(counter + 1));
+
+			JSONObject obj = makeGetRequest("user.getartisttracks", parameters);
+
+			JSONArray returnedScrobbles = obj.getJSONObject("artisttracks").getJSONArray("track");
+
+			if (returnedScrobbles.length() > 0) {
+
+				for (int i = 0; i < returnedScrobbles.length(); i++) {
+
+					JSONObject scrob = returnedScrobbles.getJSONObject(i);
+
+				}
+			}else {
+				done = true;
+			}
+
+		}
+
+		return null;
+	}
+
 	public ArrayList<Scrobble> getRecentScrobbles(int number) {
-		
+
 		Logger.getLog().log(new LogEntry("getRecentTracks").addArg(Integer.toString(number)));
-		
+
 		int limit = 50;
 
 		int pages = 0;
@@ -259,7 +301,7 @@ public class FmUserNetwork extends FmNetwork {
 			parameters.put("page", Integer.toString(counter + 1));
 
 			JSONObject obj = makeGetRequest("user.getrecenttracks", parameters);
-			
+
 			JSONArray tracks = obj.getJSONObject("recenttracks").getJSONArray("track");
 
 			for (int i = 0; i < tracks.length(); i++) {
@@ -271,15 +313,15 @@ public class FmUserNetwork extends FmNetwork {
 
 					Track track = new TrackBuilder(json.getString("name"), artist).build();
 					track.setAlbum(album);
-					
+
 					try {
 						Scrobble scrobble = new Scrobble(json.getJSONObject("date").getLong("uts"), track);
 						scrobbles.add(scrobble);
-					}catch(JSONException e){
+					} catch (JSONException e) {
 						Logger.getLog().logInfo(new InfoEntry("getRecentTracks").addArg("first track"));
 
 					}
-					
+
 				}
 			}
 		}

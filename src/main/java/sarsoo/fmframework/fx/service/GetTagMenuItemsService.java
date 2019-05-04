@@ -8,10 +8,10 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
+import sarsoo.fmframework.cache.TagPool;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.tab.FMObjListTab;
 import sarsoo.fmframework.music.Tag;
-import sarsoo.fmframework.util.tagpool.TagPool;
 
 public class GetTagMenuItemsService extends Service<ArrayList<MenuItem>> {
 

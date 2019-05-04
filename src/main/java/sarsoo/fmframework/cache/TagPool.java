@@ -1,4 +1,4 @@
-package sarsoo.fmframework.util.tagpool;
+package sarsoo.fmframework.cache;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Reference;
 
-public class TagPool {
+public class TagPool{
 
 	private static TagPool instance;
 

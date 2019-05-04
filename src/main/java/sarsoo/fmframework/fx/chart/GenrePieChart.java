@@ -7,8 +7,8 @@ import java.util.Comparator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
+import sarsoo.fmframework.cache.TagPool;
 import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.tagpool.TagPool;
 
 public class GenrePieChart extends PieChart{
 	
