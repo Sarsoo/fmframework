@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import sarsoo.fmframework.fx.controller.borderpane.ArtistBorderPaneController;
+import sarsoo.fmframework.fx.controller.borderpane.TrackBorderPaneController;
 import sarsoo.fmframework.fx.controller.info.TrackPaneController;
 import sarsoo.fmframework.music.Track;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +16,12 @@ public class TrackTab extends Tab {
 
 		setText(track.getName());
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/TrackPane.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjBorderPane.fxml"));
 
+		TrackBorderPaneController controller = new TrackBorderPaneController();
+		
+		loader.setController(controller);
+		
 		AnchorPane pane = (AnchorPane) loader.load();
 
 		AnchorPane.setTopAnchor(pane, 0.0);
@@ -25,12 +31,8 @@ public class TrackTab extends Tab {
 
 		setContent(pane);
 
-		TrackPaneController control = (TrackPaneController) loader.getController();
-
-		control.populate(track);
+		controller.populate(track);
 		
-		
-
 	}
 
 }
