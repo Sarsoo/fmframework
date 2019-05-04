@@ -43,9 +43,6 @@ public class AlbumPaneController {
 	private TextArea textAreaWiki;
 	
 	@FXML
-	private BorderPane albumBorderPane;
-	
-	@FXML
 	private AnchorPane infoAnchorPane;
 	
 	@FXML
@@ -55,11 +52,8 @@ public class AlbumPaneController {
 
 	}
 	
-	Album album;
 
-	public void populate(Album album) {
-		
-		this.album = album;
+	public void refresh(Album album) {
 		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
 
@@ -88,58 +82,58 @@ public class AlbumPaneController {
 			
 			textAreaWiki.setText(wiki.getContent()+ "\n\n" + wiki.getDate());
 		}else {
-			albumBorderPane.setCenter(infoAnchorPane);
+//			albumBorderPane.setCenter(infoAnchorPane);
 		}
 	}
 	
-	@FXML
-	protected void handleRefresh(ActionEvent event) {
-		refresh();
-	}	
+//	@FXML
+//	protected void handleRefresh(ActionEvent event) {
+//		refresh();
+//	}	
 	
-	@FXML
-	protected void viewOnline(ActionEvent event) {
-		Network.openURL(album.getUrl());
-	}
+//	@FXML
+//	protected void viewOnline(ActionEvent event) {
+//		Network.openURL(album.getUrl());
+//	}
 	
-	@FXML
-	protected void viewArtist(ActionEvent event) throws IOException {
-		FmFramework.getController().addTab(new ArtistTab(album.getArtist()));
-	}
+//	@FXML
+//	protected void viewArtist(ActionEvent event) throws IOException {
+//		FmFramework.getController().addTab(new ArtistTab(album.getArtist()));
+//	}
+//	
+//	@FXML
+//	protected void viewRYM(ActionEvent event) {
+//		Network.openURL(album.getRymURL());
+//	}
 	
-	@FXML
-	protected void viewRYM(ActionEvent event) {
-		Network.openURL(album.getRymURL());
-	}
-	
-	public void refresh() {
-		album = new FmUserNetwork(Key.getKey(), Reference.getUserName()).refresh(album);
-		
-		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-
-		labelUserScrobbles.setText(numberFormat.format(album.getUserPlayCount())
-				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(album, Reference.getUserName())));
-
-		labelTotalListeners.setText(numberFormat.format(album.getListeners()) + " Listeners");
-		labelTotalScrobbles.setText(numberFormat.format(album.getPlayCount()) + " Total Scrobbles");
-
-		double ratio = album.getTimeListenRatio();
-
-		
-		if (ratio > 1) {
-			labelRatio.setText(String.format("listen every %.2f days", ratio));
-		} else if (ratio == 1) {
-			labelRatio.setText("listen every day");
-		} else {
-			labelRatio.setText(String.format("%.2f times a day", 1 / ratio));
-		}
-		
-		Wiki wiki = album.getWiki();
-		
-		if(wiki != null) {
-			
-			textAreaWiki.setText(wiki.getContent()+ "\n\n" + wiki.getDate());
-		}
-	}
+//	public void refresh() {
+//		album = new FmUserNetwork(Key.getKey(), Reference.getUserName()).refresh(album);
+//		
+//		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+//
+//		labelUserScrobbles.setText(numberFormat.format(album.getUserPlayCount())
+//				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(album, Reference.getUserName())));
+//
+//		labelTotalListeners.setText(numberFormat.format(album.getListeners()) + " Listeners");
+//		labelTotalScrobbles.setText(numberFormat.format(album.getPlayCount()) + " Total Scrobbles");
+//
+//		double ratio = album.getTimeListenRatio();
+//
+//		
+//		if (ratio > 1) {
+//			labelRatio.setText(String.format("listen every %.2f days", ratio));
+//		} else if (ratio == 1) {
+//			labelRatio.setText("listen every day");
+//		} else {
+//			labelRatio.setText(String.format("%.2f times a day", 1 / ratio));
+//		}
+//		
+//		Wiki wiki = album.getWiki();
+//		
+//		if(wiki != null) {
+//			
+//			textAreaWiki.setText(wiki.getContent()+ "\n\n" + wiki.getDate());
+//		}
+//	}
 
 }

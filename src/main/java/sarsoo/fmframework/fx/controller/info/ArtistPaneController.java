@@ -37,9 +37,6 @@ public class ArtistPaneController{
 	private TextArea textAreaWiki;
 	
 	@FXML
-	private BorderPane artistBorderPane;
-	
-	@FXML
 	private AnchorPane infoAnchorPane;
 
 	@FXML
@@ -77,7 +74,7 @@ public class ArtistPaneController{
 			
 			textAreaWiki.setText(wiki.getContent()+ "\n\n" + wiki.getDate());
 		}else {
-			artistBorderPane.setCenter(infoAnchorPane);
+//			artistBorderPane.setCenter(infoAnchorPane);
 		}
 	}
 //	

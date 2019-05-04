@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import sarsoo.fmframework.fx.controller.borderpane.AlbumBorderPaneController;
+import sarsoo.fmframework.fx.controller.borderpane.ArtistBorderPaneController;
 import sarsoo.fmframework.fx.controller.info.AlbumPaneController;
 import sarsoo.fmframework.music.Album;
 
@@ -16,8 +18,12 @@ public class AlbumTab extends Tab {
 
 		setText(album.getName());
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/AlbumPane.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjBorderPane.fxml"));
 
+		AlbumBorderPaneController controller = new AlbumBorderPaneController();
+
+		loader.setController(controller);
+		
 		AnchorPane pane = (AnchorPane) loader.load();
 
 		AnchorPane.setTopAnchor(pane, 0.0);
@@ -27,11 +33,7 @@ public class AlbumTab extends Tab {
 
 		setContent(pane);
 
-		AlbumPaneController control = (AlbumPaneController) loader.getController();
-
-		control.populate(album);
-		
-		
+		controller.populate(album);
 
 	}
 
