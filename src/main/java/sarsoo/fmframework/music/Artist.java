@@ -3,8 +3,8 @@ package sarsoo.fmframework.music;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Artist extends FMObj implements Serializable{
-	
+public class Artist extends FMObj implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -17,22 +17,21 @@ public class Artist extends FMObj implements Serializable{
 
 	private Artist(ArtistBuilder builder) {
 		this.name = builder.name;
-		
+
 		this.url = builder.url;
-		
+
 		this.listeners = builder.listeners;
 		this.playCount = builder.playCount;
 		this.userPlayCount = builder.userPlayCount;
-		
+
 		this.wiki = builder.wiki;
-		
+
 		this.mbid = builder.mbid;
-		
+
 		this.albums = builder.albums;
 		this.similarArtists = builder.similarArtists;
 		this.tagList = builder.tagList;
-		
-		
+
 	}
 
 	public ArrayList<Album> getAlbum() {
@@ -72,80 +71,93 @@ public class Artist extends FMObj implements Serializable{
 		return "Artist: " + name;
 	}
 
-	
-public static class ArtistBuilder{
-		
+	public static class ArtistBuilder {
+
 		protected String name;
-		
+
 		protected String url;
-		
+
 		protected int listeners;
 		protected int playCount;
 		protected int userPlayCount;
-		
+
 		protected Wiki wiki;
-		
+
 		protected String mbid;
-		
+
 		protected ArrayList<Album> albums;
 		protected ArrayList<Artist> similarArtists;
 		protected ArrayList<Tag> tagList;
-		
-		
+
 		public ArtistBuilder(String name) {
-			
+
 			this.name = name;
-			
+
 		}
-		
+
 		public ArtistBuilder setUrl(String url) {
 			this.url = url;
 			return this;
 		}
-		
+
 		public ArtistBuilder setListeners(int listeners) {
 			this.listeners = listeners;
 			return this;
 		}
-		
+
 		public ArtistBuilder setPlayCount(int playCount) {
 			this.playCount = playCount;
 			return this;
 		}
-		
+
 		public ArtistBuilder setUserPlayCount(int userPlayCount) {
 			this.userPlayCount = userPlayCount;
 			return this;
 		}
-		
+
 		public ArtistBuilder setWiki(Wiki wiki) {
 			this.wiki = wiki;
 			return this;
 		}
-		
+
 		public ArtistBuilder setMbid(String Mbid) {
 			this.mbid = Mbid;
 			return this;
 		}
-		
+
 		public ArtistBuilder setAlbums(ArrayList<Album> albums) {
 			this.albums = albums;
 			return this;
 		}
-		
+
 		public ArtistBuilder setSimilarArtists(ArrayList<Artist> similarArtists) {
 			this.similarArtists = similarArtists;
 			return this;
 		}
-		
+
 		public ArtistBuilder setTagList(ArrayList<Tag> tagList) {
 			this.tagList = tagList;
 			return this;
 		}
-		
+
 		public Artist build() {
 			return new Artist(this);
 		}
+	}
+
+	@Override
+	public ArrayList<Scrobble> getScrobbles() {
+		if (albums != null) {
+			if (albums.size() > 0) {
+				ArrayList<Scrobble> scrobbles = new ArrayList<Scrobble>();
+				for (Album i : albums) {
+					scrobbles.addAll(i.getScrobbles());
+				}
+				return scrobbles;
+			}
+		}
+
+		return null;
 	}
 
 }

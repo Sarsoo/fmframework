@@ -1,6 +1,7 @@
 package sarsoo.fmframework.music;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.net.Key;
@@ -72,5 +73,7 @@ public abstract class FMObj implements Comparable<FMObj>, Serializable{
 	}
 	
 	abstract public String getMusicBrainzURL();
+	
+	public abstract ArrayList<Scrobble> getScrobbles();
 
 }

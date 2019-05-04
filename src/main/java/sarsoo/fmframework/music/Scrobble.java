@@ -1,17 +1,21 @@
 package sarsoo.fmframework.music;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 public class Scrobble {
 	
-	private long utc;
+	private LocalDateTime dateTime;
 	private Track track;
 	
-	public Scrobble(long utc, Track track) {
-		this.utc = utc;
-		this.track = track;
+	public Scrobble(long uts, Track track) {
+		this.track = track;		
+		this.dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(uts), ZoneId.systemDefault());
 	}
 	
-	public long getUTC() {
-		return utc;
+	public LocalDateTime getDateTime() {
+		return dateTime;
 	}
 	
 	public Track getTrack() {
@@ -19,7 +23,7 @@ public class Scrobble {
 	}
 	
 	public String toString() {
-		return utc + " " + track.toString();
+		return dateTime + " " + track.toString();
 	}
 
 }

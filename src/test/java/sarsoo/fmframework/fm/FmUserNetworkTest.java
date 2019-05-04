@@ -24,7 +24,7 @@ public class FmUserNetworkTest {
 	@Test
 	public void testGetRecentTracks() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
-		ArrayList<Scrobble> scrobbles = net.getRecentTracks(50);
+		ArrayList<Scrobble> scrobbles = net.getRecentScrobbles(50);
 		scrobbles.stream().forEach(System.out::println);
 		System.out.println(scrobbles.size());
 		assertNotNull(1);

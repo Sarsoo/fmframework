@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import sarsoo.fmframework.log.Logger;
@@ -232,7 +233,7 @@ public class FmUserNetwork extends FmNetwork {
 
 	}
 
-	public ArrayList<Scrobble> getRecentTracks(int number) {
+	public ArrayList<Scrobble> getRecentScrobbles(int number) {
 		
 		Logger.getLog().log(new LogEntry("getRecentTracks").addArg(Integer.toString(number)));
 		
@@ -270,10 +271,15 @@ public class FmUserNetwork extends FmNetwork {
 
 					Track track = new TrackBuilder(json.getString("name"), artist).build();
 					track.setAlbum(album);
+					
+					try {
+						Scrobble scrobble = new Scrobble(json.getJSONObject("date").getLong("uts"), track);
+						scrobbles.add(scrobble);
+					}catch(JSONException e){
+						Logger.getLog().logInfo(new InfoEntry("getRecentTracks").addArg("first track"));
 
-					Scrobble scrobble = new Scrobble(json.getJSONObject("date").getLong("uts"), track);
-
-					scrobbles.add(scrobble);
+					}
+					
 				}
 			}
 		}

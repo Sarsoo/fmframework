@@ -136,4 +136,18 @@ public class Album extends FMObj implements Serializable{
 			return new Album(this);
 		}
 	}
+
+	@Override
+	public ArrayList<Scrobble> getScrobbles() {
+		if(trackList != null) {
+			if (trackList.size() > 0) {
+				ArrayList<Scrobble> scrobbles = new ArrayList<Scrobble>();
+				for (Track i: trackList) {
+					scrobbles.addAll(i.getScrobbles());
+				}
+				return scrobbles;
+			}
+		}
+		return null;
+	}
 }

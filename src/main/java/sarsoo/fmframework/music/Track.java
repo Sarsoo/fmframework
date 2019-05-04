@@ -3,11 +3,6 @@ package sarsoo.fmframework.music;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.w3c.dom.Document;
-
-import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.util.Reference;
-
 public class Track extends FMObj implements Serializable {
 
 	/**
@@ -212,5 +207,10 @@ public class Track extends FMObj implements Serializable {
 		public Track build() {
 			return new Track(this);
 		}
+	}
+
+	@Override
+	public ArrayList<Scrobble> getScrobbles() {
+		return scrobbles;
 	}
 }
