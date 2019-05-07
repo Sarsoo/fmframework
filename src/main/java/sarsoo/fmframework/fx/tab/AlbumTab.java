@@ -16,7 +16,7 @@ public class AlbumTab extends Tab {
 
 	public AlbumTab(Album album) throws IOException {
 
-		setText(album.getName());
+		setText(album.getName().toLowerCase());
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjBorderPane.fxml"));
 

@@ -12,7 +12,7 @@ public class ArtistTab extends Tab{
 	
 	public ArtistTab(Artist artist) throws IOException {
 		
-		setText(artist.getName());
+		setText(artist.getName().toLowerCase());
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjBorderPane.fxml"));
 		

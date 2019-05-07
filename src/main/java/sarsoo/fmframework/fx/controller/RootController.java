@@ -351,6 +351,11 @@ public class RootController {
 		if (event.getCode() == KeyCode.F5) {
 			refresh();
 		}
+		
+//		if (event.getCode() == KeyCode.Q && event.isControlDown()) {
+//			System.out.println("control q");
+//			
+//		}
 	}
 
 	@FXML

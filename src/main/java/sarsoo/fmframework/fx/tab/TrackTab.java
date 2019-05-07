@@ -14,7 +14,7 @@ public class TrackTab extends Tab {
 
 	public TrackTab(Track track) throws IOException {
 
-		setText(track.getName());
+		setText(track.getName().toLowerCase());
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjBorderPane.fxml"));
 
