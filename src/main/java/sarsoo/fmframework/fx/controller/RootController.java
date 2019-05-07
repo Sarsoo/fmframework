@@ -32,6 +32,7 @@ import sarsoo.fmframework.fx.tab.ArtistTab;
 import sarsoo.fmframework.fx.tab.ConsoleTab;
 import sarsoo.fmframework.fx.tab.FMObjListEditTab;
 import sarsoo.fmframework.fx.tab.FMObjListTab;
+import sarsoo.fmframework.fx.tab.GenrePieChartTab;
 import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
 import sarsoo.fmframework.log.Log;
@@ -69,7 +70,6 @@ public class RootController {
 		refreshScrobbleCounts();
 		addLastTrackTab();
 		refreshTagMenu();
-		refreshPieChartMenu();
 	}
 
 	public void refreshScrobbleCounts() {
@@ -157,188 +157,6 @@ public class RootController {
 
 	}
 
-	public void refreshPieChartMenu() {
-
-		try {
-			if (new File("./piechart.json").isFile()) {
-				File file = new File("./piechart.json");
-
-				BufferedReader br = new BufferedReader(new FileReader(file));
-				StringBuilder sb = new StringBuilder();
-				String jsonLine = br.readLine();
-				while (jsonLine != null) {
-					sb.append(jsonLine);
-					jsonLine = br.readLine();
-				}
-
-				br.close();
-
-				String jsonString = sb.toString();
-
-				JSONObject rootParsedJsonObj = new JSONObject(jsonString);
-
-				JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy")
-						.getJSONArray("genres");
-
-				if (hierarchiesJsonArray.length() > 0) {
-					menuPieChart.setVisible(true);
-				}
-
-				int counter;
-				for (counter = 0; counter < hierarchiesJsonArray.length(); counter++) {
-					JSONObject hierarchyJsonObj = (JSONObject) hierarchiesJsonArray.get(counter);
-//					JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
-//					ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
-
-					String hierarchyName = hierarchyJsonObj.getString("name");
-					JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
-					ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
-
-					int i;
-					for (i = 0; i < hierarchyTagsJsonArray.length(); i++) {
-						hierarchyTagNameList.add(hierarchyTagsJsonArray.getString(i));
-//						allTags.add(hierarchyTagsJsonArray.getString(i));
-					}
-
-//					paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
-
-					MenuItem item = new MenuItem(hierarchyName);
-
-					item.setOnAction(new EventHandler<ActionEvent>() {
-						@Override
-						public void handle(ActionEvent e) {
-
-							// TAG ITEM HANDLER SERVICE
-							Service<Void> service = new Service<Void>() {
-								@Override
-								protected Task<Void> createTask() {
-									return new Task<Void>() {
-										@Override
-										protected Void call() throws Exception {
-
-											GenrePieChartTitledPane pane = new GenrePieChartTitledPane(hierarchyName,
-													hierarchyTagNameList);
-
-//											final CountDownLatch latch = new CountDownLatch(1);
-											Platform.runLater(new Runnable() {
-												@Override
-												public void run() {
-													try {
-														accordionCharts.getPanes().add(pane);
-													} finally {
-//														latch.countDown();
-													}
-												}
-											});
-//											latch.await();
-											// Keep with the background work
-											return null;
-										}
-									};
-								}
-							};
-							service.start();
-						}
-					});
-
-					menuPieChart.getItems().add(item);
-				}
-
-			}
-		} catch (IOException e) {
-
-		}
-
-	}
-
-	public void refreshPieCharts(File file) {
-
-		Logger.getLog().log(new LogEntry("refreshPieCharts"));
-
-		Service<Void> service = new Service<Void>() {
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
-					@Override
-					protected Void call() throws Exception {
-
-						String jsonString = null;
-						if (file != null) {
-
-							BufferedReader br = new BufferedReader(new FileReader(file));
-							StringBuilder sb = new StringBuilder();
-							String jsonLine = br.readLine();
-							while (jsonLine != null) {
-								sb.append(jsonLine);
-								jsonLine = br.readLine();
-							}
-
-							br.close();
-
-							jsonString = sb.toString();
-							Logger.getLog().logInfo(new InfoEntry("refreshPieCharts").addArg("json read"));
-						}
-
-						JSONObject rootParsedJsonObj = new JSONObject(jsonString);
-
-						JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy")
-								.getJSONArray("genres");
-						JSONObject pieJson = rootParsedJsonObj.getJSONObject("pie");
-
-						Logger.getLog().logInfo(new InfoEntry("refreshPieCharts").addArg("arrays parsed"));
-
-						int counter;
-						ArrayList<TitledPane> paneList = new ArrayList<TitledPane>();
-
-						ArrayList<String> allTags = new ArrayList<String>();
-
-						for (counter = 0; counter < hierarchiesJsonArray.length(); counter++) {
-							JSONObject hierarchyJsonObj = (JSONObject) hierarchiesJsonArray.get(counter);
-							JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
-							ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
-
-							String hierarchyName = hierarchyJsonObj.getString("name");
-
-							int i;
-							for (i = 0; i < hierarchyTagsJsonArray.length(); i++) {
-								hierarchyTagNameList.add(hierarchyTagsJsonArray.getString(i));
-								allTags.add(hierarchyTagsJsonArray.getString(i));
-							}
-
-							paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
-						}
-
-						JSONArray totalPieTags = pieJson.getJSONArray("tags");
-						int i;
-						for (i = 0; i < totalPieTags.length(); i++) {
-							allTags.add((totalPieTags).getString(i));
-						}
-						paneList.add(new PieChartTitledPane("total", allTags));
-
-//						final CountDownLatch latch = new CountDownLatch(1);
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								try {
-									accordionCharts.getPanes().clear();
-									int i;
-									for (i = 0; i < paneList.size(); i++) {
-										accordionCharts.getPanes().add(paneList.get(i));
-									}
-								} finally {
-//									latch.countDown();
-								}
-							}
-						});
-//						latch.await();
-						return null;
-					}
-				};
-			}
-		};
-		service.start();
-	}
-
 	public void addTab(Tab tab) {
 		tabPane.getTabs().add(tab);
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
@@ -352,7 +170,7 @@ public class RootController {
 		if (event.getCode() == KeyCode.F5) {
 			refresh();
 		}
-		
+
 //		if (event.getCode() == KeyCode.Q && event.isControlDown()) {
 //			System.out.println("control q");
 //			
@@ -474,20 +292,13 @@ public class RootController {
 						if (track != null) {
 							TrackTab tab = new TrackTab(track);
 
-//							final CountDownLatch latch = new CountDownLatch(1);
 							Platform.runLater(new Runnable() {
 								@Override
 								public void run() {
-									try {
-										tabPane.getTabs().add(tab);
-									} finally {
-//										latch.countDown();
-									}
+									tabPane.getTabs().add(tab);
 								}
 							});
-//							latch.await();
 						}
-						// Keep with the background work
 						return null;
 					}
 				};
@@ -499,24 +310,6 @@ public class RootController {
 	@FXML
 	protected void handleCurrentTrack(ActionEvent event) throws IOException {
 		addLastTrackTab();
-	}
-
-	@FXML
-	protected void handleRefreshPieChart(ActionEvent event) throws IOException {
-
-		File file = null;
-		String path = null;
-		if (new File("./piechart.json").isFile()) {
-			file = new File("./piechart.json");
-		} else {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("open pie chart json");
-			fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
-			file = fileChooser.showOpenDialog(FmFramework.getStage());
-		}
-
-		refreshPieCharts(file);
-
 	}
 
 	@FXML
@@ -550,7 +343,6 @@ public class RootController {
 		try {
 			addTab(new ScrobbleChartTab());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -583,6 +375,11 @@ public class RootController {
 		addTab(new ConsoleTab());
 	}
 
+	@FXML
+	protected void handleGenrePieTab(ActionEvent event) {
+		addTab(new GenrePieChartTab());
+	}
+
 	private ArrayList<Tag> tags;
 
 	@FXML
@@ -593,9 +390,6 @@ public class RootController {
 
 	@FXML
 	private Label labelStatsScrobblesTotal;
-//
-//	@FXML
-//	private PieChart pieChartGenres;
 
 	@FXML
 	private TabPane tabPane;
@@ -608,29 +402,8 @@ public class RootController {
 
 	@FXML
 	private Menu menuChart;
-//
-//	@FXML
-//	private PieChart pieChartRap;
-//
-//	@FXML
-//	private PieChart pieChartRapTotal;
-//	
-//	@FXML
-//	private PieChart pieChartRock;
-//
-//	@FXML
-//	private PieChart pieChartRockTotal;
 
 	@FXML
 	private Accordion accordionCharts;
-
-	@FXML
-	private TitledPane titledPaneGenres;
-
-	@FXML
-	private TitledPane titledPaneRap;
-
-	@FXML
-	private StackPane stackViewGenres;
 
 }

@@ -27,7 +27,7 @@
             <Menu fx:id="menuChart" mnemonicParsing="false" text="chart">
               <items>
                   <MenuItem fx:id="menuItemScrobbleChart" mnemonicParsing="false" onAction="#handleScrobbleChart" text="daily scrobbles" />
-                  <Menu fx:id="menuPieChart" mnemonicParsing="false" text="load pie chart" visible="false" />
+                  <MenuItem fx:id="menuItemGenrePieChartTab" mnemonicParsing="false" onAction="#handleGenrePieTab" text="genre pie chart" />
               </items>
             </Menu>
           <Menu fx:id="menuTag" mnemonicParsing="false" text="tags" />
@@ -60,26 +60,7 @@
          <tabs>
             <Tab fx:id="tabHome" closable="false" text="home">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <BorderPane prefHeight="354.0" prefWidth="211.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <center>
-                              <Accordion fx:id="accordionCharts" prefHeight="325.0" prefWidth="222.0" BorderPane.alignment="CENTER">
-                                <panes>
-                                  
-                                </panes>
-                              </Accordion>
-                           </center>
-                           <bottom>
-                              <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                <items>
-                                  <Button fx:id="buttonPieChartRefresh" mnemonicParsing="false" onAction="#handleRefreshPieChart" text="refresh" />
-                                </items>
-                              </ToolBar>
-                           </bottom>
-                        </BorderPane>
-                     </children>
-                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </Tab>
             
