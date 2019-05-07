@@ -232,6 +232,99 @@ public class FmUserNetwork extends FmNetwork {
 
 	}
 
+	public FMObjList getTopAlbums(String period, int number) {
+
+		Logger.getLog().log(new LogEntry("getTopAlbums").addArg(period).addArg(Integer.toString(number)));
+
+		int limit = 50;
+
+		int pages = 0;
+
+		System.out.println(number / limit);
+		if ((double) number % (double) limit != 0) {
+			pages = (number / limit) + 1;
+		} else {
+			pages = number / limit;
+		}
+
+		FMObjList albums = new FMObjList();
+		int counter;
+		for (counter = 0; counter < pages; counter++) {
+
+			HashMap<String, String> parameters = new HashMap<String, String>();
+
+			parameters.put("user", userName);
+			parameters.put("period", period);
+			parameters.put("limit", Integer.toString(limit));
+			parameters.put("page", Integer.toString(counter + 1));
+
+			JSONObject obj = makeGetRequest("user.gettopalbums", parameters);
+
+			JSONArray albumsJson = obj.getJSONObject("topalbums").getJSONArray("album");
+
+			for (int i = 0; i < albumsJson.length(); i++) {
+				JSONObject json = (JSONObject) albumsJson.get(i);
+
+				if (albums.size() < number) {
+					Artist artist = new ArtistBuilder(json.getJSONObject("artist").getString("name")).build();
+					Album album = new AlbumBuilder(json.getString("name"), artist)
+							.setUserPlayCount(json.getInt("playcount")).build();
+
+					albums.add(album);
+
+				}
+			}
+		}
+
+		return albums;
+	}
+
+	public FMObjList getTopArtists(String period, int number) {
+
+		Logger.getLog().log(new LogEntry("getTopArtists").addArg(period).addArg(Integer.toString(number)));
+
+		int limit = 50;
+
+		int pages = 0;
+
+		System.out.println(number / limit);
+		if ((double) number % (double) limit != 0) {
+			pages = (number / limit) + 1;
+		} else {
+			pages = number / limit;
+		}
+
+		FMObjList artists = new FMObjList();
+		int counter;
+		for (counter = 0; counter < pages; counter++) {
+
+			HashMap<String, String> parameters = new HashMap<String, String>();
+
+			parameters.put("user", userName);
+			parameters.put("period", period);
+			parameters.put("limit", Integer.toString(limit));
+			parameters.put("page", Integer.toString(counter + 1));
+
+			JSONObject obj = makeGetRequest("user.gettopartists", parameters);
+
+			JSONArray artistsJson = obj.getJSONObject("topartists").getJSONArray("artist");
+
+			for (int i = 0; i < artistsJson.length(); i++) {
+				JSONObject json = (JSONObject) artistsJson.get(i);
+
+				if (artists.size() < number) {
+					Artist artist = new ArtistBuilder(json.getString("name"))
+							.setUserPlayCount(json.getInt("playcount")).build();
+
+					artists.add(artist);
+
+				}
+			}
+		}
+
+		return artists;
+	}
+
 	public Artist getArtistTracks(String artistName) {
 		return getArtistTracks(getArtist(artistName));
 	}
@@ -266,7 +359,7 @@ public class FmUserNetwork extends FmNetwork {
 					JSONObject scrob = returnedScrobbles.getJSONObject(i);
 
 				}
-			}else {
+			} else {
 				done = true;
 			}
 

@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import sarsoo.fmframework.music.Scrobble;
 import sarsoo.fmframework.net.Key;
+import sarsoo.fmframework.util.FMObjList;
 
 import static org.junit.Assert.*;
 
@@ -28,5 +29,21 @@ public class FmUserNetworkTest {
 		scrobbles.stream().forEach(System.out::println);
 		System.out.println(scrobbles.size());
 		assertNotNull(1);
+	}
+	
+	@Test
+	public void testGetTopAlbums() {
+		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
+		FMObjList list = net.getTopAlbums("7day", 15);
+		list.stream().forEach(System.out::println);
+		assertEquals(15, list.size());
+	}
+	
+	@Test
+	public void testGetTopArtists() {
+		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
+		FMObjList list = net.getTopArtists("7day", 15);
+		list.stream().forEach(System.out::println);
+		assertEquals(15, list.size());
 	}
 }
