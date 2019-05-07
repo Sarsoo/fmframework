@@ -69,6 +69,7 @@ public class RootController {
 		refreshScrobbleCounts();
 		addLastTrackTab();
 		refreshTagMenu();
+		refreshPieChartMenu();
 	}
 
 	public void refreshScrobbleCounts() {
