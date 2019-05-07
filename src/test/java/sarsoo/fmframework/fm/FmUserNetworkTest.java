@@ -46,4 +46,12 @@ public class FmUserNetworkTest {
 		list.stream().forEach(System.out::println);
 		assertEquals(15, list.size());
 	}
+	
+	@Test
+	public void testGetTopTracks() {
+		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
+		FMObjList list = net.getTopTracks("7day", 15);
+		list.stream().forEach(System.out::println);
+		assertEquals(15, list.size());
+	}
 }

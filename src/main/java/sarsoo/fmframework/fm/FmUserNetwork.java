@@ -232,6 +232,53 @@ public class FmUserNetwork extends FmNetwork {
 
 	}
 
+	public FMObjList getTopTracks(String period, int number) {
+
+		Logger.getLog().log(new LogEntry("getTopTracks").addArg(period).addArg(Integer.toString(number)));
+
+		int limit = 50;
+
+		int pages = 0;
+
+		System.out.println(number / limit);
+		if ((double) number % (double) limit != 0) {
+			pages = (number / limit) + 1;
+		} else {
+			pages = number / limit;
+		}
+
+		FMObjList tracks = new FMObjList();
+		int counter;
+		for (counter = 0; counter < pages; counter++) {
+
+			HashMap<String, String> parameters = new HashMap<String, String>();
+
+			parameters.put("user", userName);
+			parameters.put("period", period);
+			parameters.put("limit", Integer.toString(limit));
+			parameters.put("page", Integer.toString(counter + 1));
+
+			JSONObject obj = makeGetRequest("user.gettoptracks", parameters);
+
+			JSONArray tracksJson = obj.getJSONObject("toptracks").getJSONArray("track");
+
+			for (int i = 0; i < tracksJson.length(); i++) {
+				JSONObject json = (JSONObject) tracksJson.get(i);
+
+				if (tracks.size() < number) {
+					Artist artist = new ArtistBuilder(json.getJSONObject("artist").getString("name")).build();
+					Track track = new TrackBuilder(json.getString("name"), artist)
+							.setUserPlayCount(json.getInt("playcount")).build();
+
+					tracks.add(track);
+
+				}
+			}
+		}
+
+		return tracks;
+	}
+
 	public FMObjList getTopAlbums(String period, int number) {
 
 		Logger.getLog().log(new LogEntry("getTopAlbums").addArg(period).addArg(Integer.toString(number)));
@@ -313,8 +360,8 @@ public class FmUserNetwork extends FmNetwork {
 				JSONObject json = (JSONObject) artistsJson.get(i);
 
 				if (artists.size() < number) {
-					Artist artist = new ArtistBuilder(json.getString("name"))
-							.setUserPlayCount(json.getInt("playcount")).build();
+					Artist artist = new ArtistBuilder(json.getString("name")).setUserPlayCount(json.getInt("playcount"))
+							.build();
 
 					artists.add(artist);
 
