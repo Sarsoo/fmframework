@@ -1,6 +1,9 @@
 package sarsoo.fmframework.fx.controller.borderpane;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -10,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import sarsoo.fmframework.fm.FmUserNetwork;
-import sarsoo.fmframework.fx.chart.GenrePieChartTitledPane;
 import sarsoo.fmframework.fx.controller.info.ArtistPaneController;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.net.Key;
@@ -40,6 +42,10 @@ public class ArtistBorderPaneController extends FMObjBorderPaneController{
 			e.printStackTrace();
 		}
 		setInfoView();
+		
+//		if(artist.getUrl() == null) {
+			buttonViewOnline.setDisable(true);
+//		}
 	}
 
 	@Override
@@ -61,11 +67,21 @@ public class ArtistBorderPaneController extends FMObjBorderPaneController{
 	}
 
 	@Override
+	@FXML
 	protected void handleViewOnline(ActionEvent event) {
-		Network.openURL(artist.getUrl());
+		System.out.println(artist.getUrl());
+		if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+		    try {
+				Desktop.getDesktop().browse(new URI(artist.getUrl()));
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
+			}
+		}
+//		Network.openURL(artist.getUrl());
 	}
 
 	@Override
+	@FXML
 	protected void handleRefresh(ActionEvent event) {
 
 		Service<Void> service = new Service<Void>() {

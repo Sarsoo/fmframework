@@ -32,6 +32,9 @@ public abstract class FMObjBorderPaneController {
 	protected Button buttonViewInfo;
 	
 	@FXML
+	protected Button buttonViewOnline;
+	
+	@FXML
 	protected BorderPane borderPane;
 	
 	protected AnchorPane scrobbleAnchorPane;
