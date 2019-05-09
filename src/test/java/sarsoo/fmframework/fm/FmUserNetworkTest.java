@@ -3,6 +3,9 @@ package sarsoo.fmframework.fm;
 import org.junit.Test;
 
 import sarsoo.fmframework.music.Scrobble;
+import sarsoo.fmframework.music.Track;
+import sarsoo.fmframework.music.Track.TrackBuilder;
+import sarsoo.fmframework.music.Artist.ArtistBuilder;
 import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
 
@@ -26,7 +29,7 @@ public class FmUserNetworkTest {
 	public void testGetRecentTracks() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
 		ArrayList<Scrobble> scrobbles = net.getRecentScrobbles(50);
-		scrobbles.stream().forEach(System.out::println);
+//		scrobbles.stream().forEach(System.out::println);
 		System.out.println(scrobbles.size());
 		assertNotNull(1);
 	}
@@ -35,7 +38,7 @@ public class FmUserNetworkTest {
 	public void testGetTopAlbums() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
 		FMObjList list = net.getTopAlbums("7day", 15);
-		list.stream().forEach(System.out::println);
+//		list.stream().forEach(System.out::println);
 		assertEquals(15, list.size());
 	}
 	
@@ -43,7 +46,7 @@ public class FmUserNetworkTest {
 	public void testGetTopArtists() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
 		FMObjList list = net.getTopArtists("7day", 15);
-		list.stream().forEach(System.out::println);
+//		list.stream().forEach(System.out::println);
 		assertEquals(15, list.size());
 	}
 	
@@ -51,7 +54,20 @@ public class FmUserNetworkTest {
 	public void testGetTopTracks() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
 		FMObjList list = net.getTopTracks("7day", 15);
-		list.stream().forEach(System.out::println);
+//		list.stream().forEach(System.out::println);
 		assertEquals(15, list.size());
+	}
+	
+	@Test
+	public void testTrackScrobbles() {
+		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
+		
+		Track track = new TrackBuilder("shitsville", new ArtistBuilder("freddie gibbs").build()).build();
+		
+		ArrayList<Scrobble> scrobbles = net.getTrackScrobbles(track);
+		
+		scrobbles.stream().forEach(System.out::println);
+		System.out.println(scrobbles.size());
+		assertEquals(53, scrobbles.size());
 	}
 }

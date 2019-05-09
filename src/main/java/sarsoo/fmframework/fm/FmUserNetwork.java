@@ -372,47 +372,56 @@ public class FmUserNetwork extends FmNetwork {
 		return artists;
 	}
 
-	public Artist getArtistTracks(String artistName) {
-		return getArtistTracks(getArtist(artistName));
+	public ArrayList<Scrobble> getTrackScrobbles(Track track) {
+
+		Logger.getLog()
+				.log(new LogEntry("getTrackScrobbles").addArg(track.getName()).addArg(track.getArtist().getName()));
+
+		return getRecursiveTrackScrobbles(track, 1);
 	}
 
-	public Artist getArtistTracks(Artist artist) {
-
-		Logger.getLog().log(new LogEntry("getArtistTracks").addArg(artist.getName()));
+	private ArrayList<Scrobble> getRecursiveTrackScrobbles(Track track, int page) {
 
 		int limit = 50;
 
+		HashMap<String, String> parameters = new HashMap<String, String>();
+
+		parameters.put("user", userName);
+		parameters.put("track", track.getName());
+		parameters.put("artist", track.getArtist().getName());
+		parameters.put("limit", Integer.toString(limit));
+		parameters.put("page", Integer.toString(page));
+		
 		ArrayList<Scrobble> scrobbles = new ArrayList<Scrobble>();
 
-		Boolean done = false;
-		int counter = 1;
-		while (!done) {
+		JSONObject obj = makeGetRequest("user.gettrackscrobbles", parameters);
 
-			HashMap<String, String> parameters = new HashMap<String, String>();
+		JSONArray returnedScrobbles = obj.getJSONObject("trackscrobbles").getJSONArray("track");
+		
+		System.out.println(returnedScrobbles.length() + " length");
 
-			parameters.put("user", userName);
-			parameters.put("artist", artist.getName());
-			parameters.put("limit", Integer.toString(limit));
-			parameters.put("page", Integer.toString(counter + 1));
+		if (returnedScrobbles.length() > 0) {
 
-			JSONObject obj = makeGetRequest("user.getartisttracks", parameters);
+			for (int i = 0; i < returnedScrobbles.length(); i++) {
 
-			JSONArray returnedScrobbles = obj.getJSONObject("artisttracks").getJSONArray("track");
+				JSONObject scrob = returnedScrobbles.getJSONObject(i);
 
-			if (returnedScrobbles.length() > 0) {
+				Scrobble scrobble = new Scrobble(scrob.getJSONObject("date").getLong("uts"), track);
 
-				for (int i = 0; i < returnedScrobbles.length(); i++) {
-
-					JSONObject scrob = returnedScrobbles.getJSONObject(i);
-
-				}
-			} else {
-				done = true;
+				scrobbles.add(scrobble);
 			}
 
+			int totalPages = obj.getJSONObject("trackscrobbles").getJSONObject("@attr").getInt("totalPages");
+
+			if (totalPages > page) {
+
+				scrobbles.addAll(getRecursiveTrackScrobbles(track, page + 1));
+
+			}
 		}
 
-		return null;
+		return scrobbles;
+
 	}
 
 	public ArrayList<Scrobble> getRecentScrobbles(int number) {
