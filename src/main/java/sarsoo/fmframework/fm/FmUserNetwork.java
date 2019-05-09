@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import sarsoo.fmframework.log.Logger;
+import sarsoo.fmframework.log.entry.ErrorEntry;
 import sarsoo.fmframework.log.entry.InfoEntry;
 import sarsoo.fmframework.log.entry.LogEntry;
 import sarsoo.fmframework.music.Album;
@@ -391,13 +392,13 @@ public class FmUserNetwork extends FmNetwork {
 		parameters.put("artist", track.getArtist().getName());
 		parameters.put("limit", Integer.toString(limit));
 		parameters.put("page", Integer.toString(page));
-		
+
 		ArrayList<Scrobble> scrobbles = new ArrayList<Scrobble>();
 
 		JSONObject obj = makeGetRequest("user.gettrackscrobbles", parameters);
 
 		JSONArray returnedScrobbles = obj.getJSONObject("trackscrobbles").getJSONArray("track");
-		
+
 		System.out.println(returnedScrobbles.length() + " length");
 
 		if (returnedScrobbles.length() > 0) {
@@ -406,7 +407,17 @@ public class FmUserNetwork extends FmNetwork {
 
 				JSONObject scrob = returnedScrobbles.getJSONObject(i);
 
-				Scrobble scrobble = new Scrobble(scrob.getJSONObject("date").getLong("uts"), track);
+				Album album = null;
+
+				try {
+					album = new AlbumBuilder(scrob.getJSONObject("album").getString("#text"), track.getArtist())
+							.build();
+				} catch (JSONException e) {
+					Logger.getLog()
+					.logError(new ErrorEntry("getTrackScrobbles").addArg("no album found").addArg(track.getName()).addArg(track.getArtist().getName()));
+				}
+				
+				Scrobble scrobble = new Scrobble(scrob.getJSONObject("date").getLong("uts"), track, album);
 
 				scrobbles.add(scrobble);
 			}
