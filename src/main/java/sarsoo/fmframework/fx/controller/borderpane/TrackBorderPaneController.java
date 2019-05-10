@@ -74,7 +74,7 @@ public class TrackBorderPaneController extends FMObjBorderPaneController {
 						FmFramework.getController().addTab(new ArtistTab(track.getArtist()));
 					} catch (IOException e1) {
 						e1.printStackTrace();
-					}
+					}//
 				}
 			});
 		}else {
@@ -132,13 +132,17 @@ public class TrackBorderPaneController extends FMObjBorderPaneController {
 					@Override
 					protected Void call() throws Exception {
 
-						track = new FmUserNetwork(Key.getKey(), Reference.getUserName()).refresh(track);
+						FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+						
+						track = net.refresh(track);
+						track.setScrobbles(net.getTrackScrobbles(track));
 
 						Platform.runLater(new Runnable() {
 							@Override
 							public void run() {
 
 								infoPaneController.refresh(track);
+								scrobblePaneController.populate(track);
 
 							}
 						});

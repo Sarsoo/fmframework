@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.GridPane;
@@ -29,13 +30,15 @@ public class ScrobblesViewPaneController {
 	}
 
 	public void populate(FMObj obj) {
-
+		
 		ArrayList<Scrobble> scrobbles = obj.getScrobbles();
-
+		
 		if (scrobbles != null) {
 			if (scrobbles.size() > 0) {
 
 				NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
+				
+//				gridPane.getChildren().clear();
 
 				int counter;
 				for (counter = 0; counter < scrobbles.size(); counter++) {
@@ -43,14 +46,17 @@ public class ScrobblesViewPaneController {
 					Scrobble scrobble = scrobbles.get(counter);
 
 					Label trackName = new Label(scrobble.getTrack().getName().toLowerCase());
-					Label albumName = new Label(scrobble.getTrack().getAlbum().getName().toLowerCase());
 					Label artistName = new Label(scrobble.getTrack().getArtist().getName().toLowerCase());
 					Label date = new Label(scrobble.getDateTime().toString().toLowerCase());
 
 					gridPane.add(trackName, 0, counter);
-					gridPane.add(albumName, 1, counter);
 					gridPane.add(artistName, 2, counter);
-					gridPane.add(date, 2, counter);
+					gridPane.add(date, 3, counter);
+					
+					if(scrobble.getAlbum() != null) {
+						Label albumName = new Label(scrobble.getAlbum().getName().toLowerCase());
+						gridPane.add(albumName, 1, counter);
+					}
 
 				}
 			}
