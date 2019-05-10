@@ -28,34 +28,46 @@ public class FmUserNetworkTest {
 	@Test
 	public void testGetRecentTracks() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
-		ArrayList<Scrobble> scrobbles = net.getRecentScrobbles(50);
+		
+		int limit = 50;
+		
+		ArrayList<Scrobble> scrobbles = net.getRecentScrobbles(limit);
 //		scrobbles.stream().forEach(System.out::println);
 		System.out.println(scrobbles.size());
-		assertNotNull(1);
+		assertEquals(limit, scrobbles.size());
 	}
 	
 	@Test
 	public void testGetTopAlbums() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
-		FMObjList list = net.getTopAlbums("7day", 15);
+		
+		int limit = 50;
+		
+		FMObjList list = net.getTopAlbums("7day", limit);
 //		list.stream().forEach(System.out::println);
-		assertEquals(15, list.size());
+		assertEquals(limit, list.size());
 	}
 	
 	@Test
 	public void testGetTopArtists() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
-		FMObjList list = net.getTopArtists("7day", 15);
+		
+		int limit = 50;
+		
+		FMObjList list = net.getTopArtists("7day", limit);
 //		list.stream().forEach(System.out::println);
-		assertEquals(15, list.size());
+		assertEquals(limit, list.size());
 	}
 	
 	@Test
 	public void testGetTopTracks() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
-		FMObjList list = net.getTopTracks("7day", 15);
+		
+		int limit = 50;
+		
+		FMObjList list = net.getTopTracks("7day", limit);
 //		list.stream().forEach(System.out::println);
-		assertEquals(15, list.size());
+		assertEquals(limit, list.size());
 	}
 	
 	@Test

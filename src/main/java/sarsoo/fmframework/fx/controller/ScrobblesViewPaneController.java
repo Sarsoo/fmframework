@@ -38,7 +38,7 @@ public class ScrobblesViewPaneController {
 
 				NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
 				
-//				gridPane.getChildren().clear();
+				gridPane.getChildren().clear();
 
 				int counter;
 				for (counter = 0; counter < scrobbles.size(); counter++) {

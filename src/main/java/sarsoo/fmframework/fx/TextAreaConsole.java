@@ -12,6 +12,7 @@ public class TextAreaConsole implements Console{
 	
 	private TextAreaConsole() {
 		output = new TextArea();
+		output.setEditable(false);
 	}
 	
 	public static TextAreaConsole getInstance(){

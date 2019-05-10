@@ -141,6 +141,7 @@ public class RootController {
 							@Override
 							public void run() {
 								menuTag.getItems().setAll((ArrayList<MenuItem>) t.getSource().getValue());
+								menuTag.setDisable(false);
 							}
 
 						});

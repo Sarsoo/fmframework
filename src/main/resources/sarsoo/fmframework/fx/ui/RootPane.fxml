@@ -30,7 +30,7 @@
                   <MenuItem fx:id="menuItemGenrePieChartTab" mnemonicParsing="false" onAction="#handleGenrePieTab" text="genre pie chart" />
               </items>
             </Menu>
-          <Menu fx:id="menuTag" mnemonicParsing="false" text="tags" />
+          <Menu fx:id="menuTag" disable="true" mnemonicParsing="false" text="tags" />
             <Menu fx:id="menuUtil" mnemonicParsing="false" text="util">
               <items>
                 <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
