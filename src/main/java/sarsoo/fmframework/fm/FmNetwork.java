@@ -38,7 +38,7 @@ public class FmNetwork {
 	public FmNetwork(String key) {
 		this.key = key;
 	}
-	
+
 	public Album getAlbum(String name, String artist) {
 		return getAlbum(name, getArtist(artist));
 	}
@@ -213,7 +213,7 @@ public class FmNetwork {
 		return null;
 
 	}
-	
+
 	public Track getTrack(String name, String artist) {
 		return getTrack(name, getArtist(artist));
 	}
@@ -338,12 +338,13 @@ public class FmNetwork {
 	public Track refresh(Track track) {
 
 		Logger.getLog().log(new LogEntry("refreshTrack").addArg(track.getName()).addArg(track.getArtist().getName()));
-		
-		Artist refreshedArtist = getArtist(track.getArtist().getName());
 
+		Artist refreshedArtist = getArtist(track.getArtist().getName());
 		Track refreshedTrack = getTrack(track.getName(), refreshedArtist);
 
-		refreshedTrack.setAlbum(getAlbum(track.getAlbum().getName(), refreshedArtist));
+		if (track.getAlbum() != null) {
+			refreshedTrack.setAlbum(getAlbum(track.getAlbum().getName(), refreshedArtist));
+		}
 
 		return refreshedTrack;
 	}
