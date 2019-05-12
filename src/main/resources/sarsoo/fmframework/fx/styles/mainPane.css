@@ -16,3 +16,94 @@
 	
 	-fx-start-angle: 90;
 }
+
+.button {
+	-fx-background-color: #4D4D4D;
+	-fx-text-fill: white;
+}
+
+.text-field {
+	-fx-background-color: #4D4D4D;
+	-fx-text-fill: white;
+}
+
+.menu-button {
+	-fx-background-color: #4D4D4D;
+	-fx-text-fill: white;
+}
+
+.choice-box {
+	-fx-background-color: #4D4D4D;
+	-fx-text-fill: white;
+}
+
+.backGround {
+    -fx-background-color: #202124;
+}
+
+.highlight {
+	-fx-background-color: #131313;
+}
+
+.split-pane {
+	-fx-background-color: #202124;
+}
+
+.text-area {
+	-fx-background-color: #202124;
+}
+
+.menu-bar {
+	-fx-background-color: #202124;
+}
+
+.menu {
+	-fx-background-color: #202124;
+}
+
+.menu-item {
+	-fx-background-color: #202124;
+}
+
+.label {
+	-fx-text-fill: white;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:70px;
+}
+
+.tool-bar {
+	-fx-background-color: #131313;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #202124;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #3c3c3c;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    //-fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+}

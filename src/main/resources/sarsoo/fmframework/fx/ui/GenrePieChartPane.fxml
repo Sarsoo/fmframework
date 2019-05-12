@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.GenrePieChartPaneController">
+<AnchorPane stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.GenrePieChartPaneController">
    <children>
       <BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
@@ -17,7 +17,7 @@
             </ToolBar>
          </bottom>
          <center>
-            <Accordion fx:id="accordionCharts" BorderPane.alignment="CENTER" />
+            <Accordion fx:id="accordionCharts" styleClass="backGround" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

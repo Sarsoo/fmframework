@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyShortcut" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.RootController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyShortcut" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.RootController">
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
         <menus>
@@ -44,23 +44,23 @@
    <bottom>
       <VBox fx:id="vBoxStats" prefHeight="19.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <FlowPane fx:id="flowPlaneStats" alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="600.0" styleClass="vBoxStats" stylesheets="@../styles/mainPane.css" VBox.vgrow="NEVER">
+            <FlowPane fx:id="flowPlaneStats" alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="600.0" styleClass="backGround" VBox.vgrow="NEVER">
                <children>
-                  <Label fx:id="labelStatsUsername" styleClass="vBoxStatsLabel" stylesheets="@../styles/mainPane.css" text="user" />
-                  <Label fx:id="labelStatsScrobblesToday" styleClass="vBoxStatsLabel" stylesheets="@../styles/mainPane.css" text="scrobblesToday" />
-                  <Label fx:id="labelStatsSlash" styleClass="vBoxStatsLabel" stylesheets="@../styles/mainPane.css" text="/" />
-                  <Label fx:id="labelStatsScrobblesTotal" styleClass="vBoxStatsLabel" stylesheets="@../styles/mainPane.css" text="scrobblesTotal" />
+                  <Label fx:id="labelStatsUsername" styleClass="vBoxStatsLabel" text="user" />
+                  <Label fx:id="labelStatsScrobblesToday" styleClass="vBoxStatsLabel" text="scrobblesToday" />
+                  <Label fx:id="labelStatsSlash" styleClass="vBoxStatsLabel" text="/" />
+                  <Label fx:id="labelStatsScrobblesTotal" styleClass="vBoxStatsLabel" text="scrobblesTotal" />
                </children>
             </FlowPane>
          </children>
       </VBox>
    </bottom>
    <center>
-      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" styleClass="highlight" BorderPane.alignment="CENTER">
          <tabs>
             <Tab fx:id="tabHome" closable="false" text="home">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="backGround" />
               </content>
             </Tab>
             

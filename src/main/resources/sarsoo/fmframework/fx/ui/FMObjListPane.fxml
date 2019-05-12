@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefWidth="800.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.FMObjListPaneController">
+<AnchorPane prefWidth="800.0" styleClass="pane" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.FMObjListPaneController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" styleClass="pane" stylesheets="@../styles/FMObjListPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -14,7 +14,7 @@
                <items>
                   <ScrollPane fitToHeight="true" fitToWidth="true" prefViewportHeight="369.0" prefViewportWidth="600.0">
                      <content>
-                        <GridPane fx:id="gridPaneFMObjs" alignment="CENTER" BorderPane.alignment="CENTER">
+                        <GridPane fx:id="gridPaneFMObjs" alignment="CENTER" styleClass="backGround" BorderPane.alignment="CENTER">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="301.0" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="10.0" prefWidth="157.0" />
@@ -33,7 +33,7 @@
             </SplitPane>
          </center>
          <top>
-            <VBox prefHeight="31.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="31.0" styleClass="backGround" BorderPane.alignment="CENTER">
                <children>
                   <GridPane>
                     <columnConstraints>

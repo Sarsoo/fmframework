@@ -8,9 +8,9 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.ScrobbleChartPaneController">
+<AnchorPane stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.ScrobbleChartPaneController">
    <children>
-      <BorderPane fx:id="chartBorderPane" prefHeight="327.0" prefWidth="600.0" stylesheets="@../styles/ObjPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="chartBorderPane" prefHeight="327.0" prefWidth="600.0" styleClass="backGround" stylesheets="@../styles/ObjPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <bottom>
                                     <ToolBar fx:id="toolBar" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                       <items>
@@ -20,7 +20,7 @@
                                     </ToolBar>
                                  </bottom>
          <center>
-            <BarChart fx:id="barChartScrobbles" legendVisible="false" BorderPane.alignment="CENTER">
+            <BarChart fx:id="barChartScrobbles" legendVisible="false" styleClass="backGround" BorderPane.alignment="CENTER">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
