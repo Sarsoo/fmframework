@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.file.ListPersister;
 import sarsoo.fmframework.fm.FmNetwork;
 import sarsoo.fmframework.fm.FmUserNetwork;
@@ -28,10 +29,10 @@ import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Maths;
-import sarsoo.fmframework.util.Reference;
 import javafx.scene.layout.*;
 import javafx.scene.chart.*;
 import javafx.stage.FileChooser;
+
 public class FMObjListPaneEditController {
 
 	@FXML
@@ -140,28 +141,29 @@ public class FMObjListPaneEditController {
 	}
 
 	public void updateList() {
-		
-		FmNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
-		
+
+		FmNetwork net = new FmUserNetwork(FmFramework.getSessionConfig().getValue("api_key"),
+				FmFramework.getSessionConfig().getValue("username"));
+
 		FMObjList newList = new FMObjList();
 		int counter;
 		for (counter = 0; counter < list.size(); counter++) {
-			
+
 			newList.add(net.refresh(list.get(counter)));
 		}
-		
+
 		setList(newList);
 	}
 
 	public void refresh() {
-		double percent = Maths.getPercentListening(list, Reference.getUserName());
+		double percent = Maths.getPercentListening(list, FmFramework.getSessionConfig().getValue("username"));
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
 
 		labelTotalScrobbles.setText(numberFormat.format(list.getTotalUserScrobbles()));
 		labelPercent.setText(String.format("%.2f%%", percent));
 
 		Collections.sort(list);
-		
+
 		Collections.reverse(list);
 
 		gridPaneFMObjs.getChildren().clear();
@@ -221,7 +223,10 @@ public class FMObjListPaneEditController {
 
 		}
 
-		int other = new FmUserNetwork(Key.getKey(), Reference.getUserName()).getUserScrobbleCount() - list.getTotalUserScrobbles();
+		Config config = FmFramework.getSessionConfig();
+		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
+
+		int other = net.getUserScrobbleCount() - list.getTotalUserScrobbles();
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data(String.format("%d%%", (int) list.getTotalUserScrobbles() * 100 / other),
 						list.getTotalUserScrobbles()),
@@ -229,13 +234,13 @@ public class FMObjListPaneEditController {
 		pieChart.setData(pieChartData);
 
 		ObservableList<PieChart.Data> pieChartArtistsData = FXCollections.observableArrayList();
-		
+
 		for (counter = 0; counter < list.size(); counter++) {
-			
+
 			PieChart.Data data = new PieChart.Data(list.get(counter).getName(), list.get(counter).getUserPlayCount());
 			pieChartArtistsData.add(data);
 		}
-		
+
 		pieChartArtists.setData(pieChartArtistsData);
 	}
 
@@ -248,8 +253,9 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleAddTrack(ActionEvent event) {
-		
-		FmNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+
+		Config config = FmFramework.getSessionConfig();
+		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
 
 		String name = textTrack.getText();
 		String album = textAlbum.getText();
@@ -260,10 +266,10 @@ public class FMObjListPaneEditController {
 			if (album != null) {
 				Album albumObj = net.getAlbum(album, artist);
 				track.setAlbum(albumObj);
-				
+
 				textAlbum.setText(null);
 			}
-			
+
 			textTrack.setText(null);
 			textArtist.setText(null);
 
@@ -276,8 +282,10 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleAddAlbum(ActionEvent event) {
-		FmNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
-		
+
+		Config config = FmFramework.getSessionConfig();
+		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
+
 		String album = textAlbum.getText();
 		String artist = textArtist.getText();
 
@@ -295,8 +303,9 @@ public class FMObjListPaneEditController {
 
 	@FXML
 	protected void handleAddArtist(ActionEvent event) {
-		FmNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
-		
+		Config config = FmFramework.getSessionConfig();
+		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
+
 		String artist = textArtist.getText();
 
 		if (artist != null) {
@@ -304,27 +313,27 @@ public class FMObjListPaneEditController {
 			Artist artistObj = net.getArtist(artist);
 
 			list.add(artistObj);
-			
+
 			textArtist.setText(null);
 		}
 
 		refresh();
 
 	}
-	
+
 	@FXML
 	protected void handleSave(ActionEvent event) {
 
 		FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("save fm list");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("FMObjList", "*.fmlist"));
-        File file = fileChooser.showSaveDialog(FmFramework.getStage());
+		fileChooser.setTitle("save fm list");
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("FMObjList", "*.fmlist"));
+		File file = fileChooser.showSaveDialog(FmFramework.getStage());
 
-        if(file != null) {
-        	
-        	ListPersister persist = new ListPersister();
-        	persist.saveListToFile(file, list);
-        	
-        }
+		if (file != null) {
+
+			ListPersister persist = new ListPersister();
+			persist.saveListToFile(file, list);
+
+		}
 	}
 }

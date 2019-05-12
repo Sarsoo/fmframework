@@ -3,12 +3,13 @@ package sarsoo.fmframework.util;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
+import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
-import sarsoo.fmframework.net.Key;
 
 public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>, Serializable {
 
@@ -86,7 +87,9 @@ public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>
 	}
 
 	public void refresh() {
-		FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
-		stream().forEach(item->net.refresh(item));
+		Config config = FmFramework.getSessionConfig();
+
+		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
+		stream().forEach(item -> net.refresh(item));
 	}
 }

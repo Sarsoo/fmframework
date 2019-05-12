@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.tab.ArtistTab;
@@ -22,7 +23,6 @@ import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Maths;
-import sarsoo.fmframework.util.Reference;
 import javafx.scene.layout.*;
 import javafx.scene.chart.*;
 import javafx.scene.chart.PieChart.Data;
@@ -37,19 +37,21 @@ public class FMObjListPaneController {
 
 	@FXML
 	private GridPane gridPaneFMObjs;
-	
+
 	@FXML
 	private PieChart pieChart;
-	
+
 	@FXML
 	private PieChart pieChartArtists;
-	
+
 	private FMObjList list;
 
 	public void populate(FMObjList list) {
 		this.list = list;
-		
-		double percent = Maths.getPercentListening(list, Reference.getUserName());
+
+		String username = FmFramework.getSessionConfig().getValue("username");
+
+		double percent = Maths.getPercentListening(list, username);
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
 		labelTotalScrobbles.setText(numberFormat.format(list.getTotalUserScrobbles()));
@@ -64,9 +66,9 @@ public class FMObjListPaneController {
 			FMObj obj = list.get(counter);
 
 			Label name = new Label(obj.getName().toLowerCase());
-			
+
 			name.getStyleClass().add("nameLabel");
-			
+
 			name.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
 
 				@Override
@@ -91,22 +93,23 @@ public class FMObjListPaneController {
 			gridPaneFMObjs.add(totalScrobbles, 2, counter);
 
 		}
-		
-		
+
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data(list.getGroupName(), list.getTotalUserScrobbles()),
-				new PieChart.Data("other", new FmUserNetwork(Key.getKey(), Reference.getUserName()).getUserScrobbleCount() - list.getTotalUserScrobbles()));
-		
-		ObservableList<PieChart.Data> pieChartArtistsData = FXCollections.observableArrayList();		
+				new PieChart.Data("other",
+						new FmUserNetwork(FmFramework.getSessionConfig().getValue("api_key"), username)
+								.getUserScrobbleCount() - list.getTotalUserScrobbles()));
+
+		ObservableList<PieChart.Data> pieChartArtistsData = FXCollections.observableArrayList();
 		int counter2;
-		for(counter2 = 0; counter2 < list.size(); counter2++) {
-			
+		for (counter2 = 0; counter2 < list.size(); counter2++) {
+
 			PieChart.Data data = new PieChart.Data(list.get(counter2).getName(), list.get(counter2).getUserPlayCount());
-			
+
 			pieChartArtistsData.add(data);
-			
+
 		}
-		
+
 		Collections.sort(pieChartArtistsData, new Comparator<PieChart.Data>() {
 
 			@Override
@@ -114,19 +117,23 @@ public class FMObjListPaneController {
 				return (int) (arg1.getPieValue() - arg0.getPieValue());
 			}
 		});
-		
+
 		pieChart.setData(pieChartData);
 		pieChartArtists.setData(pieChartArtistsData);
 
 	}
-	
+
 	@FXML
 	protected void handleRefresh(ActionEvent event) {
 		
-		list = new FmUserNetwork(Key.getKey(), Reference.getUserName()).getTag(list.getGroupName());		
+		Config config = FmFramework.getSessionConfig();
+
+		String username = config.getValue("username");
+		String api_key = config.getValue("api_key");
 		
-		
-		double percent = Maths.getPercentListening(list, Reference.getUserName());
+		list = new FmUserNetwork(api_key, username).getTag(list.getGroupName());
+
+		double percent = Maths.getPercentListening(list, username);
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
 
 		labelTotalScrobbles.setText(numberFormat.format(list.getTotalUserScrobbles()));
@@ -134,7 +141,7 @@ public class FMObjListPaneController {
 
 		Collections.sort(list);
 		Collections.reverse(list);
-		
+
 		gridPaneFMObjs.getChildren().clear();
 
 		int counter;
@@ -143,9 +150,9 @@ public class FMObjListPaneController {
 			FMObj obj = list.get(counter);
 
 			Label name = new Label(obj.getName().toLowerCase());
-			
+
 			name.getStyleClass().add("nameLabel");
-			
+
 			name.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
 
 				@Override
@@ -170,14 +177,13 @@ public class FMObjListPaneController {
 			gridPaneFMObjs.add(totalScrobbles, 2, counter);
 
 		}
-		
-		
-		
+
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data(list.getGroupName(), list.getTotalUserScrobbles()),
-				new PieChart.Data("other", new FmUserNetwork(Key.getKey(), Reference.getUserName()).getUserScrobbleCount() - list.getTotalUserScrobbles()));
+				new PieChart.Data("other",
+						new FmUserNetwork(FmFramework.getSessionConfig().getValue("api_key"), username)
+								.getUserScrobbleCount() - list.getTotalUserScrobbles()));
 		pieChart.setData(pieChartData);
 	}
-	
 
 }

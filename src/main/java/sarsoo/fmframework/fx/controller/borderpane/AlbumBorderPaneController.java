@@ -3,7 +3,6 @@ package sarsoo.fmframework.fx.controller.borderpane;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -14,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.controller.info.AlbumPaneController;
@@ -21,9 +21,7 @@ import sarsoo.fmframework.fx.tab.ArtistTab;
 import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.log.entry.ErrorEntry;
 import sarsoo.fmframework.music.Album;
-import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.util.Reference;
 
 public class AlbumBorderPaneController extends FMObjBorderPaneController {
 
@@ -125,8 +123,10 @@ public class AlbumBorderPaneController extends FMObjBorderPaneController {
 				return new Task<Void>() {
 					@Override
 					protected Void call() throws Exception {
+						
+						Config config = FmFramework.getSessionConfig();
 
-						album = new FmUserNetwork(Key.getKey(), Reference.getUserName()).refresh(album);
+						album = new FmUserNetwork(config.getValue("api_key"), config.getValue("username")).refresh(album);
 
 						Platform.runLater(new Runnable() {
 							@Override

@@ -1,24 +1,15 @@
 package sarsoo.fmframework.fx.controller.info;
 
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
-import sarsoo.fmframework.fx.tab.AlbumTab;
-import sarsoo.fmframework.fx.tab.ArtistTab;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.music.Wiki;
-import sarsoo.fmframework.net.Key;
-import sarsoo.fmframework.net.Network;
 import sarsoo.fmframework.util.Maths;
-import sarsoo.fmframework.util.Reference;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 public class TrackPaneController {
 
@@ -48,7 +39,7 @@ public class TrackPaneController {
 
 	@FXML
 	private Button buttonViewAlbum;
-	
+
 	@FXML
 	private AnchorPane infoAnchorPane;
 
@@ -64,15 +55,15 @@ public class TrackPaneController {
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
 		labelTrackName.setText(track.getName());
-		
+
 		if (track.getAlbum() == null)
 			labelAlbumName.setVisible(false);
 		else
 			labelAlbumName.setText(track.getAlbum().getName());
-		
+
 		labelArtistName.setText(track.getArtist().getName());
-		labelUserScrobbles.setText(numberFormat.format(track.getUserPlayCount())
-				+ String.format(" Scrobbles (%.2f%%)", Maths.getPercentListening(track, Reference.getUserName())));
+		labelUserScrobbles.setText(numberFormat.format(track.getUserPlayCount()) + String.format(" Scrobbles (%.2f%%)",
+				Maths.getPercentListening(track, FmFramework.getSessionConfig().getValue("username"))));
 
 		labelTotalListeners.setText(numberFormat.format(track.getListeners()) + " Listeners");
 		labelTotalScrobbles.setText(numberFormat.format(track.getPlayCount()) + " Total Scrobbles");
@@ -92,7 +83,7 @@ public class TrackPaneController {
 		if (wiki != null) {
 
 			textAreaWiki.setText(wiki.getContent() + "\n\n" + wiki.getDate());
-		}else {
+		} else {
 //			trackBorderPane.setCenter(infoAnchorPane);
 		}
 

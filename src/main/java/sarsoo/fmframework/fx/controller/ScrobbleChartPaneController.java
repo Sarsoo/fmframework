@@ -8,7 +8,9 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
+import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.net.Key;
 import javafx.scene.chart.BarChart;
@@ -57,7 +59,9 @@ public class ScrobbleChartPaneController {
 					@Override
 					protected Void call() throws Exception {
 
-						FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
+						Config config = FmFramework.getSessionConfig();
+						FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
+						
 						String value = (String) dropDownTimeRange.getValue();
 
 						int dayLength = 0;

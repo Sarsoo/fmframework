@@ -1,14 +1,11 @@
 package sarsoo.fmframework.fx.controller;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JOptionPane;
 
@@ -16,12 +13,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
-import sarsoo.fmframework.cache.TagPool;
+import sarsoo.fmframework.config.VariableEvent;
+import sarsoo.fmframework.config.VariableListener;
 import sarsoo.fmframework.file.ListPersister;
-import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.TextAreaConsole;
-import sarsoo.fmframework.fx.chart.GenrePieChartTitledPane;
-import sarsoo.fmframework.fx.chart.PieChartTitledPane;
 import sarsoo.fmframework.fx.service.GetLastTrackService;
 import sarsoo.fmframework.fx.service.GetScrobbleCountService;
 import sarsoo.fmframework.fx.service.GetTagMenuItemsService;
@@ -31,42 +26,44 @@ import sarsoo.fmframework.fx.tab.AlbumTab;
 import sarsoo.fmframework.fx.tab.ArtistTab;
 import sarsoo.fmframework.fx.tab.ConsoleTab;
 import sarsoo.fmframework.fx.tab.FMObjListEditTab;
-import sarsoo.fmframework.fx.tab.FMObjListTab;
 import sarsoo.fmframework.fx.tab.GenrePieChartTab;
 import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
 import sarsoo.fmframework.log.Log;
 import sarsoo.fmframework.log.Logger;
-import sarsoo.fmframework.log.entry.InfoEntry;
-import sarsoo.fmframework.log.entry.LogEntry;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Tag;
 import sarsoo.fmframework.music.Track;
-import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
-import sarsoo.fmframework.util.Reference;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
 
 import javafx.concurrent.*;
 import javafx.application.Platform;
-
-import org.json.*;
 
 public class RootController {
 
 	@FXML
 	public void initialize() {
 		Logger.setLog(new Log(TextAreaConsole.getInstance(), false));
+		FmFramework.getSessionConfig().getVariable("username").addListener(new VariableListener() {
+
+			@Override
+			public void listen(VariableEvent event) {
+				refresh();
+			}
+		
+		});
+		
 		refresh();
 	}
 
 	public void refresh() {
-		labelStatsUsername.setText(Reference.getUserName());
+		labelStatsUsername.setText(FmFramework.getSessionConfig().getValue("username"));
+		
 		refreshScrobbleCounts();
 		addLastTrackTab();
 		refreshTagMenu();
@@ -189,14 +186,8 @@ public class RootController {
 
 						String username = JOptionPane.showInputDialog("enter username:");
 						if (username != null) {
-							Reference.setUserName(username);
+							FmFramework.getSessionConfig().getVariable("username").setValue(username);
 
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									refresh();
-								}
-							});
 						}
 						return null;
 					}

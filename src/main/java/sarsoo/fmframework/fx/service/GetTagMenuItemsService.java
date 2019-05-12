@@ -11,6 +11,8 @@ import javafx.scene.control.MenuItem;
 import sarsoo.fmframework.cache.TagPool;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.tab.FMObjListTab;
+import sarsoo.fmframework.log.Logger;
+import sarsoo.fmframework.log.entry.ErrorEntry;
 import sarsoo.fmframework.music.Tag;
 
 public class GetTagMenuItemsService extends Service<ArrayList<MenuItem>> {
@@ -76,6 +78,14 @@ public class GetTagMenuItemsService extends Service<ArrayList<MenuItem>> {
 			}
 
 		};
+	}
+
+	@Override
+	protected void failed() {
+		super.failed();
+		
+		Logger.getLog().logError(new ErrorEntry("failed to get tag menu items"));
+		
 	}
 
 }

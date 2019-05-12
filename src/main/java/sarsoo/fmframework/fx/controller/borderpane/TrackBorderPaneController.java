@@ -14,15 +14,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.controller.info.TrackPaneController;
 import sarsoo.fmframework.fx.tab.AlbumTab;
 import sarsoo.fmframework.fx.tab.ArtistTab;
 import sarsoo.fmframework.music.Track;
-import sarsoo.fmframework.net.Key;
-import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.util.Reference;
 
 public class TrackBorderPaneController extends FMObjBorderPaneController {
 
@@ -131,8 +129,10 @@ public class TrackBorderPaneController extends FMObjBorderPaneController {
 				return new Task<Void>() {
 					@Override
 					protected Void call() throws Exception {
+						
+						Config config = FmFramework.getSessionConfig();
 
-						FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+						FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
 						
 						track = net.refresh(track);
 						track.setScrobbles(net.getTrackScrobbles(track));

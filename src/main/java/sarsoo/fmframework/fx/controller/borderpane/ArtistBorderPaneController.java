@@ -12,12 +12,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
+import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.controller.info.ArtistPaneController;
 import sarsoo.fmframework.music.Artist;
-import sarsoo.fmframework.net.Key;
-import sarsoo.fmframework.net.Network;
-import sarsoo.fmframework.util.Reference;
 
 public class ArtistBorderPaneController extends FMObjBorderPaneController{
 	
@@ -91,7 +90,9 @@ public class ArtistBorderPaneController extends FMObjBorderPaneController{
 					@Override
 					protected Void call() throws Exception {
 						
-						artist = new FmUserNetwork(Key.getKey(), Reference.getUserName()).refresh(artist);
+						Config config = FmFramework.getSessionConfig();
+						
+						artist = new FmUserNetwork(config.getValue("api_key"), config.getValue("username")).refresh(artist);
 
 						Platform.runLater(new Runnable() {
 							@Override

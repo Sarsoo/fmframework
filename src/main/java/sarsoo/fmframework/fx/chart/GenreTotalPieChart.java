@@ -3,9 +3,9 @@ package sarsoo.fmframework.fx.chart;
 import java.util.ArrayList;
 
 import javafx.scene.chart.PieChart;
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
-import sarsoo.fmframework.net.Key;
-import sarsoo.fmframework.util.Reference;
+import sarsoo.fmframework.fx.FmFramework;
 
 public class GenreTotalPieChart extends GenrePieChart{
 	
@@ -14,7 +14,9 @@ public class GenreTotalPieChart extends GenrePieChart{
 		
 		setTitle(name + " total");
 		
-		FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+		Config config = FmFramework.getSessionConfig();
+		
+		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
 
 		int totalScrobbles = net.getUserScrobbleCount();
 		

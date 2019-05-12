@@ -3,10 +3,10 @@ package sarsoo.fmframework.music;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
-import sarsoo.fmframework.net.Key;
+import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.util.Maths;
-import sarsoo.fmframework.util.Reference;
 
 public abstract class FMObj implements Comparable<FMObj>, Serializable{
 	
@@ -64,7 +64,9 @@ public abstract class FMObj implements Comparable<FMObj>, Serializable{
 	}
 	
 	public double getPercent() {
-		FmUserNetwork net = new FmUserNetwork(Key.getKey(), Reference.getUserName());
+		Config config = FmFramework.getSessionConfig();
+		
+		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
 		return ((double)userPlayCount*100)/(double) net.getUser().getScrobbleCount();
 	}
 	
