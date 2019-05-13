@@ -7,11 +7,13 @@ import java.time.ZoneId;
 public class Scrobble {
 	
 	private LocalDateTime dateTime;
+	private long uts;
 	private Track track;
 	private Album album;
 	
 	public Scrobble(long uts, Track track) {
-		this.track = track;		
+		this.track = track;	
+		this.uts = uts;
 		this.dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(uts), ZoneId.systemDefault());
 	}
 	
@@ -23,6 +25,10 @@ public class Scrobble {
 	
 	public LocalDateTime getDateTime() {
 		return dateTime;
+	}
+	
+	public long getUTS() {
+		return uts;
 	}
 	
 	public Track getTrack() {

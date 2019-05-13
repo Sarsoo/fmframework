@@ -377,7 +377,11 @@ public class FmNetwork {
 		HttpRequest request;
 		try {
 			request = Unirest.get("https://ws.audioscrobbler.com/2.0/").header("Accept", "application/json")
-					.header("User-Agent", "fmframework").queryString("method", method);
+					.header("User-Agent", "fmframework");
+			
+			parameters.put("method", method);
+			parameters.put("api_key", key);
+			parameters.put("format", "json");
 
 			if (headers != null) {
 				for (String key : headers.keySet()) {
@@ -390,8 +394,6 @@ public class FmNetwork {
 					request = request.queryString(key, parameters.get(key));
 				}
 			}
-
-			request = request.queryString("api_key", key).queryString("format", "json");
 
 			HttpResponse<JsonNode> response = request.asJson();
 
