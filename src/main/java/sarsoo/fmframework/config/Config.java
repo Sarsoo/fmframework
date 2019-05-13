@@ -65,7 +65,7 @@ public class Config {
 		String string = "config:";
 		
 		for(ConfigVariable i: variables) {
-			string += " " + i.getKey() + " " + i.getValue(); 
+			string += " " + i.toString(); 
 		}
 		
 		return string;

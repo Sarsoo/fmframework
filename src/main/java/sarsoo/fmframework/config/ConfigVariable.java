@@ -62,5 +62,14 @@ public class ConfigVariable {
 	public List<VariableListener> getListeners() {
 		return listeners;
 	}
+	
+	@Override
+	public String toString() {
+		String string = getKey() + ": " + getValue();
+		if(isTemporary())
+			string += " (temp)";
+			
+		return string;
+	}
 
 }

@@ -356,6 +356,11 @@ public class RootController {
 		}
 
 	}
+	
+	@FXML
+	protected void handlePrintConfig(ActionEvent event) {
+		System.out.println(FmFramework.getSessionConfig());
+	}
 
 	@FXML
 	protected void handleScrobble(ActionEvent event) throws IOException {
