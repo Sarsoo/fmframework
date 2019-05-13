@@ -10,13 +10,17 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.config.ConfigVariable;
 import sarsoo.fmframework.config.VariableEvent;
 import sarsoo.fmframework.config.VariableListener;
 import sarsoo.fmframework.file.ListPersister;
+import sarsoo.fmframework.fm.FmAuthNetwork;
+import sarsoo.fmframework.fm.FmNetwork;
 import sarsoo.fmframework.fx.TextAreaConsole;
 import sarsoo.fmframework.fx.service.GetLastTrackService;
 import sarsoo.fmframework.fx.service.GetScrobbleCountService;
@@ -30,6 +34,7 @@ import sarsoo.fmframework.fx.tab.FMObjListEditTab;
 import sarsoo.fmframework.fx.tab.GenrePieChartTab;
 import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
+import sarsoo.fmframework.fx.tab.WebViewTab;
 import sarsoo.fmframework.log.Log;
 import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.fx.FmFramework;
@@ -50,36 +55,36 @@ public class RootController {
 	@FXML
 	public void initialize() {
 		Logger.setLog(new Log(TextAreaConsole.getInstance(), false));
-		
+
 		Config config = FmFramework.getSessionConfig();
-		
-		if(config.getVariable("api_key") == null) {
-			while(config.getVariable("api_key") == null) {
+
+		if (config.getVariable("api_key") == null) {
+			while (config.getVariable("api_key") == null) {
 				setApiKey();
 			}
 		}
-		
-		if(config.getVariable("username") == null) {
-			while(config.getVariable("username") == null) {
+
+		if (config.getVariable("username") == null) {
+			while (config.getVariable("username") == null) {
 				changeUsername();
 			}
 		}
-		
+
 		FmFramework.getSessionConfig().getVariable("username").addListener(new VariableListener() {
 
 			@Override
 			public void listen(VariableEvent event) {
 				refresh();
 			}
-		
+
 		});
-		
+
 		refresh();
 	}
 
 	public void refresh() {
 		labelStatsUsername.setText(FmFramework.getSessionConfig().getValue("username"));
-		
+
 		refreshScrobbleCounts();
 		addLastTrackTab();
 		refreshTagMenu();
@@ -192,10 +197,54 @@ public class RootController {
 	}
 
 	@FXML
-	protected void handleChangeUsername(ActionEvent event) throws IOException {
+	protected void handleChangeUsername(ActionEvent event) {
 		changeUsername();
 	}
-	
+
+	@FXML
+	protected void handleAuth(ActionEvent event) {
+		try {
+
+			Config config = FmFramework.getSessionConfig();
+
+			if (config.getVariable("api_secret") != null) {
+
+				FmAuthNetwork net = new FmAuthNetwork(config.getValue("api_key"), config.getValue("api_secret"),
+						config.getValue("username"));
+
+				String token = net.getToken();
+
+				String url = String.format("http://www.last.fm/api/auth/?api_key=%s&token=%s",
+						config.getValue("api_key"), token);
+
+				Tab tab = new WebViewTab(url);
+
+				tab.setOnClosed(new EventHandler<Event>() {
+
+					@Override
+					public void handle(Event arg0) {
+						completeAuth(net, token);
+					}
+				});
+
+				addTab(tab);
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void completeAuth(FmAuthNetwork net, String token) {
+
+		String sk = net.getSession(token);
+
+		if (sk != null) {
+			FmFramework.getSessionConfig().addVariable(new ConfigVariable("session_key", sk));
+		}
+	}
+
 	public void changeUsername() {
 		Service<Void> service = new Service<Void>() {
 			@Override
@@ -216,7 +265,7 @@ public class RootController {
 		};
 		service.start();
 	}
-	
+
 	public void setApiKey() {
 		Service<Void> service = new Service<Void>() {
 			@Override
@@ -356,7 +405,7 @@ public class RootController {
 		}
 
 	}
-	
+
 	@FXML
 	protected void handlePrintConfig(ActionEvent event) {
 		System.out.println(FmFramework.getSessionConfig());

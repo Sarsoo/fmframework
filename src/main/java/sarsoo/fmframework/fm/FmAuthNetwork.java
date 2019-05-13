@@ -20,6 +20,7 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 
 import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.log.entry.ErrorEntry;
+import sarsoo.fmframework.log.entry.LogEntry;
 import sarsoo.fmframework.music.Scrobble;
 
 public class FmAuthNetwork extends FmUserNetwork {
@@ -32,6 +33,8 @@ public class FmAuthNetwork extends FmUserNetwork {
 	}
 	
 	public void scrobble(Scrobble scrobble, String sk) {
+		
+		Logger.getLog().log(new LogEntry("scrobble").addArg(scrobble.toString()));
 		
 		HashMap<String, String> params = new HashMap<String, String>();
 		
@@ -47,17 +50,20 @@ public class FmAuthNetwork extends FmUserNetwork {
 		
 		JSONObject obj = makeAuthPostRequest("track.scrobble", params);
 		
-		System.out.println(obj.toString());
-		
 	}
 
 	public String getToken() {
+		
+		Logger.getLog().log(new LogEntry("getToken"));
+		
 		JSONObject obj = makeAuthGetRequest("auth.gettoken");
 
 		return obj.getString("token");
 	}
 
 	public String getSession(String token) {
+		
+		Logger.getLog().log(new LogEntry("getSession"));
 
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("token", token);
