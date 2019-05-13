@@ -17,6 +17,9 @@ public class GenrePieChart extends PieChart{
 	
 	public GenrePieChart(String name, ArrayList<String> tagNames) {
 		
+		getStylesheets().add("../styles/mainPane.css");
+		getStyleClass().add("backGround");
+		
 		setStartAngle(90);
 		setTitle(name);
 		
