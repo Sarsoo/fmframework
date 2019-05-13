@@ -1,9 +1,6 @@
 package sarsoo.fmframework.fx.controller;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -21,6 +18,8 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.file.JSONPersister;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.chart.GenrePieChartTitledPane;
 import sarsoo.fmframework.fx.chart.PieChartTitledPane;
@@ -29,6 +28,8 @@ import sarsoo.fmframework.log.entry.InfoEntry;
 import sarsoo.fmframework.log.entry.LogEntry;
 
 public class GenrePieChartPaneController {
+
+	protected String defaultPath = "./piechart.json";
 
 	@FXML
 	BorderPane borderPane;
@@ -52,56 +53,42 @@ public class GenrePieChartPaneController {
 
 	@FXML
 	public void initialize() {
-		try {
-			if (new File("./piechart.json").isFile()) {
-				File file = new File("./piechart.json");
 
-				BufferedReader br = new BufferedReader(new FileReader(file));
-				StringBuilder sb = new StringBuilder();
-				String jsonLine = br.readLine();
-				while (jsonLine != null) {
-					sb.append(jsonLine);
-					jsonLine = br.readLine();
-				}
+		Config config = FmFramework.getSessionConfig();
 
-				br.close();
+		JSONPersister persist = new JSONPersister();
 
-				String jsonString = sb.toString();
+		JSONObject rootParsedJsonObj = persist.readJSONFromFile(".fm/piechart.json");
 
-				JSONObject rootParsedJsonObj = new JSONObject(jsonString);
+		if (rootParsedJsonObj != null) {
+			JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy").getJSONArray("genres");
 
-				JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy")
-						.getJSONArray("genres");
-
-				if (hierarchiesJsonArray.length() > 0) {
+			if (hierarchiesJsonArray.length() > 0) {
 //					menuPieChart.setVisible(true);
-				}
+			}
 
-				int counter;
-				for (counter = 0; counter < hierarchiesJsonArray.length(); counter++) {
+			int counter;
+			for (counter = 0; counter < hierarchiesJsonArray.length(); counter++) {
 
-					JSONObject hierarchyJsonObj = (JSONObject) hierarchiesJsonArray.get(counter);
+				JSONObject hierarchyJsonObj = (JSONObject) hierarchiesJsonArray.get(counter);
 //					JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
 //					ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
 
-					String hierarchyName = hierarchyJsonObj.getString("name");
-					JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
-					ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
+				String hierarchyName = hierarchyJsonObj.getString("name");
+				JSONArray hierarchyTagsJsonArray = hierarchyJsonObj.getJSONArray("tags");
+				ArrayList<String> hierarchyTagNameList = new ArrayList<String>();
 
-					int i;
-					for (i = 0; i < hierarchyTagsJsonArray.length(); i++) {
-						hierarchyTagNameList.add(hierarchyTagsJsonArray.getString(i));
+				int i;
+				for (i = 0; i < hierarchyTagsJsonArray.length(); i++) {
+					hierarchyTagNameList.add(hierarchyTagsJsonArray.getString(i));
 //						allTags.add(hierarchyTagsJsonArray.getString(i));
-					}
-
-					choiceBox.getItems().add(new GenreHierarchy(hierarchyName, hierarchyTagNameList));
-//					paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
 				}
 
+				choiceBox.getItems().add(new GenreHierarchy(hierarchyName, hierarchyTagNameList));
+//					paneList.add(new GenrePieChartTitledPane(hierarchyName, hierarchyTagNameList));
 			}
-		} catch (IOException e) {
-
 		}
+
 	}
 
 	@FXML
@@ -137,10 +124,12 @@ public class GenrePieChartPaneController {
 	@FXML
 	protected void handleLoadAll(ActionEvent event) {
 
+		Config config = FmFramework.getSessionConfig();
+
 		File file = null;
 		String path = null;
-		if (new File("./piechart.json").isFile()) {
-			file = new File("./piechart.json");
+		if (new File(".fm/piechart.json").isFile()) {
+			file = new File(".fm/piechart.json");
 		} else {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("open pie chart json");
@@ -148,11 +137,16 @@ public class GenrePieChartPaneController {
 			file = fileChooser.showOpenDialog(FmFramework.getStage());
 		}
 
-		refreshPieCharts(file);
+		if (file != null) {
+			JSONPersister persist = new JSONPersister();
 
+			JSONObject rootParsedJsonObj = persist.readJSONFromFile(file);
+
+			refreshPieCharts(rootParsedJsonObj);
+		}
 	}
 
-	public void refreshPieCharts(File file) {
+	public void refreshPieCharts(JSONObject object) {
 
 		Logger.getLog().log(new LogEntry("refreshPieCharts"));
 
@@ -163,24 +157,7 @@ public class GenrePieChartPaneController {
 					@Override
 					protected Void call() throws Exception {
 
-						String jsonString = null;
-						if (file != null) {
-
-							BufferedReader br = new BufferedReader(new FileReader(file));
-							StringBuilder sb = new StringBuilder();
-							String jsonLine = br.readLine();
-							while (jsonLine != null) {
-								sb.append(jsonLine);
-								jsonLine = br.readLine();
-							}
-
-							br.close();
-
-							jsonString = sb.toString();
-							Logger.getLog().logInfo(new InfoEntry("refreshPieCharts").addArg("json read"));
-						}
-
-						JSONObject rootParsedJsonObj = new JSONObject(jsonString);
+						JSONObject rootParsedJsonObj = object;
 
 						JSONArray hierarchiesJsonArray = rootParsedJsonObj.getJSONObject("genrehierarchy")
 								.getJSONArray("genres");

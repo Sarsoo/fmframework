@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
+import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.config.VariableEvent;
 import sarsoo.fmframework.config.VariableListener;
 import sarsoo.fmframework.file.ListPersister;
@@ -49,6 +50,21 @@ public class RootController {
 	@FXML
 	public void initialize() {
 		Logger.setLog(new Log(TextAreaConsole.getInstance(), false));
+		
+		Config config = FmFramework.getSessionConfig();
+		
+		if(config.getVariable("api_key") == null) {
+			while(config.getVariable("api_key") == null) {
+				setApiKey();
+			}
+		}
+		
+		if(config.getVariable("username") == null) {
+			while(config.getVariable("username") == null) {
+				changeUsername();
+			}
+		}
+		
 		FmFramework.getSessionConfig().getVariable("username").addListener(new VariableListener() {
 
 			@Override
@@ -177,6 +193,10 @@ public class RootController {
 
 	@FXML
 	protected void handleChangeUsername(ActionEvent event) throws IOException {
+		changeUsername();
+	}
+	
+	public void changeUsername() {
 		Service<Void> service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
@@ -187,6 +207,27 @@ public class RootController {
 						String username = JOptionPane.showInputDialog("enter username:");
 						if (username != null) {
 							FmFramework.getSessionConfig().getVariable("username").setValue(username);
+
+						}
+						return null;
+					}
+				};
+			}
+		};
+		service.start();
+	}
+	
+	public void setApiKey() {
+		Service<Void> service = new Service<Void>() {
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+					@Override
+					protected Void call() throws Exception {
+
+						String apiKey = JOptionPane.showInputDialog("enter api key:");
+						if (apiKey != null) {
+							FmFramework.getSessionConfig().getVariable("api_key").setValue(apiKey);
 
 						}
 						return null;

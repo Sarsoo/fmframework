@@ -20,7 +20,6 @@ public class GetLastTrackService extends Service<Track> {
 
 				Config config = FmFramework.getSessionConfig();
 
-				System.out.println(config.getValue("api_key") + config.getValue("username"));
 				FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
 
 				return net.getLastTrack();

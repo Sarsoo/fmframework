@@ -20,7 +20,6 @@ import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.tab.ArtistTab;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
-import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
 import sarsoo.fmframework.util.Maths;
 import javafx.scene.layout.*;
