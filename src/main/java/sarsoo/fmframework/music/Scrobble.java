@@ -39,6 +39,10 @@ public class Scrobble {
 		return album;
 	}
 	
+	public void setAlbum(Album album) {
+		this.album = album;
+	}
+	
 	public Artist getArtist() {
 		return track.getArtist();
 	}

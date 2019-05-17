@@ -204,6 +204,10 @@ public class RootController {
 
 	@FXML
 	protected void handleAuth(ActionEvent event) {
+		authenticate();
+	}
+	
+	public void authenticate() {
 		try {
 
 			Config config = FmFramework.getSessionConfig();

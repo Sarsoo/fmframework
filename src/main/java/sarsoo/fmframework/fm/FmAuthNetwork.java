@@ -32,7 +32,7 @@ public class FmAuthNetwork extends FmUserNetwork {
 		this.secretKey = secretKey;
 	}
 	
-	public void scrobble(Scrobble scrobble, String sk) {
+	public JSONObject scrobble(Scrobble scrobble, String sk) {
 		
 		Logger.getLog().log(new LogEntry("scrobble").addArg(scrobble.toString()));
 		
@@ -49,6 +49,8 @@ public class FmAuthNetwork extends FmUserNetwork {
 		}
 		
 		JSONObject obj = makeAuthPostRequest("track.scrobble", params);
+		
+		return obj;
 		
 	}
 
