@@ -10,6 +10,8 @@ import sarsoo.fmframework.util.FMObjList;
 public class TagPool {
 
 	private static TagPool instance;
+	
+	private ArrayList<FMObjList> tagList;
 
 	private TagPool() {
 		tagList = new ArrayList<FMObjList>();
@@ -32,8 +34,6 @@ public class TagPool {
 		}
 		return instance;
 	}
-
-	private ArrayList<FMObjList> tagList;
 
 	public FMObjList getTag(String name) {
 		System.out.println("gettag " + name);
