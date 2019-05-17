@@ -9,7 +9,7 @@ import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.log.entry.ErrorEntry;
 import sarsoo.fmframework.log.entry.LogEntry;
 
-public class StaticCache<T, S> implements IStaticCache<T, S> {
+public class StaticCache<T extends Cacheable, S> implements IStaticCache<T, S> {
 
 	private ArrayList<CacheEntry<T>> pool;
 	private Puller<T, S> puller;
@@ -26,7 +26,7 @@ public class StaticCache<T, S> implements IStaticCache<T, S> {
 	@Override
 	public T get(S input) {
 
-		Optional<CacheEntry<T>> item = pool.stream().filter(i -> i.getSubject().equals(input)).findFirst();
+		Optional<CacheEntry<T>> item = pool.stream().filter(i -> i.getSubject().matches(input)).findFirst();
 
 		if (item.isPresent()) {
 			Logger.getLog().log(new LogEntry("getCachedItem").addArg("found").addArg(input.toString()));
@@ -50,7 +50,7 @@ public class StaticCache<T, S> implements IStaticCache<T, S> {
 
 	@Override
 	public T getNew(S input) {
-		Optional<CacheEntry<T>> item = pool.stream().filter(i -> i.getSubject().equals(input)).findFirst();
+		Optional<CacheEntry<T>> item = pool.stream().filter(i -> i.getSubject().matches(input)).findFirst();
 
 		if (item.isPresent()) {
 			Logger.getLog().log(new LogEntry("getNewCachedItem").addArg("removed").addArg(input.toString()));

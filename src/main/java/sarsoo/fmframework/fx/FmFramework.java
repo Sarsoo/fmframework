@@ -7,12 +7,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sarsoo.fmframework.cache.StaticCache;
+import sarsoo.fmframework.cache.puller.TagPuller;
 import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.config.ConfigPersister;
+import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.controller.RootController;
 import sarsoo.fmframework.fx.service.SaveConfigService;
 import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.log.entry.LogEntry;
+import sarsoo.fmframework.util.FMObjList;
 
 public class FmFramework extends Application {
 
@@ -21,6 +25,8 @@ public class FmFramework extends Application {
 
 	private static Config config;
 
+	private static StaticCache<FMObjList, String> tagPool = null;
+
 	private static RootController control;
 
 	@Override
@@ -28,7 +34,8 @@ public class FmFramework extends Application {
 		FmFramework.stage = stage;
 
 		initConfig();
-		
+		initCaches();
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/RootPane.fxml"));
 
 //		Parent root = FXMLLoader.load(getClass().getResource("ui/main.fxml"));
@@ -48,7 +55,7 @@ public class FmFramework extends Application {
 		stage.show();
 
 	}
-	
+
 	private void initConfig() {
 		ConfigPersister persist = new ConfigPersister();
 
@@ -62,9 +69,20 @@ public class FmFramework extends Application {
 
 			SaveConfigService saveConfig = new SaveConfigService(".fm/", config);
 			saveConfig.start();
-		}else {
+		} else {
 			Logger.getLog().log(new LogEntry("load config").addArg("null config returned"));
 		}
+	}
+
+	private void initCaches() {
+
+		tagPool = new StaticCache<>(
+				new TagPuller(new FmUserNetwork(config.getValue("api_key"), config.getValue("username"))));
+
+	}
+	
+	public static StaticCache<FMObjList, String> getTagPool(){
+		return tagPool;
 	}
 
 	public static Config getSessionConfig() {
@@ -72,8 +90,7 @@ public class FmFramework extends Application {
 	}
 
 	public static void main(String[] args) {
-		Runtime.getRuntime().addShutdownHook(
-				new Thread(() -> (new ConfigPersister()).saveConfig(".fm/", config)));
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> (new ConfigPersister()).saveConfig(".fm/", config)));
 		launch(args);
 	}
 

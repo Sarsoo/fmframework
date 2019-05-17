@@ -7,7 +7,8 @@ import java.util.Comparator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
-import sarsoo.fmframework.cache.TagPool;
+import sarsoo.fmframework.cache.StaticCache;
+import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.util.FMObjList;
 
 public class GenrePieChart extends PieChart{
@@ -25,13 +26,13 @@ public class GenrePieChart extends PieChart{
 		
 		pieChartData = FXCollections.observableArrayList();
 		
-		TagPool tagPool = TagPool.getPool();
+		StaticCache<FMObjList, String> tagPool = FmFramework.getTagPool();
 
 		ArrayList<FMObjList> tagObjs = new ArrayList<FMObjList>();
 		
 		int i;
 		for(i = 0; i < tagNames.size(); i++){
-			tagObjs.add(tagPool.getTag(tagNames.get(i)));
+			tagObjs.add(tagPool.get(tagNames.get(i)));
 		}
 		
 		for(i = 0; i < tagObjs.size(); i++) {

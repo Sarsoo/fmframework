@@ -8,7 +8,6 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
-import sarsoo.fmframework.cache.TagPool;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.tab.FMObjListTab;
 import sarsoo.fmframework.log.Logger;
@@ -54,7 +53,7 @@ public class GetTagMenuItemsService extends Service<ArrayList<MenuItem>> {
 										@Override
 										protected Void call() throws Exception {
 
-											FMObjListTab tab = new FMObjListTab(TagPool.getPool().getTag(name));
+											FMObjListTab tab = new FMObjListTab(FmFramework.getTagPool().get(name));
 
 											Platform.runLater(new Runnable() {
 												@Override

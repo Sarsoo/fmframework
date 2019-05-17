@@ -3,6 +3,7 @@ package sarsoo.fmframework.util;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import sarsoo.fmframework.cache.Cacheable;
 import sarsoo.fmframework.config.Config;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
@@ -11,7 +12,7 @@ import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
 
-public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>, Serializable {
+public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>, Serializable, Cacheable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -84,6 +85,24 @@ public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>
 	@Override
 	public int compareTo(FMObjList list) {
 		return getTotalUserScrobbles() - list.getTotalUserScrobbles();
+	}
+
+	@Override
+	public boolean matches(Object obj) {
+
+		if (obj instanceof String) {
+			String stringed = (String) obj;
+			if (getGroupName().equalsIgnoreCase(stringed))
+				return true;
+		}
+
+		if (obj instanceof FMObjList) {
+			FMObjList list = (FMObjList) obj;
+			if (getGroupName().equalsIgnoreCase(list.getGroupName()))
+				return true;
+		}
+		
+		return false;
 	}
 
 	public void refresh() {

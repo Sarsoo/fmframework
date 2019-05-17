@@ -3,7 +3,9 @@ package sarsoo.fmframework.music;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Album extends FMObj implements Serializable{
+import sarsoo.fmframework.cache.Cacheable;
+
+public class Album extends FMObj implements Serializable, Cacheable{
 
 	private static final long serialVersionUID = 1L;
 	protected Artist artist;
@@ -149,5 +151,10 @@ public class Album extends FMObj implements Serializable{
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean matches(Object o) {
+		return equals(o);
 	}
 }
