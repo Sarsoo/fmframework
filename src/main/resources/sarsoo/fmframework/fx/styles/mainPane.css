@@ -17,6 +17,22 @@
 	-fx-start-angle: 90;
 }
 
+.chart-bar {
+	-fx-background-color: #202124;
+}
+
+.chart-pie-label {
+	-fx-fill: white;
+}
+
+.chart-pie-legend {
+	-fx-background-color: #202124;
+}
+
+.chart-title {
+	-fx-text-fill: white;
+}
+
 .button {
 	-fx-background-color: #4D4D4D;
 	-fx-text-fill: white;
@@ -38,6 +54,10 @@
 }
 
 .backGround {
+    -fx-background-color: #202124;
+}
+
+.titled-pane {
     -fx-background-color: #202124;
 }
 
