@@ -10,6 +10,7 @@ import sarsoo.fmframework.music.Wiki;
 import sarsoo.fmframework.util.Maths;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 public class AlbumPaneController {
 
@@ -36,6 +37,12 @@ public class AlbumPaneController {
 
 	@FXML
 	private AnchorPane infoAnchorPane;
+	
+	@FXML
+	private AnchorPane anchorPane;
+	
+	@FXML
+	private GridPane gridPane;
 
 	@FXML
 	public void initialize() {
@@ -72,7 +79,7 @@ public class AlbumPaneController {
 
 			textAreaWiki.setText(wiki.getContent() + "\n\n" + wiki.getDate());
 		} else {
-//			albumBorderPane.setCenter(infoAnchorPane);
+			anchorPane.getChildren().set(0, gridPane);
 		}
 	}
 
