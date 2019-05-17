@@ -33,6 +33,7 @@ import sarsoo.fmframework.fx.tab.ConsoleTab;
 import sarsoo.fmframework.fx.tab.FMObjListEditTab;
 import sarsoo.fmframework.fx.tab.GenrePieChartTab;
 import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
+import sarsoo.fmframework.fx.tab.ScrobbleTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
 import sarsoo.fmframework.fx.tab.WebViewTab;
 import sarsoo.fmframework.log.Log;
@@ -423,11 +424,7 @@ public class RootController {
 
 	@FXML
 	protected void handleScrobble(ActionEvent event) throws IOException {
-//		Album album = sarsoo.fmframework.jframe.Getter.getAlbum();
-//		if (album != null) {
-//			Track track = sarsoo.fmframework.jframe.Getter.getTrack(album);
-//
-//		}
+		addTab(new ScrobbleTab());
 	}
 
 	@FXML
