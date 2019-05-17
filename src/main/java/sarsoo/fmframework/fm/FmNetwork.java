@@ -78,7 +78,7 @@ public class FmNetwork {
 			try {
 				builder.setMbid(albumJson.getString("mbid"));
 			} catch (JSONException e) {
-				log.logInfo(new InfoEntry("getAlbum").addArg("no mbid for").addArg(nameIn).addArg(e.getMessage()));
+//				log.logInfo(new InfoEntry("getAlbum").addArg("no mbid for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {

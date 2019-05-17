@@ -11,7 +11,7 @@ import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.music.Album.AlbumBuilder;
 import sarsoo.fmframework.music.Artist.ArtistBuilder;
 
-public class CacheTest {
+public class StaticCacheTest {
 
 	@Test
 	public void test() {

@@ -22,7 +22,16 @@ public class GetLastTrackService extends Service<Track> {
 
 				FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
 
-				return net.getLastTrack();
+				Track lastTrack = net.getLastTrack();
+				
+				FmFramework.getTrackPool().add(lastTrack);
+				FmFramework.getArtistPool().add(lastTrack.getArtist());
+				
+				if(lastTrack.getAlbum() != null) {
+					FmFramework.getAlbumPool().add(lastTrack.getAlbum());
+				}
+				
+				return lastTrack;
 			}
 
 			@Override

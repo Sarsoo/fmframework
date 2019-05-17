@@ -8,6 +8,8 @@ public interface IStaticCache<T, S> {
 	
 	public T getNew(S input);
 	
+	public void add(T input);
+	
 	public void flush();
 	
 	public void dumpToLog(Log log);

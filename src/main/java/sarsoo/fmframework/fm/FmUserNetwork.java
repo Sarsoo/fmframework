@@ -524,16 +524,16 @@ public class FmUserNetwork extends FmNetwork {
 		return tags;
 
 	}
-
+	
 	/**
 	 * Returns FMObjList of tagged artists
 	 * 
 	 * @param tagName Tag to explore
 	 * @return FMObjList of artists
 	 */
-	public FMObjList getTag(String tagName) {
+	public FMObjList getArtistTag(String tagName) {
 
-		Logger.getLog().log(new LogEntry("getTag").addArg(tagName));
+		Logger.getLog().log(new LogEntry("getArtistTag").addArg(tagName));
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
 
@@ -557,7 +557,7 @@ public class FmUserNetwork extends FmNetwork {
 
 			artistJson = (JSONObject) tagJsonArray.get(counter);
 
-			Artist artist = getArtist(artistJson.getString("name"));
+			Artist artist = new ArtistBuilder(artistJson.getString("name")).build();
 
 			Logger.getLog().logInfo(new InfoEntry("Tag").addArg(tagName).addArg(artist.getName()));
 
@@ -566,6 +566,38 @@ public class FmUserNetwork extends FmNetwork {
 		}
 
 		return list;
+
+	}
+
+	/**
+	 * Returns FMObjList of tagged artists
+	 * 
+	 * @param tagName Tag to explore
+	 * @return FMObjList of artists
+	 */
+	public FMObjList getPopulatedArtistTag(String tagName) {
+
+		Logger.getLog().log(new LogEntry("getPopulatedArtistTag").addArg(tagName));
+
+		FMObjList inputList = getArtistTag(tagName);
+		
+		FMObjList returnedList = new FMObjList();
+		returnedList.setGroupName(tagName);
+		
+		int counter;
+		for (counter = 0; counter < inputList.size(); counter++) {
+
+			Artist count = (Artist) inputList.get(counter);
+			
+			Artist artist = getArtist(count.getName());
+
+			Logger.getLog().logInfo(new InfoEntry("Tag").addArg(tagName).addArg(artist.getName()));
+
+			returnedList.add(artist);
+
+		}
+
+		return returnedList;
 
 	}
 

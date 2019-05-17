@@ -130,7 +130,7 @@ public class FMObjListPaneController {
 		String username = config.getValue("username");
 		String api_key = config.getValue("api_key");
 		
-		list = new FmUserNetwork(api_key, username).getTag(list.getGroupName());
+		list = new FmUserNetwork(api_key, username).getPopulatedArtistTag(list.getGroupName());
 
 		double percent = Maths.getPercentListening(list, username);
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);

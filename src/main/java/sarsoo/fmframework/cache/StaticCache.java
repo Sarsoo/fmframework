@@ -33,16 +33,16 @@ public class StaticCache<T extends Cacheable, S> implements IStaticCache<T, S> {
 			return item.get().getSubject();
 		} else {
 			Logger.getLog().log(new LogEntry("getCachedItem").addArg("pulling").addArg(input.toString()));
-			
+
 			T pulled = puller.pull(input);
 
 			if (pulled != null) {
 				Logger.getLog().log(new LogEntry("getCachedItem").addArg("pulled").addArg(input.toString()));
 				pool.add(new CacheEntry<T>(pulled));
+				propagateCache(pulled);
 				return pulled;
 			} else {
-				Logger.getLog()
-						.logError(new ErrorEntry("getCachedItem").addArg("null item").addArg(input.toString()));
+				Logger.getLog().logError(new ErrorEntry("getCachedItem").addArg("null item").addArg(input.toString()));
 				return null;
 			}
 		}
@@ -54,16 +54,17 @@ public class StaticCache<T extends Cacheable, S> implements IStaticCache<T, S> {
 
 		if (item.isPresent()) {
 			Logger.getLog().log(new LogEntry("getNewCachedItem").addArg("removed").addArg(input.toString()));
-			pool.remove(item);
+			pool.remove(item.get());
 		}
-		
+
 		Logger.getLog().log(new LogEntry("getNewCachedItem").addArg("pulling").addArg(input.toString()));
-		
+
 		T pulled = puller.pull(input);
 
 		if (pulled != null) {
 			Logger.getLog().log(new LogEntry("getNewCachedItem").addArg("pulled").addArg(input.toString()));
 			pool.add(new CacheEntry<T>(pulled));
+			propagateCache(pulled);
 			return pulled;
 		} else {
 			Logger.getLog().logError(new ErrorEntry("getNewCachedItem").addArg("null item").addArg(input.toString()));
@@ -71,6 +72,23 @@ public class StaticCache<T extends Cacheable, S> implements IStaticCache<T, S> {
 		}
 
 	}
+
+	@Override
+	public void add(T input) {
+		Optional<CacheEntry<T>> item = pool.stream().filter(i -> i.getSubject().matches(input)).findFirst();
+
+		Logger.getLog().log(new LogEntry("addCachedItem").addArg(input.toString()));
+		
+		if (item.isPresent()) {
+			Logger.getLog().log(new LogEntry("addCachedItem").addArg("replaced").addArg(input.toString()));
+			pool.remove(item.get());
+		}
+
+		pool.add(new CacheEntry<T>(input));
+
+	}
+	
+	protected void propagateCache(T in) {}
 
 	@Override
 	public void flush() {

@@ -410,6 +410,16 @@ public class RootController {
 	protected void handlePrintConfig(ActionEvent event) {
 		System.out.println(FmFramework.getSessionConfig());
 	}
+	
+	@FXML
+	protected void handleDumpCache(ActionEvent event) {
+		Log log = Logger.getLog();
+		
+		FmFramework.getTrackPool().dumpToLog(log);
+		FmFramework.getAlbumPool().dumpToLog(log);
+		FmFramework.getArtistPool().dumpToLog(log);
+		FmFramework.getTagPool().dumpToLog(log);
+	}
 
 	@FXML
 	protected void handleScrobble(ActionEvent event) throws IOException {

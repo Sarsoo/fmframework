@@ -38,6 +38,7 @@
                   <MenuItem fx:id="menuItemOpenConsole" mnemonicParsing="false" onAction="#handleOpenConsole" text="open console" />
                   <MenuItem mnemonicParsing="false" onAction="#handleChangeUsername" text="set username" />
                   <MenuItem fx:id="menuItemPrintConfig" mnemonicParsing="false" onAction="#handlePrintConfig" text="print config" />
+                  <MenuItem fx:id="menuItemDumpCache" mnemonicParsing="false" onAction="#handleDumpCache" text="dump cache" />
               </items>
             </Menu>
         </menus>
