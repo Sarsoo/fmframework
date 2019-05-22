@@ -80,6 +80,15 @@ public class FmUserNetworkTest {
 		
 		scrobbles.stream().forEach(System.out::println);
 		System.out.println(scrobbles.size());
-		assertEquals(53, scrobbles.size());
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFirstScrobbleDateTime() {
+		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
+		
+		System.out.println(net.getFirstScrobbleDateTime());
+		
+		assertTrue(true);
 	}
 }

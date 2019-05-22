@@ -1,6 +1,8 @@
 package sarsoo.fmframework.fm;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -231,6 +233,36 @@ public class FmUserNetwork extends FmNetwork {
 
 		return total;
 
+	}
+	
+	public LocalDateTime getFirstScrobbleDateTime() {
+		
+		Logger.getLog().log(new LogEntry("getFirstScrobbleDates"));
+		
+		HashMap<String, String> parameters = new HashMap<String, String>();
+
+		parameters.put("user", userName);
+		parameters.put("limit", Integer.toString(1));
+		
+		JSONObject obj = makeGetRequest("user.getrecenttracks", parameters);
+		
+		int page = obj.getJSONObject("recenttracks").getJSONObject("@attr").getInt("totalPages");
+		
+		parameters.put("page", Integer.toString(page));
+		
+		JSONObject dateJson = makeGetRequest("user.getrecenttracks", parameters);
+		
+		JSONArray trackArray = dateJson.getJSONObject("recenttracks").getJSONArray("track");
+		
+		long uts;
+		
+		if(trackArray.length() == 1) {
+			uts = ((JSONObject) trackArray.get(0)).getJSONObject("date").getLong("uts");
+		}else {
+			uts = ((JSONObject) trackArray.get(1)).getJSONObject("date").getLong("uts");
+		}
+		
+		return LocalDateTime.ofInstant(Instant.ofEpochSecond(uts), ZoneId.systemDefault());
 	}
 
 	public FMObjList getTopTracks(String period, int number) {
