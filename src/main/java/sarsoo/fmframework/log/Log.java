@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import sarsoo.fmframework.log.console.Console;
+import sarsoo.fmframework.log.console.STDOutConsole;
 import sarsoo.fmframework.log.entry.ErrorEntry;
 import sarsoo.fmframework.log.entry.InfoEntry;
 import sarsoo.fmframework.log.entry.LogEntry;
@@ -14,8 +15,6 @@ public class Log {
 
 	private ArrayList<Console> consoles = new ArrayList<Console>();
 
-	private Boolean writeToSTDOut;
-
 	private ArrayList<LogEntry> logList = new ArrayList<LogEntry>();
 	private ArrayList<InfoEntry> infoList = new ArrayList<InfoEntry>();
 	private ArrayList<ErrorEntry> errorList = new ArrayList<ErrorEntry>();
@@ -23,20 +22,19 @@ public class Log {
 	private LocalDateTime createdTime = LocalDateTime.now();
 
 	public Log() {
-		writeToSTDOut = true;
+		consoles.add(new STDOutConsole());
 	}
 
-	public Log(Console console, Boolean toSTD) {
+	public Log(Console... consoles) {
 
-		consoles.add(console);
-
-		writeToSTDOut = toSTD;
+		for(Console console: consoles) {
+			this.consoles.add(console);
+		}
 
 	}
 
 	public void clearConsoles() {
 		consoles.clear();
-		writeToSTDOut = true;
 	}
 
 	public void log(LogEntry entry) {
@@ -63,10 +61,6 @@ public class Log {
 			for (Console i : consoles) {
 				i.write(logString);
 			}
-		}
-
-		if (writeToSTDOut == true) {
-			System.out.println(logString);
 		}
 	}
 

@@ -20,7 +20,6 @@ import sarsoo.fmframework.config.VariableEvent;
 import sarsoo.fmframework.config.VariableListener;
 import sarsoo.fmframework.file.ListPersister;
 import sarsoo.fmframework.fm.FmAuthNetwork;
-import sarsoo.fmframework.fm.FmNetwork;
 import sarsoo.fmframework.fx.TextAreaConsole;
 import sarsoo.fmframework.fx.service.GetLastTrackService;
 import sarsoo.fmframework.fx.service.GetScrobbleCountService;
@@ -55,7 +54,7 @@ public class RootController {
 
 	@FXML
 	public void initialize() {
-		Logger.setLog(new Log(TextAreaConsole.getInstance(), false));
+		Logger.setLog(new Log(TextAreaConsole.getInstance()));
 
 		Config config = FmFramework.getSessionConfig();
 
