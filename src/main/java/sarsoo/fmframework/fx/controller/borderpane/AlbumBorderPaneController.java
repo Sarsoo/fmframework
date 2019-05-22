@@ -124,9 +124,7 @@ public class AlbumBorderPaneController extends FMObjBorderPaneController {
 					@Override
 					protected Void call() throws Exception {
 						
-						Config config = FmFramework.getSessionConfig();
-
-						album = new FmUserNetwork(config.getValue("api_key"), config.getValue("username")).refresh(album);
+						album = FmFramework.getAlbumPool().getNew(album);
 
 						Platform.runLater(new Runnable() {
 							@Override

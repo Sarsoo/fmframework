@@ -90,9 +90,7 @@ public class ArtistBorderPaneController extends FMObjBorderPaneController{
 					@Override
 					protected Void call() throws Exception {
 						
-						Config config = FmFramework.getSessionConfig();
-						
-						artist = new FmUserNetwork(config.getValue("api_key"), config.getValue("username")).refresh(artist);
+						artist = FmFramework.getArtistPool().getNew(artist);
 
 						Platform.runLater(new Runnable() {
 							@Override

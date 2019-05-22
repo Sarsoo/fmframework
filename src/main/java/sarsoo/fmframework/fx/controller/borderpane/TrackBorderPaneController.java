@@ -134,7 +134,7 @@ public class TrackBorderPaneController extends FMObjBorderPaneController {
 
 						FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
 						
-						track = net.refresh(track);
+						track = FmFramework.getTrackPool().getNew(track);
 						track.setScrobbles(net.getTrackScrobbles(track));
 
 						Platform.runLater(new Runnable() {
