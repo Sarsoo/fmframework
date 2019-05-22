@@ -25,8 +25,8 @@
 	-fx-fill: white;
 }
 
-.chart-pie-legend {
-	-fx-background-color: #202124;
+.chart-legend {
+	-fx-background-color: transparent;
 }
 
 .chart-title {

@@ -12,7 +12,6 @@ public class GenreTotalPieChart extends GenrePieChart{
 	public GenreTotalPieChart(String name, ArrayList<String> tagNames) {
 		super(name, tagNames);
 		
-		getStylesheets().add("../styles/mainPane.css");
 		getStyleClass().add("backGround");
 		
 		setTitle(name + " total");
