@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.config.ConfigPersister;
 import sarsoo.fmframework.config.ConfigVariable;
 import sarsoo.fmframework.config.VariableEvent;
 import sarsoo.fmframework.config.VariableListener;
@@ -69,7 +70,9 @@ public class RootController {
 				changeUsername();
 			}
 		}
-
+		
+		new ConfigPersister().saveConfig(".fm/", config);
+		
 		FmFramework.getSessionConfig().getVariable("username").addListener(new VariableListener() {
 
 			@Override
@@ -205,7 +208,7 @@ public class RootController {
 	protected void handleAuth(ActionEvent event) {
 		authenticate();
 	}
-	
+
 	public void authenticate() {
 		try {
 
@@ -250,45 +253,23 @@ public class RootController {
 	}
 
 	public void changeUsername() {
-		Service<Void> service = new Service<Void>() {
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
-					@Override
-					protected Void call() throws Exception {
 
-						String username = JOptionPane.showInputDialog("enter username:");
-						if (username != null) {
-							FmFramework.getSessionConfig().getVariable("username").setValue(username);
+		String username = JOptionPane.showInputDialog("enter username:");
+		if (username != null) {
+			FmFramework.getSessionConfig().addVariable(new ConfigVariable("username", username));
 
-						}
-						return null;
-					}
-				};
-			}
-		};
-		service.start();
+		}
+
 	}
 
 	public void setApiKey() {
-		Service<Void> service = new Service<Void>() {
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
-					@Override
-					protected Void call() throws Exception {
 
-						String apiKey = JOptionPane.showInputDialog("enter api key:");
-						if (apiKey != null) {
-							FmFramework.getSessionConfig().getVariable("api_key").setValue(apiKey);
+		String apiKey = JOptionPane.showInputDialog("enter api key:");
+		if (apiKey != null) {
+			FmFramework.getSessionConfig().addVariable(new ConfigVariable("api_key", apiKey));
 
-						}
-						return null;
-					}
-				};
-			}
-		};
-		service.start();
+		}
+
 	}
 
 	@FXML
@@ -414,11 +395,11 @@ public class RootController {
 	protected void handlePrintConfig(ActionEvent event) {
 		System.out.println(FmFramework.getSessionConfig());
 	}
-	
+
 	@FXML
 	protected void handleDumpCache(ActionEvent event) {
 		Log log = Logger.getLog();
-		
+
 		FmFramework.getTrackPool().dumpToLog(log);
 		FmFramework.getAlbumPool().dumpToLog(log);
 		FmFramework.getArtistPool().dumpToLog(log);
