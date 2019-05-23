@@ -70,9 +70,9 @@ public class RootController {
 				changeUsername();
 			}
 		}
-		
+
 		new ConfigPersister().saveConfig(".fm/", config);
-		
+
 		FmFramework.getSessionConfig().getVariable("username").addListener(new VariableListener() {
 
 			@Override
@@ -193,10 +193,18 @@ public class RootController {
 			refresh();
 		}
 
-//		if (event.getCode() == KeyCode.Q && event.isControlDown()) {
-//			System.out.println("control q");
-//			
-//		}
+		if (event.getCode() == KeyCode.W && event.isControlDown()) {
+			closeCurrentTab();
+		}
+
+		if (event.getCode() == KeyCode.TAB && event.isControlDown()) {
+			if (event.isShiftDown()) {
+				tabPane.getSelectionModel().selectPrevious();
+			} else {
+				tabPane.getSelectionModel().selectNext();
+			}
+		}
+
 	}
 
 	@FXML
@@ -451,6 +459,22 @@ public class RootController {
 	@FXML
 	protected void handleOpenEdit(ActionEvent event) {
 		addTab(new ConsoleTab());
+	}
+
+	public void closeCurrentTab() {
+		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+
+		Tab tab = selectionModel.getSelectedItem();
+
+		if (tab.isClosable()) {
+
+			EventHandler<Event> handler = tab.getOnClosed();
+			if (handler != null) {
+				handler.handle(null);
+			} else {
+				tabPane.getTabs().remove(tab);
+			}
+		}
 	}
 
 	@FXML

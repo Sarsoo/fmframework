@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
@@ -12,16 +13,31 @@
         <menus>
             <Menu fx:id="menuFile" mnemonicParsing="false" text="file">
               <items>
-                  <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="new list" />
-                  <MenuItem fx:id="menuItemListEdit" mnemonicParsing="false" onAction="#handleListEdit" text="open list" />
+                  <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="new list">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuItemListEdit" mnemonicParsing="false" onAction="#handleListEdit" text="open list">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
               </items>
             </Menu>
           <Menu fx:id="menuLookup" mnemonicParsing="false" text="lookup">
             <items>
                   <MenuItem fx:id="menuItemCurrentTrack" mnemonicParsing="false" onAction="#handleCurrentTrack" text="current track" />
-              <MenuItem fx:id="menuItemTrack" mnemonicParsing="false" onAction="#handleLookupTrack" text="track" />
-                  <MenuItem fx:id="menuItemAlbum" mnemonicParsing="false" onAction="#handleLookupAlbum" text="album" />
-                  <MenuItem fx:id="menuItemArtist" mnemonicParsing="false" onAction="#handleLookupArtist" text="artist" />
+              <MenuItem fx:id="menuItemTrack" mnemonicParsing="false" onAction="#handleLookupTrack" text="track">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="T" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuItemAlbum" mnemonicParsing="false" onAction="#handleLookupAlbum" text="album">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuItemArtist" mnemonicParsing="false" onAction="#handleLookupArtist" text="artist">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
             <Menu fx:id="menuChart" mnemonicParsing="false" text="chart">
@@ -35,7 +51,10 @@
               <items>
                 <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
                   <MenuItem fx:id="menuItemAuth" mnemonicParsing="false" onAction="#handleAuth" text="authenticate" />
-                  <MenuItem fx:id="menuItemOpenConsole" mnemonicParsing="false" onAction="#handleOpenConsole" text="open console" />
+                  <MenuItem fx:id="menuItemOpenConsole" mnemonicParsing="false" onAction="#handleOpenConsole" text="open console">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#handleChangeUsername" text="set username" />
                   <MenuItem fx:id="menuItemPrintConfig" mnemonicParsing="false" onAction="#handlePrintConfig" text="print config" />
                   <MenuItem fx:id="menuItemDumpCache" mnemonicParsing="false" onAction="#handleDumpCache" text="dump cache" />
