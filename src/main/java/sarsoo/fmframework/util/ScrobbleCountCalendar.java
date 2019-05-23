@@ -10,11 +10,13 @@ import sarsoo.fmframework.log.entry.ErrorEntry;
 
 public class ScrobbleCountCalendar {
 	
-	public ArrayList<MonthScrobbles> months;
+	private ArrayList<MonthScrobbles> months;
+	private String name;
 	
-	public ScrobbleCountCalendar(LocalDate date) {
+	public ScrobbleCountCalendar(LocalDate date, String name) {
 		
 		months = new ArrayList<>();
+		this.name = name;
 		
 		LocalDate now = LocalDate.now();
 
@@ -43,6 +45,10 @@ public class ScrobbleCountCalendar {
 	
 	public ArrayList<MonthScrobbles> getMonthScrobbles(){
 		return months;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }
