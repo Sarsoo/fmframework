@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -17,6 +18,9 @@ import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.controller.info.ArtistPaneController;
 import sarsoo.fmframework.music.Artist;
+import sarsoo.fmframework.music.Scrobble;
+import sarsoo.fmframework.music.Track;
+import sarsoo.fmframework.util.FMObjList;
 
 public class ArtistBorderPaneController extends FMObjBorderPaneController{
 	
@@ -91,12 +95,26 @@ public class ArtistBorderPaneController extends FMObjBorderPaneController{
 					protected Void call() throws Exception {
 						
 						artist = FmFramework.getArtistPool().getNew(artist);
+						
+						Config config = FmFramework.getSessionConfig();
+						FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
+						
+						FMObjList topTracks = net.getArtistTopTracks(artist, 10);
+						
+						ArrayList<Scrobble> scrobbles = new ArrayList<>();
+						
+						topTracks.stream().forEach(t -> {
+							
+							scrobbles.addAll(net.getTrackScrobbles((Track) t));
+							
+						});
 
 						Platform.runLater(new Runnable() {
 							@Override
 							public void run() {
 								
 								infoPaneController.refresh(artist);	
+								scrobblePaneController.populate(scrobbles);
 							
 							}
 						});

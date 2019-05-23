@@ -44,6 +44,7 @@
                               <Button fx:id="buttonAlbums" mnemonicParsing="false" onAction="#handleShowAlbums" text="albums" />
                               <Button fx:id="buttonTracksAlbums" mnemonicParsing="false" onAction="#handleShowTracksByAlbums" text="tracks &amp; albums" />
                               <CheckBox fx:id="checkBoxCumulative" mnemonicParsing="false" selected="true" text="cumulative" />
+                              <CheckBox fx:id="checkBoxTotal" mnemonicParsing="false" selected="true" text="show total" />
                           </items>
                         </ToolBar>
                      </bottom>

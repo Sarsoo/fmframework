@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -48,8 +49,13 @@ public class ScrobblesViewPaneController {
 
 	@FXML
 	private CheckBox checkBoxCumulative;
+	
+	@FXML
+	private CheckBox checkBoxTotal;
 
 	private FMObj obj;
+	
+	private List<Scrobble> scrobbles;
 
 	private LocalDate firstDate;
 
@@ -63,10 +69,19 @@ public class ScrobblesViewPaneController {
 	}
 
 	public void populate(FMObj obj) {
-
 		this.obj = obj;
-
-		ArrayList<Scrobble> scrobbles = obj.getScrobbles();
+		this.scrobbles = obj.getScrobbles();
+		populate();
+	}
+	
+	public void populate(ArrayList<Scrobble> scrobbles) {
+		this.scrobbles = scrobbles;
+		populate();
+	}
+	
+	private void populate() {
+		
+		scrobbles.sort(Comparator.comparing(Scrobble::getDateTime).reversed());
 
 		if (scrobbles != null) {
 			if (scrobbles.size() > 0) {
@@ -115,7 +130,7 @@ public class ScrobblesViewPaneController {
 
 		ScrobbleCountCalendar totalCalendar = new ScrobbleCountCalendar(firstDate, "total");
 
-		for (Scrobble scrobble : obj.getScrobbles()) {
+		for (Scrobble scrobble : scrobbles) {
 
 			Boolean needNew = true;
 
@@ -145,7 +160,7 @@ public class ScrobblesViewPaneController {
 		List<ScrobbleCountCalendar> toShow = list.stream().map(FMObjCalendarWrapper::getCalendar)
 				.collect(Collectors.toList());
 
-		if (list.size() > 1) {
+		if (list.size() > 1 && checkBoxTotal.isSelected()) {
 			toShow.add(totalCalendar);
 		}
 
@@ -159,7 +174,7 @@ public class ScrobblesViewPaneController {
 
 		ScrobbleCountCalendar totalCalendar = new ScrobbleCountCalendar(firstDate, "total");
 
-		for (Scrobble scrobble : obj.getScrobbles()) {
+		for (Scrobble scrobble : scrobbles) {
 
 			Boolean needNew = true;
 
@@ -189,7 +204,7 @@ public class ScrobblesViewPaneController {
 		List<ScrobbleCountCalendar> toShow = list.stream().map(FMObjCalendarWrapper::getCalendar)
 				.collect(Collectors.toList());
 
-		if (list.size() > 1) {
+		if (list.size() > 1 && checkBoxTotal.isSelected()) {
 			toShow.add(totalCalendar);
 		}
 
@@ -203,7 +218,7 @@ public class ScrobblesViewPaneController {
 
 		ScrobbleCountCalendar totalCalendar = new ScrobbleCountCalendar(firstDate, "total");
 
-		for (Scrobble scrobble : obj.getScrobbles()) {
+		for (Scrobble scrobble : scrobbles) {
 
 			Boolean needNew = true;
 
@@ -221,7 +236,7 @@ public class ScrobblesViewPaneController {
 
 			if (needNew) {
 
-				ScrobbleCountCalendar calendar = new ScrobbleCountCalendar(firstDate, scrobble.getAlbum().getName());
+				ScrobbleCountCalendar calendar = new ScrobbleCountCalendar(firstDate, scrobble.getTrack().getName() + " / " + scrobble.getAlbum().getName());
 
 				calendar.addCount(scrobbleDate.getMonth(), scrobbleDate.getYear());
 
@@ -234,7 +249,7 @@ public class ScrobblesViewPaneController {
 		List<ScrobbleCountCalendar> toShow = list.stream().map(FMObjCalendarWrapper::getCalendar)
 				.collect(Collectors.toList());
 
-		if (list.size() > 1) {
+		if (list.size() > 1 && checkBoxTotal.isSelected()) {
 			toShow.add(totalCalendar);
 		}
 
