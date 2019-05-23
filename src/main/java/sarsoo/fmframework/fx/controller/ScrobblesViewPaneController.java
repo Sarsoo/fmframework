@@ -13,6 +13,7 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.GridPane;
@@ -35,15 +36,18 @@ public class ScrobblesViewPaneController {
 
 	@FXML
 	private AreaChart<String, Integer> areaChart;
-	
+
 	@FXML
 	private Button buttonTracks;
-	
+
 	@FXML
 	private Button buttonAlbums;
-	
+
 	@FXML
 	private Button buttonTracksAlbums;
+
+	@FXML
+	private CheckBox checkBoxCumulative;
 
 	private FMObj obj;
 
@@ -51,7 +55,7 @@ public class ScrobblesViewPaneController {
 
 	@FXML
 	public void initialize() {
-		
+
 		buttonTracks.setDisable(true);
 		buttonAlbums.setDisable(true);
 		buttonTracksAlbums.setDisable(true);
@@ -148,7 +152,7 @@ public class ScrobblesViewPaneController {
 		refreshGraph(toShow);
 
 	}
-	
+
 	public void graphShowAlbums() {
 
 		ArrayList<FMObjCalendarWrapper> list = new ArrayList<>();
@@ -251,7 +255,12 @@ public class ScrobblesViewPaneController {
 
 			for (MonthScrobbles month : calendar.getMonthScrobbles()) {
 				cumulative += month.getCount();
-				series.getData().add(new Data<String, Integer>(month.toString(), cumulative));
+
+				if (checkBoxCumulative.isSelected()) {
+					series.getData().add(new Data<String, Integer>(month.toString(), cumulative));
+				}else {
+					series.getData().add(new Data<String, Integer>(month.toString(), month.getCount()));
+				}
 			}
 
 			areaChart.getData().add(series);
@@ -259,37 +268,37 @@ public class ScrobblesViewPaneController {
 		}
 
 	}
-	
+
 	@FXML
 	private void handleShowTracks() {
-		
+
 		buttonTracks.setDisable(true);
 		buttonAlbums.setDisable(false);
 		buttonTracksAlbums.setDisable(false);
-		
+
 		graphShowTracks();
-		
+
 	}
-	
+
 	@FXML
 	private void handleShowAlbums() {
-		
+
 		buttonTracks.setDisable(false);
 		buttonAlbums.setDisable(true);
 		buttonTracksAlbums.setDisable(false);
-		
+
 		graphShowAlbums();
-		
+
 	}
-	
+
 	@FXML
 	private void handleShowTracksByAlbums() {
-		
+
 		buttonTracks.setDisable(false);
 		buttonAlbums.setDisable(false);
 		buttonTracksAlbums.setDisable(true);
-		
+
 		graphShowTracksByAlbum();
-		
+
 	}
 }

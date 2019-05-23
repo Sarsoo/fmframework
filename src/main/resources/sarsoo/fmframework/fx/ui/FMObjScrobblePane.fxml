@@ -8,7 +8,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="386.0" prefWidth="512.0" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.ScrobblesViewPaneController">
+<AnchorPane prefHeight="508.0" prefWidth="783.0" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.ScrobblesViewPaneController">
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.4909819639278557" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -43,6 +43,7 @@
                             <Button fx:id="buttonTracks" mnemonicParsing="false" onAction="#handleShowTracks" text="tracks" />
                               <Button fx:id="buttonAlbums" mnemonicParsing="false" onAction="#handleShowAlbums" text="albums" />
                               <Button fx:id="buttonTracksAlbums" mnemonicParsing="false" onAction="#handleShowTracksByAlbums" text="tracks &amp; albums" />
+                              <CheckBox fx:id="checkBoxCumulative" mnemonicParsing="false" selected="true" text="cumulative" />
                           </items>
                         </ToolBar>
                      </bottom>

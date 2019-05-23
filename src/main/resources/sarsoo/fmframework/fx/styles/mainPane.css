@@ -105,6 +105,10 @@
 	-fx-background-color: #4D4D4D;
 }
 
+.check-box {
+	-fx-text-fill: white;
+}
+
 .label {
 	-fx-text-fill: white;
 }
