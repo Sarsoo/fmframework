@@ -34,7 +34,7 @@ public class ScrobblesViewPaneController {
 
 	@FXML
 	public void initialize() {
-
+		
 	}
 
 	public void populate(FMObj obj) {
@@ -82,8 +82,11 @@ public class ScrobblesViewPaneController {
 					calendar.addCount(scrobbleDate.getMonth(), scrobbleDate.getYear());
 				}
 				
+				int cumulative = 0;
+				
 				for(MonthScrobbles month: calendar.getMonthScrobbles()) {
-					series.getData().add(new Data<String, Integer>(month.toString(), month.getCount()));
+					cumulative += month.getCount();
+					series.getData().add(new Data<String, Integer>(month.toString(), cumulative));
 				}
 
 				areaChart.getData().add(series);
