@@ -300,8 +300,7 @@ public class FmUserNetwork extends FmNetwork {
 
 				if (tracks.size() < number) {
 					Artist artist = new ArtistBuilder(json.getJSONObject("artist").getString("name")).build();
-					Track track = new TrackBuilder(json.getString("name"), artist)
-							.setUserPlayCount(json.getInt("playcount")).build();
+					Track track = parseTrack(json, artist);
 
 					tracks.add(track);
 

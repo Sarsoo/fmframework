@@ -13,9 +13,11 @@ import sarsoo.fmframework.music.FMObj;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.music.Track.TrackBuilder;
 import sarsoo.fmframework.music.Wiki;
+import sarsoo.fmframework.util.FMObjList;
 
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -240,11 +242,19 @@ public class FmNetwork {
 
 		JSONObject obj = makeGetRequest("track.getinfo", parameters);
 
+		return parseTrack(obj.getJSONObject("track"), artist);
+
+	}
+
+	protected Track parseTrack(JSONObject trackJson, Artist artist) {
+
+		Log log = Logger.getLog();
+
 		String nameIn;
 
 		try {
 
-			JSONObject trackJson = obj.getJSONObject("track");
+//			JSONObject trackJson = obj.getJSONObject("track");
 
 			nameIn = trackJson.getString("name");
 
@@ -253,32 +263,33 @@ public class FmNetwork {
 			try {
 				builder.setMbid(trackJson.getString("mbid"));
 			} catch (JSONException e) {
-				log.logInfo(new InfoEntry("getTrack").addArg("no mbid for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("parseTrack").addArg("no mbid for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setUrl(trackJson.getString("url"));
 			} catch (JSONException e) {
-				log.logInfo(new InfoEntry("getTrack").addArg("no url for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("parseTrack").addArg("no url for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setListeners(trackJson.getInt("listeners"));
 			} catch (JSONException e) {
-				log.logInfo(new InfoEntry("getTrack").addArg("no listeners for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(
+						new InfoEntry("parseTrack").addArg("no listeners for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setPlayCount(trackJson.getInt("playcount"));
 			} catch (JSONException e) {
 				log.logInfo(
-						new InfoEntry("getTrack").addArg("no play count for").addArg(nameIn).addArg(e.getMessage()));
+						new InfoEntry("parseTrack").addArg("no play count for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			try {
 				builder.setUserPlayCount(trackJson.getInt("userplaycount"));
 			} catch (JSONException e) {
-				log.logInfo(new InfoEntry("getTrack").addArg("no user play count for").addArg(nameIn)
+				log.logInfo(new InfoEntry("parseTrack").addArg("no user play count for").addArg(nameIn)
 						.addArg(e.getMessage()));
 			}
 
@@ -291,16 +302,61 @@ public class FmNetwork {
 				builder.setWiki(wiki);
 
 			} catch (JSONException e) {
-				log.logInfo(new InfoEntry("getTrack").addArg("no wiki for").addArg(nameIn).addArg(e.getMessage()));
+				log.logInfo(new InfoEntry("parseTrack").addArg("no wiki for").addArg(nameIn).addArg(e.getMessage()));
 			}
 
 			return builder.build();
 
 		} catch (JSONException e) {
-			log.logInfo(new InfoEntry("getTrack").addArg("track name not found").addArg(e.getMessage()));
+			log.logInfo(new InfoEntry("parseTrack").addArg("track name not found").addArg(e.getMessage()));
 		}
 
 		return null;
+	}
+
+	public FMObjList getArtistTopTracks(Artist artist, int number) {
+
+		Logger.getLog()
+				.log(new LogEntry("getArtistTopTracks").addArg(artist.getName()).addArg(Integer.toString(number)));
+
+		int limit = 50;
+
+		int pages = 0;
+
+		System.out.println(number / limit);
+		if ((double) number % (double) limit != 0) {
+			pages = (number / limit) + 1;
+		} else {
+			pages = number / limit;
+		}
+
+		FMObjList tracks = new FMObjList();
+		int counter;
+		for (counter = 0; counter < pages; counter++) {
+
+			HashMap<String, String> parameters = new HashMap<String, String>();
+
+			parameters.put("artist", artist.getName());
+			parameters.put("limit", Integer.toString(limit));
+			parameters.put("page", Integer.toString(counter + 1));
+
+			JSONObject obj = makeGetRequest("artist.gettoptracks", parameters);
+
+			JSONArray tracksJson = obj.getJSONObject("toptracks").getJSONArray("track");
+
+			for (int i = 0; i < tracksJson.length(); i++) {
+				JSONObject json = (JSONObject) tracksJson.get(i);
+
+				if (tracks.size() < number) {
+					
+					tracks.add(parseTrack(json, artist));
+
+				}
+
+			}
+		}
+		
+		return tracks;
 	}
 
 	/**
@@ -378,7 +434,7 @@ public class FmNetwork {
 		try {
 			request = Unirest.get("https://ws.audioscrobbler.com/2.0/").header("Accept", "application/json")
 					.header("User-Agent", "fmframework");
-			
+
 			parameters.put("method", method);
 			parameters.put("api_key", key);
 			parameters.put("format", "json");

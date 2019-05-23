@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
+import sarsoo.fmframework.music.Artist.ArtistBuilder;
 import sarsoo.fmframework.net.Key;
+import sarsoo.fmframework.util.FMObjList;
 
 public class FmNetworkTest {
 
@@ -41,6 +43,17 @@ public class FmNetworkTest {
 		FmNetwork network = new FmNetwork(Key.getKey());
 
 		network.makeGetRequest("artist.getinfo", null);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testArtistTopTracks() {
+		FmNetwork network = new FmNetwork(Key.getKey());
+
+		FMObjList list = network.getArtistTopTracks(new ArtistBuilder("kendrick lamar").build(), 10);
+		
+		list.stream().forEach(System.out::println);
 		
 		assertTrue(true);
 	}
