@@ -81,6 +81,14 @@
 	-fx-background-color: #202124;
 }
 
+.split-pane:horizontal > .split-pane-divider {
+	-fx-background-color: #4D4D4D;
+}
+
+.split-pane:vertical > .split-pane-divider {
+	-fx-background-color: #4D4D4D;
+}
+
 .text-area {
 	-fx-background-color: #202124;
 }
