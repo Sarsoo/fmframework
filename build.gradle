@@ -13,13 +13,21 @@ plugins {
 	id 'eclipse'
 	
 	id 'com.github.johnrengelman.shadow' version '5.0.0'
+	id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
-mainClassName = 'sarsoo.fmframework.fx.FmFramework'
+application {
+	mainClassName = 'sarsoo.fmframework.fx.FmFramework'
+}
+
+javafx {
+    version = "11"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.web' ]
+}
 
 version = '0.9.0'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
