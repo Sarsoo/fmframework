@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.input.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyShortcut" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.RootController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyShortcut" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.RootController">
+   <bottom>
+      <VBox fx:id="vBoxStats" prefHeight="19.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <FlowPane fx:id="flowPlaneStats" alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="600.0" styleClass="backGround" VBox.vgrow="NEVER">
+               <children>
+                  <Label fx:id="labelStatsUsername" styleClass="vBoxStatsLabel" text="user" />
+                  <Label fx:id="labelStatsScrobblesToday" styleClass="vBoxStatsLabel" text="scrobblesToday" />
+                  <Label fx:id="labelStatsSlash" styleClass="vBoxStatsLabel" text="/" />
+                  <Label fx:id="labelStatsScrobblesTotal" styleClass="vBoxStatsLabel" text="scrobblesTotal" />
+               </children>
+            </FlowPane>
+         </children>
+      </VBox>
+   </bottom>
+   <center>
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" styleClass="highlight" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab fx:id="tabHome" closable="false" text="home">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="backGround" />
+              </content>
+            </Tab>
+            
+         </tabs></TabPane>
+   </center>
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
-        <menus>
+         <menus>
             <Menu fx:id="menuFile" mnemonicParsing="false" text="file">
               <items>
                   <MenuItem fx:id="menuItemCreateList" mnemonicParsing="false" onAction="#handleCreateList" text="new list">
@@ -49,43 +80,22 @@
           <Menu fx:id="menuTag" disable="true" mnemonicParsing="false" text="tags" />
             <Menu fx:id="menuUtil" mnemonicParsing="false" text="util">
               <items>
-                <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble" />
+                <MenuItem fx:id="menuItemScrobble" mnemonicParsing="false" onAction="#handleScrobble" text="scrobble">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="S" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleChangeUsername" text="set username" />
                   <MenuItem fx:id="menuItemAuth" mnemonicParsing="false" onAction="#handleAuth" text="authenticate" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="menuItemOpenConsole" mnemonicParsing="false" onAction="#handleOpenConsole" text="open console">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#handleChangeUsername" text="set username" />
                   <MenuItem fx:id="menuItemPrintConfig" mnemonicParsing="false" onAction="#handlePrintConfig" text="print config" />
                   <MenuItem fx:id="menuItemDumpCache" mnemonicParsing="false" onAction="#handleDumpCache" text="dump cache" />
               </items>
             </Menu>
-        </menus>
+         </menus>
       </MenuBar>
    </top>
-   <bottom>
-      <VBox fx:id="vBoxStats" prefHeight="19.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <FlowPane fx:id="flowPlaneStats" alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="600.0" styleClass="backGround" VBox.vgrow="NEVER">
-               <children>
-                  <Label fx:id="labelStatsUsername" styleClass="vBoxStatsLabel" text="user" />
-                  <Label fx:id="labelStatsScrobblesToday" styleClass="vBoxStatsLabel" text="scrobblesToday" />
-                  <Label fx:id="labelStatsSlash" styleClass="vBoxStatsLabel" text="/" />
-                  <Label fx:id="labelStatsScrobblesTotal" styleClass="vBoxStatsLabel" text="scrobblesTotal" />
-               </children>
-            </FlowPane>
-         </children>
-      </VBox>
-   </bottom>
-   <center>
-      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" styleClass="highlight" BorderPane.alignment="CENTER">
-         <tabs>
-            <Tab fx:id="tabHome" closable="false" text="home">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="backGround" />
-              </content>
-            </Tab>
-            
-         </tabs></TabPane>
-   </center>
 </BorderPane>

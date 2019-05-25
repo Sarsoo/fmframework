@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="569.0" prefWidth="862.0" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.ScrobblePaneController">
+<AnchorPane prefHeight="569.0" prefWidth="862.0" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.ScrobblePaneController">
    <children>
       <GridPane styleClass="backGround" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -32,19 +37,40 @@
             <Label text="artist:" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
             <Label text="album artist:" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
             <DatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="255.0" promptText="date" styleClass="backGround" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <TextField fx:id="textAlbumArtist" prefHeight="25.0" prefWidth="134.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="textArtist" prefHeight="25.0" prefWidth="106.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="textAlbum" prefHeight="25.0" prefWidth="105.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="textTrack" prefHeight="25.0" prefWidth="163.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+            <TextField fx:id="textAlbumArtist" prefHeight="25.0" prefWidth="134.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="textArtist" prefHeight="25.0" prefWidth="106.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="textAlbum" prefHeight="25.0" prefWidth="105.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="textTrack" prefHeight="25.0" prefWidth="163.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin></TextField>
             <Label text="scrobble" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
             <Label text="date:" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-            <Slider fx:id="sliderHour" majorTickUnit="2.0" max="23.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Slider fx:id="sliderMinute" majorTickUnit="10.0" max="59.0" minorTickCount="9" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Slider fx:id="sliderSecond" majorTickUnit="10.0" max="59.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Slider fx:id="sliderHour" majorTickUnit="2.0" max="23.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding></Slider>
+            <Slider fx:id="sliderMinute" majorTickUnit="10.0" max="59.0" minorTickCount="9" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding></Slider>
+            <Slider fx:id="sliderSecond" majorTickUnit="10.0" max="59.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding></Slider>
             <Label text="hour:" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
             <Label text="minute:" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
             <Label text="second:" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
