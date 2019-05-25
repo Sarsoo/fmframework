@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.fm.FmAuthNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Artist;
@@ -101,13 +102,18 @@ public class ScrobblePaneController {
 						scrobble.setAlbum(new AlbumBuilder(textAlbum.getText(), albumArtist).build());
 					}
 					
-					JSONObject obj = net.scrobble(scrobble, config.getValue("session_key"));
+					JSONObject obj;
 					
-					if(obj.getJSONObject("scrobbles").getJSONObject("@attr").getInt("accepted") == 1) {
-						labelStatus.setText("sent!");
-					}else {
-						labelStatus.setText("failed");
-					}
+					try {
+						obj = net.scrobble(scrobble, config.getValue("session_key"));
+						
+						if(obj.getJSONObject("scrobbles").getJSONObject("@attr").getInt("accepted") == 1) {
+							labelStatus.setText("sent!");
+						}else {
+							labelStatus.setText("failed");
+						}
+						
+					} catch (ApiCallException e) {}
 					
 				}else {
 					labelStatus.setText("unauthorized");

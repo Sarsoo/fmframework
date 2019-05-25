@@ -19,6 +19,7 @@ import sarsoo.fmframework.config.ConfigPersister;
 import sarsoo.fmframework.config.ConfigVariable;
 import sarsoo.fmframework.config.VariableEvent;
 import sarsoo.fmframework.config.VariableListener;
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.file.ListPersister;
 import sarsoo.fmframework.fm.FmAuthNetwork;
 import sarsoo.fmframework.fx.TextAreaConsole;
@@ -248,16 +249,20 @@ public class RootController {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} catch (ApiCallException e) {}
 	}
 
 	protected void completeAuth(FmAuthNetwork net, String token) {
 
-		String sk = net.getSession(token);
-
-		if (sk != null) {
-			FmFramework.getSessionConfig().addVariable(new ConfigVariable("session_key", sk));
-		}
+		String sk;
+		try {
+			sk = net.getSession(token);
+			
+			if (sk != null) {
+				FmFramework.getSessionConfig().addVariable(new ConfigVariable("session_key", sk));
+			}
+			
+		} catch (ApiCallException e) {}
 	}
 
 	public void changeUsername() {

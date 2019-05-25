@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.util.Maths;
@@ -67,7 +68,11 @@ public abstract class FMObj implements Comparable<FMObj>, Serializable{
 		Config config = FmFramework.getSessionConfig();
 		
 		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
-		return ((double)userPlayCount*100)/(double) net.getUser().getScrobbleCount();
+		try {
+			return ((double)userPlayCount*100)/(double) net.getUser().getScrobbleCount();
+		} catch (ApiCallException e) {}
+		
+		return 0;
 	}
 	
 	public Wiki getWiki() {

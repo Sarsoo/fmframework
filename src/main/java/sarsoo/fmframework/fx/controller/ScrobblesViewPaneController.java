@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.GridPane;
 import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.FMObj;
@@ -113,7 +114,11 @@ public class ScrobblesViewPaneController {
 				Config config = FmFramework.getSessionConfig();
 				FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
 
-				firstDate = net.getFirstScrobbleDateTime().toLocalDate();
+				try {
+					firstDate = net.getFirstScrobbleDateTime().toLocalDate();
+				} catch (ApiCallException e) {
+					firstDate = LocalDate.now();
+				}
 
 				buttonAlbums.setDisable(false);
 				buttonTracksAlbums.setDisable(false);

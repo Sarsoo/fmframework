@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.mashape.unirest.http.HttpResponse;
@@ -18,6 +19,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.log.entry.ErrorEntry;
 import sarsoo.fmframework.log.entry.LogEntry;
@@ -32,7 +34,7 @@ public class FmAuthNetwork extends FmUserNetwork {
 		this.secretKey = secretKey;
 	}
 	
-	public JSONObject scrobble(Scrobble scrobble, String sk) {
+	public JSONObject scrobble(Scrobble scrobble, String sk) throws ApiCallException {
 		
 		Logger.getLog().log(new LogEntry("scrobble").addArg(scrobble.toString()));
 		
@@ -54,7 +56,7 @@ public class FmAuthNetwork extends FmUserNetwork {
 		
 	}
 
-	public String getToken() {
+	public String getToken() throws ApiCallException {
 		
 		Logger.getLog().log(new LogEntry("getToken"));
 		
@@ -63,7 +65,7 @@ public class FmAuthNetwork extends FmUserNetwork {
 		return obj.getString("token");
 	}
 
-	public String getSession(String token) {
+	public String getSession(String token) throws ApiCallException {
 		
 		Logger.getLog().log(new LogEntry("getSession"));
 
@@ -117,20 +119,20 @@ public class FmAuthNetwork extends FmUserNetwork {
 		return null;
 	}
 
-	protected JSONObject makeAuthGetRequest(String method) {
+	protected JSONObject makeAuthGetRequest(String method) throws ApiCallException {
 
 		return makeAuthGetRequest(method, new HashMap<String, String>(), null);
 
 	}
 
-	protected JSONObject makeAuthGetRequest(String method, HashMap<String, String> parameters) {
+	protected JSONObject makeAuthGetRequest(String method, HashMap<String, String> parameters) throws ApiCallException {
 
 		return makeAuthGetRequest(method, parameters, null);
 
 	}
 
 	protected JSONObject makeAuthGetRequest(String method, HashMap<String, String> parameters,
-			HashMap<String, String> headers) {
+			HashMap<String, String> headers) throws ApiCallException {
 
 		HttpRequest request;
 		try {
@@ -163,9 +165,7 @@ public class FmAuthNetwork extends FmUserNetwork {
 
 			} else {
 				JSONObject obj = new JSONObject(response.getBody().toString());
-				Logger.getLog().logError(new ErrorEntry("HTTP Get").setErrorCode(response.getStatus())
-						.addArg(Integer.toString(obj.getInt("error"))).addArg(obj.getString("message")));
-				return null;
+				throw new ApiCallException(method, obj.getInt("error"), obj.getString("message"));
 			}
 		} catch (UnirestException e) {
 			e.printStackTrace();
@@ -174,20 +174,20 @@ public class FmAuthNetwork extends FmUserNetwork {
 		return null;
 	}
 
-	protected JSONObject makeAuthPostRequest(String method) {
+	protected JSONObject makeAuthPostRequest(String method) throws ApiCallException {
 
 		return makeAuthPostRequest(method, new HashMap<String, String>(), null);
 
 	}
 
-	protected JSONObject makeAuthPostRequest(String method, HashMap<String, String> parameters) {
+	protected JSONObject makeAuthPostRequest(String method, HashMap<String, String> parameters) throws ApiCallException {
 
 		return makeAuthPostRequest(method, parameters, null);
 
 	}
 
 	protected JSONObject makeAuthPostRequest(String method, HashMap<String, String> parameters,
-			HashMap<String, String> headers) {
+			HashMap<String, String> headers) throws ApiCallException {
 
 		HttpRequestWithBody request;
 		try {
@@ -218,15 +218,14 @@ public class FmAuthNetwork extends FmUserNetwork {
 
 			HttpResponse<JsonNode> response = request.asJson();
 
-			if (response.getStatus() == 200) {
+			if (response.getStatus() >= 200 && response.getStatus() < 300) {
 
 				return new JSONObject(response.getBody().toString());
 
 			} else {
 				JSONObject obj = new JSONObject(response.getBody().toString());
-				Logger.getLog().logError(new ErrorEntry("HTTP post").setErrorCode(response.getStatus())
-						.addArg(Integer.toString(obj.getInt("error"))).addArg(obj.getString("message")));
-				return null;
+				
+				throw new ApiCallException(method, obj.getInt("error"), obj.getString("message"));
 			}
 		} catch (UnirestException e) {
 			e.printStackTrace();

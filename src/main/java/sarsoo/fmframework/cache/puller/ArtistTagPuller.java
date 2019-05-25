@@ -1,5 +1,6 @@
 package sarsoo.fmframework.cache.puller;
 
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.util.FMObjList;
 
@@ -12,7 +13,11 @@ public class ArtistTagPuller implements Puller<FMObjList, String> {
 	}
 	
 	public FMObjList pull(String name) {
-		return net.getPopulatedArtistTag(name);
+		try {
+			return net.getPopulatedArtistTag(name);
+		} catch (ApiCallException e) {}
+		
+		return null;
 	}
 
 }

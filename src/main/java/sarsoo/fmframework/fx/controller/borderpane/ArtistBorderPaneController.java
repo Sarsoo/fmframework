@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.controller.info.ArtistPaneController;
@@ -105,7 +106,9 @@ public class ArtistBorderPaneController extends FMObjBorderPaneController{
 						
 						topTracks.stream().forEach(t -> {
 							
-							scrobbles.addAll(net.getTrackScrobbles((Track) t));
+							try {
+								scrobbles.addAll(net.getTrackScrobbles((Track) t));
+							} catch (ApiCallException e) {}
 							
 						});
 

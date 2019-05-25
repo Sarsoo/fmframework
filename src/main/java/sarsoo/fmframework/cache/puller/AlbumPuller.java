@@ -1,5 +1,6 @@
 package sarsoo.fmframework.cache.puller;
 
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.fm.FmNetwork;
 import sarsoo.fmframework.music.Album;
 
@@ -12,7 +13,11 @@ public class AlbumPuller implements Puller<Album, Album> {
 	}
 	
 	public Album pull(Album album) {
-		return net.refresh(album);
+		try {
+			return net.refresh(album);
+		} catch (ApiCallException e) {}
+		
+		return null;
 	}
 
 }

@@ -1,5 +1,6 @@
 package sarsoo.fmframework.fm;
 
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.log.Log;
 import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.log.entry.ErrorEntry;
@@ -41,7 +42,7 @@ public class FmNetwork {
 		this.key = key;
 	}
 
-	public Album getAlbum(String name, String artist) {
+	public Album getAlbum(String name, String artist) throws ApiCallException {
 		return getAlbum(name, getArtist(artist));
 	}
 
@@ -51,8 +52,10 @@ public class FmNetwork {
 	 * @param name   Album Name
 	 * @param artist Artist Name
 	 * @return Album
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public Album getAlbum(String name, Artist artist) {
+	public Album getAlbum(String name, Artist artist) throws ApiCallException {
 
 		Log log = Logger.getLog();
 		log.log(new LogEntry("getAlbum").addArg(name).addArg(artist.getName()));
@@ -136,8 +139,10 @@ public class FmNetwork {
 	 * 
 	 * @param name Artist Name
 	 * @return Artist
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public Artist getArtist(String name) {
+	public Artist getArtist(String name) throws ApiCallException {
 
 		Log log = Logger.getLog();
 		log.log(new LogEntry("getArtist").addArg(name));
@@ -216,7 +221,7 @@ public class FmNetwork {
 
 	}
 
-	public Track getTrack(String name, String artist) {
+	public Track getTrack(String name, String artist) throws ApiCallException {
 		return getTrack(name, getArtist(artist));
 	}
 
@@ -226,8 +231,10 @@ public class FmNetwork {
 	 * @param name   Track Name
 	 * @param artist Artist Name
 	 * @return Track
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public Track getTrack(String name, Artist artist) {
+	public Track getTrack(String name, Artist artist) throws ApiCallException {
 
 		Log log = Logger.getLog();
 		log.log(new LogEntry("getTrack").addArg(name).addArg(artist.getName()));
@@ -314,7 +321,7 @@ public class FmNetwork {
 		return null;
 	}
 
-	public FMObjList getArtistTopTracks(Artist artist, int number) {
+	public FMObjList getArtistTopTracks(Artist artist, int number) throws ApiCallException {
 
 		Logger.getLog()
 				.log(new LogEntry("getArtistTopTracks").addArg(artist.getName()).addArg(Integer.toString(number)));
@@ -364,8 +371,10 @@ public class FmNetwork {
 	 * 
 	 * @param album Old Album Object
 	 * @return Refreshed Album
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public Album refresh(Album album) {
+	public Album refresh(Album album) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("refreshAlbum").addArg(album.getName()).addArg(album.getArtist().getName()));
 
@@ -377,8 +386,10 @@ public class FmNetwork {
 	 * 
 	 * @param artist Old Artist Object
 	 * @return Refreshed Artist
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public Artist refresh(Artist artist) {
+	public Artist refresh(Artist artist) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("refreshArtist").addArg(artist.getName()));
 
@@ -390,8 +401,10 @@ public class FmNetwork {
 	 * 
 	 * @param track Old Track Object
 	 * @return Refreshed Track
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public Track refresh(Track track) {
+	public Track refresh(Track track) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("refreshTrack").addArg(track.getName()).addArg(track.getArtist().getName()));
 
@@ -410,8 +423,10 @@ public class FmNetwork {
 	 * 
 	 * @param obj FMObj for refreshing
 	 * @return Updated FMObj
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public FMObj refresh(FMObj obj) {
+	public FMObj refresh(FMObj obj) throws ApiCallException {
 		if (obj.getClass() == Track.class)
 			return refresh((Track) obj);
 		if (obj.getClass() == Album.class)
@@ -421,14 +436,14 @@ public class FmNetwork {
 		return null;
 	}
 
-	protected JSONObject makeGetRequest(String method, HashMap<String, String> parameters) {
+	protected JSONObject makeGetRequest(String method, HashMap<String, String> parameters) throws ApiCallException {
 
 		return makeGetRequest(method, parameters, null);
 
 	}
 
 	protected JSONObject makeGetRequest(String method, HashMap<String, String> parameters,
-			HashMap<String, String> headers) {
+			HashMap<String, String> headers) throws ApiCallException {
 
 		HttpRequest request;
 		try {
@@ -453,15 +468,14 @@ public class FmNetwork {
 
 			HttpResponse<JsonNode> response = request.asJson();
 
-			if (response.getStatus() == 200) {
+			if (response.getStatus() >= 200 && response.getStatus() < 300) {
 
 				return new JSONObject(response.getBody().toString());
 
 			} else {
 				JSONObject obj = new JSONObject(response.getBody().toString());
-				Logger.getLog().logError(new ErrorEntry("HTTP Get").setErrorCode(response.getStatus())
-						.addArg(Integer.toString(obj.getInt("error"))).addArg(obj.getString("message")));
-				return null;
+				
+				throw new ApiCallException(method, obj.getInt("error"), obj.getString("message"));
 			}
 		} catch (UnirestException e) {
 			e.printStackTrace();

@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.fx.tab.ArtistTab;
@@ -93,33 +94,36 @@ public class FMObjListPaneController {
 
 		}
 
-		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				new PieChart.Data(list.getGroupName(), list.getTotalUserScrobbles()),
-				new PieChart.Data("other",
-						new FmUserNetwork(FmFramework.getSessionConfig().getValue("api_key"), username)
-								.getUserScrobbleCount() - list.getTotalUserScrobbles()));
+		ObservableList<PieChart.Data> pieChartData;
+		try {
+			pieChartData = FXCollections.observableArrayList(
+					new PieChart.Data(list.getGroupName(), list.getTotalUserScrobbles()),
+					new PieChart.Data("other",
+							new FmUserNetwork(FmFramework.getSessionConfig().getValue("api_key"), username)
+									.getUserScrobbleCount() - list.getTotalUserScrobbles()));
+			
+			ObservableList<PieChart.Data> pieChartArtistsData = FXCollections.observableArrayList();
+			int counter2;
+			for (counter2 = 0; counter2 < list.size(); counter2++) {
 
-		ObservableList<PieChart.Data> pieChartArtistsData = FXCollections.observableArrayList();
-		int counter2;
-		for (counter2 = 0; counter2 < list.size(); counter2++) {
+				PieChart.Data data = new PieChart.Data(list.get(counter2).getName(), list.get(counter2).getUserPlayCount());
 
-			PieChart.Data data = new PieChart.Data(list.get(counter2).getName(), list.get(counter2).getUserPlayCount());
+				pieChartArtistsData.add(data);
 
-			pieChartArtistsData.add(data);
-
-		}
-
-		Collections.sort(pieChartArtistsData, new Comparator<PieChart.Data>() {
-
-			@Override
-			public int compare(Data arg0, Data arg1) {
-				return (int) (arg1.getPieValue() - arg0.getPieValue());
 			}
-		});
 
-		pieChart.setData(pieChartData);
-		pieChartArtists.setData(pieChartArtistsData);
+			Collections.sort(pieChartArtistsData, new Comparator<PieChart.Data>() {
 
+				@Override
+				public int compare(Data arg0, Data arg1) {
+					return (int) (arg1.getPieValue() - arg0.getPieValue());
+				}
+			});
+
+			pieChart.setData(pieChartData);
+			pieChartArtists.setData(pieChartArtistsData);
+			
+		} catch (ApiCallException e) {}
 	}
 
 	@FXML
@@ -130,7 +134,11 @@ public class FMObjListPaneController {
 		String username = config.getValue("username");
 		String api_key = config.getValue("api_key");
 		
-		list = new FmUserNetwork(api_key, username).getPopulatedArtistTag(list.getGroupName());
+		try {
+			list = new FmUserNetwork(api_key, username).getPopulatedArtistTag(list.getGroupName());
+		} catch (ApiCallException e1) {
+			e1.printStackTrace();
+		}
 
 		double percent = Maths.getPercentListening(list, username);
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
@@ -177,12 +185,18 @@ public class FMObjListPaneController {
 
 		}
 
-		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				new PieChart.Data(list.getGroupName(), list.getTotalUserScrobbles()),
-				new PieChart.Data("other",
-						new FmUserNetwork(FmFramework.getSessionConfig().getValue("api_key"), username)
-								.getUserScrobbleCount() - list.getTotalUserScrobbles()));
-		pieChart.setData(pieChartData);
+		ObservableList<PieChart.Data> pieChartData;
+		try {
+			pieChartData = FXCollections.observableArrayList(
+					new PieChart.Data(list.getGroupName(), list.getTotalUserScrobbles()),
+					new PieChart.Data("other",
+							new FmUserNetwork(FmFramework.getSessionConfig().getValue("api_key"), username)
+									.getUserScrobbleCount() - list.getTotalUserScrobbles()));
+			
+			pieChart.setData(pieChartData);
+			
+		} catch (ApiCallException e) {}
+		
 	}
 
 }

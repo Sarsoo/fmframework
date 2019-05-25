@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import sarsoo.fmframework.cache.Cacheable;
 import sarsoo.fmframework.config.Config;
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.fm.FmUserNetwork;
 import sarsoo.fmframework.fx.FmFramework;
 import sarsoo.fmframework.music.Album;
@@ -109,6 +110,10 @@ public class FMObjList extends ArrayList<FMObj> implements Comparable<FMObjList>
 		Config config = FmFramework.getSessionConfig();
 
 		FmUserNetwork net = new FmUserNetwork(config.getValue("api_key"), config.getValue("username"));
-		stream().forEach(item -> net.refresh(item));
+		stream().forEach(item -> {
+			try {
+				net.refresh(item);
+			} catch (ApiCallException e) {}
+		});
 	}
 }

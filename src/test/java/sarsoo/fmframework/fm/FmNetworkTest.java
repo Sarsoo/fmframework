@@ -3,6 +3,7 @@ package sarsoo.fmframework.fm;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.music.Album;
 import sarsoo.fmframework.music.Artist;
 import sarsoo.fmframework.music.Artist.ArtistBuilder;
@@ -18,24 +19,42 @@ public class FmNetworkTest {
 	
 	@Test
 	public void testGetNonNullAlbum() {
-		assertNotNull(new FmNetwork(Key.getKey()).getAlbum("To Pimp A Butterfly", "Kendrick Lamar"));
+		try {
+			assertNotNull(new FmNetwork(Key.getKey()).getAlbum("To Pimp A Butterfly", "Kendrick Lamar"));
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void testAlbumDataMatch() {
-		Album album = new FmNetwork(Key.getKey()).getAlbum("To Pimp A Butterfly", "Kendrick Lamar");
-		assertEquals(album.getName(), "To Pimp a Butterfly");
+		Album album;
+		try {
+			album = new FmNetwork(Key.getKey()).getAlbum("To Pimp A Butterfly", "Kendrick Lamar");
+			assertEquals(album.getName(), "To Pimp a Butterfly");
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}		
 	}
 	
 	@Test
 	public void testGetNonNullArtist() {
-		assertNotNull(new FmNetwork(Key.getKey()).getArtist("Kendrick Lamar"));
+		try {
+			assertNotNull(new FmNetwork(Key.getKey()).getArtist("Kendrick Lamar"));
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void testArtistDataMatch() {
-		Artist artist= new FmNetwork(Key.getKey()).getArtist("Kendrick Lamar");
-		assertEquals(artist.getName(), "Kendrick Lamar");
+		Artist artist;
+		try {
+			artist = new FmNetwork(Key.getKey()).getArtist("Kendrick Lamar");
+			assertEquals(artist.getName(), "Kendrick Lamar");
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -51,11 +70,16 @@ public class FmNetworkTest {
 	public void testArtistTopTracks() {
 		FmNetwork network = new FmNetwork(Key.getKey());
 
-		FMObjList list = network.getArtistTopTracks(new ArtistBuilder("kendrick lamar").build(), 10);
-		
-		list.stream().forEach(System.out::println);
-		
-		assertTrue(true);
+		FMObjList list;
+		try {
+			list = network.getArtistTopTracks(new ArtistBuilder("kendrick lamar").build(), 10);
+			list.stream().forEach(System.out::println);
+			
+			assertTrue(true);
+			
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.log.Logger;
 import sarsoo.fmframework.log.entry.ErrorEntry;
 import sarsoo.fmframework.log.entry.InfoEntry;
@@ -72,8 +73,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * Return user object from Last.FM
 	 * 
 	 * @return User
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public User getUser() {
+	public User getUser() throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getUser"));
 
@@ -93,8 +96,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * Return user real name
 	 * 
 	 * @return User real name
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public String getUserRealName() {
+	public String getUserRealName() throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getUserRealName"));
 
@@ -105,8 +110,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * Return user's total scrobble count
 	 * 
 	 * @return Total scrobble count
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public int getUserScrobbleCount() {
+	public int getUserScrobbleCount() throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getUserScrobbleCount"));
 
@@ -117,8 +124,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * Returns last or currently listening track
 	 * 
 	 * @return Last track
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public Track getLastTrack() {
+	public Track getLastTrack() throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getLastTrack"));
 
@@ -145,8 +154,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * Return scrobble count from today
 	 * 
 	 * @return Scrobble count today
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public int getScrobblesToday() {
+	public int getScrobblesToday() throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getScrobblesToday"));
 
@@ -176,8 +187,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * @param month Month int
 	 * @param year  Year int
 	 * @return Scrobble count
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public int getScrobbleCountByDate(int day, int month, int year) {
+	public int getScrobbleCountByDate(int day, int month, int year) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getScrobblesByDate").addArg(Integer.toString(day))
 				.addArg(Integer.toString(month)).addArg(Integer.toString(year)));
@@ -208,8 +221,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * 
 	 * @param day Negative day offset
 	 * @return Scrobble count
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public int getScrobbleCountByDeltaDay(int day) {
+	public int getScrobbleCountByDeltaDay(int day) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getScrobblesByDeltaDay").addArg(Integer.toString(day)));
 
@@ -235,7 +250,7 @@ public class FmUserNetwork extends FmNetwork {
 
 	}
 	
-	public LocalDateTime getFirstScrobbleDateTime() {
+	public LocalDateTime getFirstScrobbleDateTime() throws ApiCallException {
 		
 		Logger.getLog().log(new LogEntry("getFirstScrobbleDates"));
 		
@@ -265,7 +280,7 @@ public class FmUserNetwork extends FmNetwork {
 		return LocalDateTime.ofInstant(Instant.ofEpochSecond(uts), ZoneId.systemDefault());
 	}
 
-	public FMObjList getTopTracks(String period, int number) {
+	public FMObjList getTopTracks(String period, int number) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getTopTracks").addArg(period).addArg(Integer.toString(number)));
 
@@ -311,7 +326,7 @@ public class FmUserNetwork extends FmNetwork {
 		return tracks;
 	}
 
-	public FMObjList getTopAlbums(String period, int number) {
+	public FMObjList getTopAlbums(String period, int number) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getTopAlbums").addArg(period).addArg(Integer.toString(number)));
 
@@ -358,7 +373,7 @@ public class FmUserNetwork extends FmNetwork {
 		return albums;
 	}
 
-	public FMObjList getTopArtists(String period, int number) {
+	public FMObjList getTopArtists(String period, int number) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getTopArtists").addArg(period).addArg(Integer.toString(number)));
 
@@ -404,7 +419,7 @@ public class FmUserNetwork extends FmNetwork {
 		return artists;
 	}
 
-	public ArrayList<Scrobble> getTrackScrobbles(Track track) {
+	public ArrayList<Scrobble> getTrackScrobbles(Track track) throws ApiCallException {
 
 		Logger.getLog()
 				.log(new LogEntry("getTrackScrobbles").addArg(track.getName()).addArg(track.getArtist().getName()));
@@ -412,7 +427,7 @@ public class FmUserNetwork extends FmNetwork {
 		return getRecursiveTrackScrobbles(track, 1);
 	}
 
-	private ArrayList<Scrobble> getRecursiveTrackScrobbles(Track track, int page) {
+	private ArrayList<Scrobble> getRecursiveTrackScrobbles(Track track, int page) throws ApiCallException {
 
 		int limit = 50;
 
@@ -466,7 +481,7 @@ public class FmUserNetwork extends FmNetwork {
 
 	}
 
-	public ArrayList<Scrobble> getRecentScrobbles(int number) {
+	public ArrayList<Scrobble> getRecentScrobbles(int number) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getRecentTracks").addArg(Integer.toString(number)));
 
@@ -524,8 +539,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * Returns list of user tags
 	 * 
 	 * @return List of tags
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public ArrayList<Tag> getTags() {
+	public ArrayList<Tag> getTags() throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getTags"));
 
@@ -561,8 +578,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * 
 	 * @param tagName Tag to explore
 	 * @return FMObjList of artists
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public FMObjList getArtistTag(String tagName) {
+	public FMObjList getArtistTag(String tagName) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getArtistTag").addArg(tagName));
 
@@ -605,8 +624,10 @@ public class FmUserNetwork extends FmNetwork {
 	 * 
 	 * @param tagName Tag to explore
 	 * @return FMObjList of artists
+	 * @throws ApiCallException 
+	 * @throws JSONException 
 	 */
-	public FMObjList getPopulatedArtistTag(String tagName) {
+	public FMObjList getPopulatedArtistTag(String tagName) throws ApiCallException {
 
 		Logger.getLog().log(new LogEntry("getPopulatedArtistTag").addArg(tagName));
 

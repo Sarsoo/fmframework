@@ -5,6 +5,7 @@ import org.junit.Test;
 import sarsoo.fmframework.music.Scrobble;
 import sarsoo.fmframework.music.Track;
 import sarsoo.fmframework.music.Track.TrackBuilder;
+import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.music.Artist.ArtistBuilder;
 import sarsoo.fmframework.net.Key;
 import sarsoo.fmframework.util.FMObjList;
@@ -22,7 +23,11 @@ public class FmUserNetworkTest {
 	
 	@Test
 	public void testGetLastTrack() {
-		assertNotNull(new FmUserNetwork(Key.getKey(), "sarsoo").getLastTrack());
+		try {
+			assertNotNull(new FmUserNetwork(Key.getKey(), "sarsoo").getLastTrack());
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -31,10 +36,17 @@ public class FmUserNetworkTest {
 		
 		int limit = 50;
 		
-		ArrayList<Scrobble> scrobbles = net.getRecentScrobbles(limit);
-//		scrobbles.stream().forEach(System.out::println);
-		System.out.println(scrobbles.size());
-		assertEquals(limit, scrobbles.size());
+		ArrayList<Scrobble> scrobbles;
+		try {
+			scrobbles = net.getRecentScrobbles(limit);
+			
+//			scrobbles.stream().forEach(System.out::println);
+			System.out.println(scrobbles.size());
+			assertEquals(limit, scrobbles.size());
+			
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -43,9 +55,17 @@ public class FmUserNetworkTest {
 		
 		int limit = 50;
 		
-		FMObjList list = net.getTopAlbums("7day", limit);
-//		list.stream().forEach(System.out::println);
-		assertEquals(limit, list.size());
+		FMObjList list;
+		try {
+			list = net.getTopAlbums("7day", limit);
+			
+//			list.stream().forEach(System.out::println);
+			assertEquals(limit, list.size());
+			
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	@Test
@@ -54,9 +74,17 @@ public class FmUserNetworkTest {
 		
 		int limit = 50;
 		
-		FMObjList list = net.getTopArtists("7day", limit);
-//		list.stream().forEach(System.out::println);
-		assertEquals(limit, list.size());
+		FMObjList list;
+		try {
+			list = net.getTopArtists("7day", limit);
+			
+//			list.stream().forEach(System.out::println);
+			assertEquals(limit, list.size());
+
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	@Test
@@ -65,9 +93,17 @@ public class FmUserNetworkTest {
 		
 		int limit = 50;
 		
-		FMObjList list = net.getTopTracks("7day", limit);
-//		list.stream().forEach(System.out::println);
-		assertEquals(limit, list.size());
+		FMObjList list;
+		try {
+			list = net.getTopTracks("7day", limit);
+			
+//			list.stream().forEach(System.out::println);
+			assertEquals(limit, list.size());
+			
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	@Test
@@ -76,19 +112,30 @@ public class FmUserNetworkTest {
 		
 		Track track = new TrackBuilder("shitsville", new ArtistBuilder("freddie gibbs").build()).build();
 		
-		ArrayList<Scrobble> scrobbles = net.getTrackScrobbles(track);
-		
-		scrobbles.stream().forEach(System.out::println);
-		System.out.println(scrobbles.size());
-		assertTrue(true);
+		ArrayList<Scrobble> scrobbles;
+		try {
+			scrobbles = net.getTrackScrobbles(track);
+			
+			scrobbles.stream().forEach(System.out::println);
+			System.out.println(scrobbles.size());
+			assertTrue(true);
+			
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void testFirstScrobbleDateTime() {
 		FmUserNetwork net = new FmUserNetwork(Key.getKey(), "sarsoo");
 		
-		System.out.println(net.getFirstScrobbleDateTime());
-		
-		assertTrue(true);
+		try {
+			System.out.println(net.getFirstScrobbleDateTime());
+			
+			assertTrue(true);
+
+		} catch (ApiCallException e) {
+			e.printStackTrace();
+		}
 	}
 }
