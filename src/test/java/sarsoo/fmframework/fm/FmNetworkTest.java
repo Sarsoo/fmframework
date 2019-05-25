@@ -1,7 +1,8 @@
 package sarsoo.fmframework.fm;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 import sarsoo.fmframework.error.ApiCallException;
 import sarsoo.fmframework.music.Album;

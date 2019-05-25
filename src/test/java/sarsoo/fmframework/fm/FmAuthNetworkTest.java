@@ -1,11 +1,11 @@
 package sarsoo.fmframework.fm;
 
-import static org.junit.Assert.*;
-
 import java.util.HashMap;
 import java.util.Scanner;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 import sarsoo.fmframework.music.Scrobble;
 import sarsoo.fmframework.music.Track.TrackBuilder;

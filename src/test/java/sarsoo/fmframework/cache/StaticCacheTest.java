@@ -1,8 +1,8 @@
 package sarsoo.fmframework.cache;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import sarsoo.fmframework.cache.puller.AlbumPuller;
 import sarsoo.fmframework.fm.FmUserNetwork;

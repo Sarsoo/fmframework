@@ -1,8 +1,6 @@
 package sarsoo.fmframework.cache;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import sarsoo.fmframework.cache.puller.AlbumPuller;
 import sarsoo.fmframework.cache.puller.ArtistPuller;
@@ -35,7 +33,7 @@ public class AlbumCacheTest {
 		artistCache.dumpToLog(new Log());
 		cache.dumpToLog(new Log());
 		
-		assertTrue(true);
+//		assertThat();
 	}
 
 }

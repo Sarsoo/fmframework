@@ -40,9 +40,13 @@ dependencies {
     implementation 'com.mashape.unirest:unirest-java:1.4.9'
     implementation 'org.json:json:20180813'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.2')
 }
 
+test {
+    useJUnitPlatform()
+}
 
 jar {
 	manifest {
