@@ -67,8 +67,8 @@ public class TopAlbumController {
 		for (int i = 1; i < 16; i++) {
 			dropDownLimit.getItems().add(i);
 		}
-		
-		for (int i = 20; i < 110; i+=10) {
+
+		for (int i = 20; i < 110; i += 10) {
 			dropDownLimit.getItems().add(i);
 		}
 
@@ -169,23 +169,26 @@ public class TopAlbumController {
 
 					Album album = (Album) obj;
 
-					GetFXImageService service = new GetFXImageService(album.getImageURL().toString(), counter);
+					if (album.getImageURL() != null) {
 
-					service.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+						GetFXImageService service = new GetFXImageService(album.getImageURL(), counter);
 
-						@Override
-						public void handle(WorkerStateEvent t) {
+						service.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 
-							TiledImage image = (TiledImage) t.getSource().getValue();
-							
-							images.add(image);
-							
-							refreshImages();
-						}
-					});
+							@Override
+							public void handle(WorkerStateEvent t) {
 
-					service.start();
-					counter++;
+								TiledImage image = (TiledImage) t.getSource().getValue();
+
+								images.add(image);
+
+								refreshImages();
+							}
+						});
+
+						service.start();
+						counter++;
+					}
 				}
 			}
 		}
@@ -196,17 +199,17 @@ public class TopAlbumController {
 		ObservableList<Node> list = tilePane.getChildren();
 
 		list.clear();
-		
+
 		Collections.sort(images, new Comparator<TiledImage>() {
 
 			@Override
 			public int compare(TiledImage arg0, TiledImage arg1) {
 				return arg0.getIndex() - arg1.getIndex();
 			}
-			
+
 		});
-		
-		for(TiledImage image: images) {
+
+		for (TiledImage image : images) {
 			list.add(new ImageView(image));
 		}
 	}
