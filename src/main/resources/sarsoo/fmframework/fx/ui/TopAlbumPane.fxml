@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.TilePane?>
+
+<AnchorPane prefHeight="484.0" prefWidth="885.0" stylesheets="@../styles/mainPane.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sarsoo.fmframework.fx.controller.TopAlbumController">
+   <children>
+      <BorderPane fx:id="borderPane" prefHeight="327.0" prefWidth="600.0" styleClass="backGround" stylesheets="@../styles/ObjPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <bottom>
+                                    <ToolBar fx:id="toolBar" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                      <items>
+                  <ChoiceBox fx:id="dropDownLimit" prefHeight="26.0" prefWidth="79.0" />
+                  <ChoiceBox fx:id="dropDownTimeRange" prefHeight="25.0" prefWidth="208.0" />
+                  <Button fx:id="buttonLoad" mnemonicParsing="false" onAction="#handleLoad" text="load" />
+                  <Button fx:id="buttonGenerate" disable="true" mnemonicParsing="false" onAction="#handleGenerate" text="generate" />
+                                      </items>
+                                    </ToolBar>
+                                 </bottom>
+         <center>
+            <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <items>
+                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                     <content>
+                        <GridPane fx:id="gridPane" alignment="CENTER" styleClass="backGround">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="30.0" minWidth="30.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="300.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="128.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="40.0" minWidth="50.0" />
+                          </columnConstraints>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+                     <content>
+                        <TilePane fx:id="tilePane" alignment="CENTER" prefColumns="3" prefHeight="0.0" prefWidth="0.0" />
+                     </content>
+                  </ScrollPane>
+              </items>
+            </SplitPane>
+         </center>
+                              </BorderPane>
+   </children>
+</AnchorPane>

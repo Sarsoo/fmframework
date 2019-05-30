@@ -106,18 +106,12 @@ public class FMObjListPaneEditController {
 				@Override
 				public void handle(Event event) {
 
-					try {
-
-						if (obj.getClass() == Artist.class) {
-							FmFramework.getController().addTab(new ArtistTab((Artist) obj));
-						} else if (obj.getClass() == Album.class) {
-							FmFramework.getController().addTab(new AlbumTab((Album) obj));
-						} else if (obj.getClass() == Track.class) {
-							FmFramework.getController().addTab(new TrackTab((Track) obj));
-						}
-					} catch (IOException e) {
-
-						e.printStackTrace();
+					if (obj.getClass() == Artist.class) {
+						FmFramework.getController().addTab(new ArtistTab((Artist) obj));
+					} else if (obj.getClass() == Album.class) {
+						FmFramework.getController().addTab(new AlbumTab((Album) obj));
+					} else if (obj.getClass() == Track.class) {
+						FmFramework.getController().addTab(new TrackTab((Track) obj));
 					}
 
 				}

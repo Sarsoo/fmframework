@@ -4,22 +4,20 @@ import java.io.IOException;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import sarsoo.fmframework.fx.controller.ScrobbleChartPaneController;
+import sarsoo.fmframework.fx.controller.TopAlbumController;
 import javafx.fxml.FXMLLoader;
 
-public class ScrobbleChartTab extends Tab {
+public class TopAlbumTab extends Tab {
 
-	public ScrobbleChartTab() {
+	public TopAlbumTab() {
 
-		setText("scrobbles");
+		setText("top albums");
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/ScrobbleChartPane.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/TopAlbumPane.fxml"));
 
 		AnchorPane pane;
-		
 		try {
 			pane = (AnchorPane) loader.load();
-			
 			AnchorPane.setTopAnchor(pane, 0.0);
 			AnchorPane.setLeftAnchor(pane, 0.0);
 			AnchorPane.setRightAnchor(pane, 0.0);
@@ -27,13 +25,13 @@ public class ScrobbleChartTab extends Tab {
 
 			setContent(pane);
 
-			ScrobbleChartPaneController control = (ScrobbleChartPaneController) loader.getController();
+			TopAlbumController control = (TopAlbumController) loader.getController();
 
 			//control.populate();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

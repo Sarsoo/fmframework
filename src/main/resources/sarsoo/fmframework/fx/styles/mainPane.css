@@ -91,6 +91,27 @@
 
 .text-area {
 	-fx-background-color: #202124;
+	-fx-text-fill: white;
+}
+
+.text-area .content {
+   -fx-background-color: transparent ;
+}
+
+.text-area > .viewport {
+   -fx-background-color: transparent;
+}
+
+.scroll-pane {
+   -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.text-area {
+	-fx-background-color: #202124;
 }
 
 .menu-bar {
@@ -137,6 +158,7 @@
 .tab{
     -fx-background-insets: 0 1 0 1,0,0;
 }
+
 .tab-pane .tab
 {
     -fx-background-color: #202124;

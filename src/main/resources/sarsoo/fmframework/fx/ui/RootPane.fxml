@@ -71,6 +71,11 @@
                      </accelerator></MenuItem>
             </items>
           </Menu>
+            <Menu fx:id="menuTop" mnemonicParsing="false" text="top">
+               <items>
+                  <MenuItem fx:id="menuItemAlbumCollage" mnemonicParsing="false" onAction="#handleTopAlbum" text="album" />
+               </items>
+            </Menu>
             <Menu fx:id="menuChart" mnemonicParsing="false" text="chart">
               <items>
                   <MenuItem fx:id="menuItemScrobbleChart" mnemonicParsing="false" onAction="#handleScrobbleChart" text="daily scrobbles" />

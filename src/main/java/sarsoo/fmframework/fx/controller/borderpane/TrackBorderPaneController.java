@@ -53,11 +53,7 @@ public class TrackBorderPaneController extends FMObjBorderPaneController {
 			viewAlbum.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					try {
-						FmFramework.getController().addTab(new AlbumTab(track.getAlbum()));
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					FmFramework.getController().addTab(new AlbumTab(track.getAlbum()));
 				}
 			});
 		}else {
@@ -68,11 +64,7 @@ public class TrackBorderPaneController extends FMObjBorderPaneController {
 			viewArtist.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					try {
-						FmFramework.getController().addTab(new ArtistTab(track.getArtist()));
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}//
+					FmFramework.getController().addTab(new ArtistTab(track.getArtist()));
 				}
 			});
 		}else {

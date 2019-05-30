@@ -1,7 +1,13 @@
 package sarsoo.fmframework.music;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import sarsoo.fmframework.cache.Cacheable;
 
@@ -11,7 +17,10 @@ public class Album extends FMObj implements Serializable, Cacheable{
 	protected Artist artist;
 	protected ArrayList<Tag> tagList;
 	protected ArrayList<Track> trackList;
-
+	
+	protected URL imageUrl;
+	protected BufferedImage image;
+	
 	private Album(AlbumBuilder builder) {
 		this.name = builder.name;
 		this.artist = builder.artist;
@@ -29,7 +38,24 @@ public class Album extends FMObj implements Serializable, Cacheable{
 		this.tagList = builder.tagList;
 		this.trackList = builder.trackList;
 		
+		this.imageUrl = builder.imageUrl;
 		
+	}
+	
+	public URL getImageURL() {
+		return imageUrl;
+	}
+	
+	public void loadImage() {
+		try {
+			image = ImageIO.read(imageUrl);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public BufferedImage getImage() {
+		return image;
 	}
 	
 	public Artist getArtist() {
@@ -87,6 +113,8 @@ public class Album extends FMObj implements Serializable, Cacheable{
 		protected ArrayList<Tag> tagList;
 		protected ArrayList<Track> trackList;
 		
+		protected URL imageUrl;
+		
 		
 		public AlbumBuilder(String name, Artist artist) {
 			
@@ -131,6 +159,15 @@ public class Album extends FMObj implements Serializable, Cacheable{
 		
 		public AlbumBuilder setTrackList(ArrayList<Track> trackList) {
 			this.trackList = trackList;
+			return this;
+		}
+		
+		public AlbumBuilder setImageUrl(String url) {
+			try {
+				this.imageUrl = new URL(url);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
 			return this;
 		}
 		

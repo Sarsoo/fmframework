@@ -35,6 +35,7 @@ import sarsoo.fmframework.fx.tab.FMObjListEditTab;
 import sarsoo.fmframework.fx.tab.GenrePieChartTab;
 import sarsoo.fmframework.fx.tab.ScrobbleChartTab;
 import sarsoo.fmframework.fx.tab.ScrobbleTab;
+import sarsoo.fmframework.fx.tab.TopAlbumTab;
 import sarsoo.fmframework.fx.tab.TrackTab;
 import sarsoo.fmframework.fx.tab.WebViewTab;
 import sarsoo.fmframework.log.Log;
@@ -123,19 +124,15 @@ public class RootController {
 		getLastTrack.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent t) {
-				try {
-					TrackTab tab = new TrackTab(((Track) t.getSource().getValue()));
+				TrackTab tab = new TrackTab(((Track) t.getSource().getValue()));
 
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							addTab(tab);
-						}
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						addTab(tab, false);
+					}
 
-					});
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				});
 			}
 		});
 		getLastTrack.start();
@@ -179,12 +176,17 @@ public class RootController {
 		getTags.start();
 
 	}
-
+	
 	public void addTab(Tab tab) {
+		addTab(tab, true);
+	}
+
+	public void addTab(Tab tab, Boolean select) {
 		tabPane.getTabs().add(tab);
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 
-		selectionModel.select(tab);
+		if(select)
+			selectionModel.select(tab);
 	}
 
 	@FXML
@@ -243,13 +245,14 @@ public class RootController {
 					}
 				});
 
-				addTab(tab);
+				addTab(tab, true);
 
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (ApiCallException e) {}
+		} catch (ApiCallException e) {
+		}
 	}
 
 	protected void completeAuth(FmAuthNetwork net, String token) {
@@ -257,12 +260,13 @@ public class RootController {
 		String sk;
 		try {
 			sk = net.getSession(token);
-			
+
 			if (sk != null) {
 				FmFramework.getSessionConfig().addVariable(new ConfigVariable("session_key", sk));
 			}
-			
-		} catch (ApiCallException e) {}
+
+		} catch (ApiCallException e) {
+		}
 	}
 
 	public void changeUsername() {
@@ -395,12 +399,8 @@ public class RootController {
 	@FXML
 	protected void handleCreateList(ActionEvent event) {
 
-		try {
-			Tab tab = new FMObjListEditTab();
-			addTab(tab);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Tab tab = new FMObjListEditTab();
+		addTab(tab, true);
 
 	}
 
@@ -421,21 +421,22 @@ public class RootController {
 
 	@FXML
 	protected void handleScrobble(ActionEvent event) throws IOException {
-		addTab(new ScrobbleTab());
+		addTab(new ScrobbleTab(), true);
 	}
 
 	@FXML
 	protected void handleOpenConsole(ActionEvent event) {
-		addTab(new ConsoleTab());
+		addTab(new ConsoleTab(), true);
+	}
+
+	@FXML
+	protected void handleTopAlbum(ActionEvent event) {
+		addTab(new TopAlbumTab(), true);
 	}
 
 	@FXML
 	protected void handleScrobbleChart(ActionEvent event) {
-		try {
-			addTab(new ScrobbleChartTab());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		addTab(new ScrobbleChartTab(), true);
 
 	}
 
@@ -453,17 +454,13 @@ public class RootController {
 			FMObjList list = persist.readListFromFile(file);
 			list.setGroupName(file.getName());
 			list.refresh();
-			try {
-				addTab(new FMObjListEditTab(list));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			addTab(new FMObjListEditTab(list), true);
 		}
 	}
 
 	@FXML
 	protected void handleOpenEdit(ActionEvent event) {
-		addTab(new ConsoleTab());
+		addTab(new ConsoleTab(), true);
 	}
 
 	public void closeCurrentTab() {
@@ -484,7 +481,7 @@ public class RootController {
 
 	@FXML
 	protected void handleGenrePieTab(ActionEvent event) {
-		addTab(new GenrePieChartTab());
+		addTab(new GenrePieChartTab(), true);
 	}
 
 	private ArrayList<Tag> tags;

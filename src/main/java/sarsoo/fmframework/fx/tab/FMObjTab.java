@@ -15,21 +15,26 @@ public abstract class FMObjTab extends Tab {
 	protected AnchorPane infoAnchorPane;
 	protected FMObjBorderPaneController controller;
 
-	protected FMObjTab() throws IOException {
+	protected FMObjTab() {
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjBorderPane.fxml"));
 
-		AnchorPane anchor = (AnchorPane) loader.load();
+		AnchorPane anchor;
+		try {
+			anchor = (AnchorPane) loader.load();
 
-		AnchorPane.setTopAnchor(anchor, 0.0);
-		AnchorPane.setLeftAnchor(anchor, 0.0);
-		AnchorPane.setRightAnchor(anchor, 0.0);
-		AnchorPane.setBottomAnchor(anchor, 0.0);
+			AnchorPane.setTopAnchor(anchor, 0.0);
+			AnchorPane.setLeftAnchor(anchor, 0.0);
+			AnchorPane.setRightAnchor(anchor, 0.0);
+			AnchorPane.setBottomAnchor(anchor, 0.0);
 
-		this.controller = (FMObjBorderPaneController) loader.getController();
+			this.controller = (FMObjBorderPaneController) loader.getController();
 
-		setContent(anchor);
-
+			setContent(anchor);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public AnchorPane getInfoAnchorPane() {

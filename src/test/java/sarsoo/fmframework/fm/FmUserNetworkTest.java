@@ -55,7 +55,7 @@ public class FmUserNetworkTest {
 		
 		FMObjList list;
 		try {
-			list = net.getTopAlbums("7day", limit);
+			list = net.getTopAlbums(TimePeriod.SEVENDAY, limit);
 			
 			assertEquals(limit, list.size());
 			
@@ -73,7 +73,7 @@ public class FmUserNetworkTest {
 		
 		FMObjList list;
 		try {
-			list = net.getTopArtists("7day", limit);
+			list = net.getTopArtists(TimePeriod.SEVENDAY, limit);
 			
 //			list.stream().forEach(System.out::println);
 			assertEquals(limit, list.size());
@@ -92,7 +92,7 @@ public class FmUserNetworkTest {
 		
 		FMObjList list;
 		try {
-			list = net.getTopTracks("7day", limit);
+			list = net.getTopTracks(TimePeriod.SEVENDAY, limit);
 			
 //			list.stream().forEach(System.out::println);
 			assertEquals(limit, list.size());

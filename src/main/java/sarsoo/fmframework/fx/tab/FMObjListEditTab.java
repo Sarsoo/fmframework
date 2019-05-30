@@ -9,30 +9,37 @@ import javafx.fxml.FXMLLoader;
 
 public class FMObjListEditTab extends Tab {
 
-	public FMObjListEditTab() throws IOException {
+	public FMObjListEditTab() {
 
 		setText("List");
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjListEditPane.fxml"));
 
-		AnchorPane pane = (AnchorPane) loader.load();
+		AnchorPane pane;
+		
+		try {
+			pane = (AnchorPane) loader.load();
+			
+			AnchorPane.setTopAnchor(pane, 0.0);
+			AnchorPane.setLeftAnchor(pane, 0.0);
+			AnchorPane.setRightAnchor(pane, 0.0);
+			AnchorPane.setBottomAnchor(pane, 0.0);
 
-		AnchorPane.setTopAnchor(pane, 0.0);
-		AnchorPane.setLeftAnchor(pane, 0.0);
-		AnchorPane.setRightAnchor(pane, 0.0);
-		AnchorPane.setBottomAnchor(pane, 0.0);
+//			BorderPane
 
-//		BorderPane
+			setText("list");
 
-		setText("list");
+			setContent(pane);
 
-		setContent(pane);
-
-		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();
-
+			FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public FMObjListEditTab(FMObjList list) throws IOException {
+	public FMObjListEditTab(FMObjList list) {
 
 		if (list.getGroupName() != null) {
 			setText(list.getGroupName());
@@ -42,20 +49,27 @@ public class FMObjListEditTab extends Tab {
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjListEditPane.fxml"));
 
-		AnchorPane pane = (AnchorPane) loader.load();
+		AnchorPane pane;
 
-		AnchorPane.setTopAnchor(pane, 0.0);
-		AnchorPane.setLeftAnchor(pane, 0.0);
-		AnchorPane.setRightAnchor(pane, 0.0);
-		AnchorPane.setBottomAnchor(pane, 0.0);
+		try {
+			pane = (AnchorPane) loader.load();
+			
+			AnchorPane.setTopAnchor(pane, 0.0);
+			AnchorPane.setLeftAnchor(pane, 0.0);
+			AnchorPane.setRightAnchor(pane, 0.0);
+			AnchorPane.setBottomAnchor(pane, 0.0);
 
-//		BorderPane
+//			BorderPane
 
-		setContent(pane);
+			setContent(pane);
 
-		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();
-		control.setList(list);
-		control.refresh();
+			FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();
+			control.setList(list);
+			control.refresh();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

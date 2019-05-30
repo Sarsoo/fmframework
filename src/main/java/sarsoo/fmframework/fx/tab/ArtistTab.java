@@ -10,7 +10,7 @@ import javafx.fxml.FXMLLoader;
 
 public class ArtistTab extends Tab{
 	
-	public ArtistTab(Artist artist) throws IOException {
+	public ArtistTab(Artist artist) {
 		
 		setText(artist.getName().toLowerCase());
 		
@@ -20,16 +20,22 @@ public class ArtistTab extends Tab{
 		
 		loader.setController(controller);
 		
-		AnchorPane pane = (AnchorPane) loader.load();
-
-		AnchorPane.setTopAnchor(pane, 0.0);
-		AnchorPane.setLeftAnchor(pane, 0.0);
-		AnchorPane.setRightAnchor(pane, 0.0);
-		AnchorPane.setBottomAnchor(pane, 0.0);
+		AnchorPane pane;
 		
-		setContent(pane);
-		
-		controller.populate(artist);
+		try {
+			pane = (AnchorPane) loader.load();
+			
+			AnchorPane.setTopAnchor(pane, 0.0);
+			AnchorPane.setLeftAnchor(pane, 0.0);
+			AnchorPane.setRightAnchor(pane, 0.0);
+			AnchorPane.setBottomAnchor(pane, 0.0);
+			
+			setContent(pane);
+			
+			controller.populate(artist);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

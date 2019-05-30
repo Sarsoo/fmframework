@@ -12,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 
 public class TrackTab extends Tab {
 
-	public TrackTab(Track track) throws IOException {
+	public TrackTab(Track track) {
 
 		setText(track.getName().toLowerCase());
 
@@ -22,16 +22,22 @@ public class TrackTab extends Tab {
 		
 		loader.setController(controller);
 		
-		AnchorPane pane = (AnchorPane) loader.load();
+		AnchorPane pane;
+		try {
+			pane = (AnchorPane) loader.load();
+			
+			AnchorPane.setTopAnchor(pane, 0.0);
+			AnchorPane.setLeftAnchor(pane, 0.0);
+			AnchorPane.setRightAnchor(pane, 0.0);
+			AnchorPane.setBottomAnchor(pane, 0.0);
 
-		AnchorPane.setTopAnchor(pane, 0.0);
-		AnchorPane.setLeftAnchor(pane, 0.0);
-		AnchorPane.setRightAnchor(pane, 0.0);
-		AnchorPane.setBottomAnchor(pane, 0.0);
+			setContent(pane);
 
-		setContent(pane);
-
-		controller.populate(track);
+			controller.populate(track);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

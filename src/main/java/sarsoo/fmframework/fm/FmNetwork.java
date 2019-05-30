@@ -111,6 +111,16 @@ public class FmNetwork {
 				log.logInfo(new InfoEntry("getAlbum").addArg("no user play count for").addArg(nameIn)
 						.addArg(e.getMessage()));
 			}
+			
+			try {
+				JSONArray imageArray = albumJson.getJSONArray("image");
+				JSONObject imageObj = (JSONObject) imageArray.get(imageArray.length() - 1);
+				
+				builder.setImageUrl(imageObj.getString("#text"));
+			} catch (JSONException e) {
+				log.logInfo(new InfoEntry("getAlbum").addArg("no image for").addArg(nameIn)
+						.addArg(e.getMessage()));
+			}
 
 			try {
 				JSONObject wikiJson = albumJson.getJSONObject("wiki");

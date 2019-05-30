@@ -9,51 +9,31 @@ import javafx.fxml.FXMLLoader;
 
 public class FMObjListTab extends Tab {
 
-	public FMObjListTab(FMObjList list) throws IOException {
+	public FMObjListTab(FMObjList list) {
 
 		setText(list.getGroupName());
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/FMObjListPane.fxml"));
 
-		AnchorPane pane = (AnchorPane) loader.load();
+		AnchorPane pane;
+		try {
+			pane = (AnchorPane) loader.load();
+			
+			AnchorPane.setTopAnchor(pane, 0.0);
+			AnchorPane.setLeftAnchor(pane, 0.0);
+			AnchorPane.setRightAnchor(pane, 0.0);
+			AnchorPane.setBottomAnchor(pane, 0.0);
 
-		AnchorPane.setTopAnchor(pane, 0.0);
-		AnchorPane.setLeftAnchor(pane, 0.0);
-		AnchorPane.setRightAnchor(pane, 0.0);
-		AnchorPane.setBottomAnchor(pane, 0.0);
+			setContent(pane);
+			
+			setText(list.getGroupName());
 
-		setContent(pane);
-		
-		setText(list.getGroupName());
+			FMObjListPaneController control = (FMObjListPaneController) loader.getController();
 
-		FMObjListPaneController control = (FMObjListPaneController) loader.getController();
-
-		control.populate(list);
-		
-		
-
+			control.populate(list);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
-//	public FMObjListTab() throws IOException {
-//
-//		setText("List");
-//
-//		FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FMObjListPaneEdit.fxml"));
-//
-//		AnchorPane pane = (AnchorPane) loader.load();
-//
-//		AnchorPane.setTopAnchor(pane, 0.0);
-//		AnchorPane.setLeftAnchor(pane, 0.0);
-//		AnchorPane.setRightAnchor(pane, 0.0);
-//		AnchorPane.setBottomAnchor(pane, 0.0);
-//		
-////		BorderPane
-//
-//		setContent(pane);
-//
-//		FMObjListPaneEditController control = (FMObjListPaneEditController) loader.getController();		
-//		
-//
-//	}
-
 }

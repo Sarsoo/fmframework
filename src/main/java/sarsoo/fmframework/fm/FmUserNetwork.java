@@ -279,10 +279,29 @@ public class FmUserNetwork extends FmNetwork {
 		
 		return LocalDateTime.ofInstant(Instant.ofEpochSecond(uts), ZoneId.systemDefault());
 	}
+	
+	private String getPeriod(TimePeriod period) {
+		switch(period){
+			case OVERALL:
+				return "overall";
+			case SEVENDAY:
+				return "7day";
+			case ONEMONTH:
+				return "1month";
+			case THREEMONTH:
+				return "3month";
+			case SIXMONTH:
+				return "6month";
+			case TWELVEMONTH:
+				return "12month";
+			default:
+				throw new IllegalArgumentException("invalid period provided");
+		}
+	}
 
-	public FMObjList getTopTracks(String period, int number) throws ApiCallException {
+	public FMObjList getTopTracks(TimePeriod period, int number) throws ApiCallException {
 
-		Logger.getLog().log(new LogEntry("getTopTracks").addArg(period).addArg(Integer.toString(number)));
+		Logger.getLog().log(new LogEntry("getTopTracks").addArg(getPeriod(period)).addArg(Integer.toString(number)));
 
 		int limit = 50;
 
@@ -302,7 +321,7 @@ public class FmUserNetwork extends FmNetwork {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 
 			parameters.put("user", userName);
-			parameters.put("period", period);
+			parameters.put("period", getPeriod(period));
 			parameters.put("limit", Integer.toString(limit));
 			parameters.put("page", Integer.toString(counter + 1));
 
@@ -326,9 +345,9 @@ public class FmUserNetwork extends FmNetwork {
 		return tracks;
 	}
 
-	public FMObjList getTopAlbums(String period, int number) throws ApiCallException {
+	public FMObjList getTopAlbums(TimePeriod period, int number) throws ApiCallException {
 
-		Logger.getLog().log(new LogEntry("getTopAlbums").addArg(period).addArg(Integer.toString(number)));
+		Logger.getLog().log(new LogEntry("getTopAlbums").addArg(getPeriod(period)).addArg(Integer.toString(number)));
 
 		int limit = 50;
 
@@ -348,7 +367,7 @@ public class FmUserNetwork extends FmNetwork {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 
 			parameters.put("user", userName);
-			parameters.put("period", period);
+			parameters.put("period", getPeriod(period));
 			parameters.put("limit", Integer.toString(limit));
 			parameters.put("page", Integer.toString(counter + 1));
 
@@ -361,9 +380,15 @@ public class FmUserNetwork extends FmNetwork {
 
 				if (albums.size() < number) {
 					Artist artist = new ArtistBuilder(json.getJSONObject("artist").getString("name")).build();
-					Album album = new AlbumBuilder(json.getString("name"), artist)
-							.setUserPlayCount(json.getInt("playcount")).build();
-
+					AlbumBuilder albumBuilder = new AlbumBuilder(json.getString("name"), artist)
+							.setUserPlayCount(json.getInt("playcount"));
+					
+					JSONArray imageArray = json.getJSONArray("image");
+					JSONObject imageObj = (JSONObject) imageArray.get(imageArray.length() - 1);
+					
+					albumBuilder.setImageUrl(imageObj.getString("#text"));
+					
+					Album album = albumBuilder.build();
 					albums.add(album);
 
 				}
@@ -373,9 +398,9 @@ public class FmUserNetwork extends FmNetwork {
 		return albums;
 	}
 
-	public FMObjList getTopArtists(String period, int number) throws ApiCallException {
+	public FMObjList getTopArtists(TimePeriod period, int number) throws ApiCallException {
 
-		Logger.getLog().log(new LogEntry("getTopArtists").addArg(period).addArg(Integer.toString(number)));
+		Logger.getLog().log(new LogEntry("getTopArtists").addArg(getPeriod(period)).addArg(Integer.toString(number)));
 
 		int limit = 50;
 
@@ -395,7 +420,7 @@ public class FmUserNetwork extends FmNetwork {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 
 			parameters.put("user", userName);
-			parameters.put("period", period);
+			parameters.put("period", getPeriod(period));
 			parameters.put("limit", Integer.toString(limit));
 			parameters.put("page", Integer.toString(counter + 1));
 

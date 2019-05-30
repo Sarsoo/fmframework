@@ -39,6 +39,8 @@ public class ScrobbleChartPaneController {
 		// dropDownTimeRange.setItems(FXCollections.observableArrayList("week", "month",
 		// "3 month", "6 month", "year"));
 		dropDownTimeRange.getItems().addAll("week", "30 day", "90 day", "180 day", "year");
+		
+		dropDownTimeRange.getSelectionModel().select(0);
 	}
 
 	@FXML

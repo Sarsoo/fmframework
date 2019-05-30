@@ -62,11 +62,7 @@ public class AlbumBorderPaneController extends FMObjBorderPaneController {
 			viewArtist.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					try {
-						FmFramework.getController().addTab(new ArtistTab(album.getArtist()));
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					FmFramework.getController().addTab(new ArtistTab(album.getArtist()));
 				}
 			});
 		} else {

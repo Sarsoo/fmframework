@@ -74,12 +74,7 @@ public class FMObjListPaneController {
 				@Override
 				public void handle(Event event) {
 
-					try {
-						FmFramework.getController().addTab(new ArtistTab((Artist) obj));
-					} catch (IOException e) {
-
-						e.printStackTrace();
-					}
+					FmFramework.getController().addTab(new ArtistTab((Artist) obj));
 
 				}
 
@@ -165,12 +160,7 @@ public class FMObjListPaneController {
 				@Override
 				public void handle(Event event) {
 
-					try {
-						FmFramework.getController().addTab(new ArtistTab((Artist) obj));
-					} catch (IOException e) {
-
-						e.printStackTrace();
-					}
+					FmFramework.getController().addTab(new ArtistTab((Artist) obj));
 
 				}
 

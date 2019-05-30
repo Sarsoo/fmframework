@@ -14,7 +14,7 @@ import javafx.fxml.FXMLLoader;
 
 public class AlbumTab extends Tab {
 
-	public AlbumTab(Album album) throws IOException {
+	public AlbumTab(Album album) {
 
 		setText(album.getName().toLowerCase());
 
@@ -24,17 +24,23 @@ public class AlbumTab extends Tab {
 
 		loader.setController(controller);
 		
-		AnchorPane pane = (AnchorPane) loader.load();
+		AnchorPane pane;
+		
+		try {
+			pane = (AnchorPane) loader.load();
+			
+			AnchorPane.setTopAnchor(pane, 0.0);
+			AnchorPane.setLeftAnchor(pane, 0.0);
+			AnchorPane.setRightAnchor(pane, 0.0);
+			AnchorPane.setBottomAnchor(pane, 0.0);
 
-		AnchorPane.setTopAnchor(pane, 0.0);
-		AnchorPane.setLeftAnchor(pane, 0.0);
-		AnchorPane.setRightAnchor(pane, 0.0);
-		AnchorPane.setBottomAnchor(pane, 0.0);
+			setContent(pane);
 
-		setContent(pane);
-
-		controller.populate(album);
-
+			controller.populate(album);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
