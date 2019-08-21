@@ -125,6 +125,16 @@ public class ScrobblePaneController {
 			labelStatus.setText("wrong text");
 		}
 	}
+	
+	@FXML
+	public void handleNow() {
+		LocalDateTime date = LocalDateTime.now();
+
+		datePicker.setValue(date.toLocalDate());
+		sliderHour.setValue(date.getHour());
+		sliderMinute.setValue(date.getMinute());
+		sliderSecond.setValue(date.getSecond());
+	}
 
 	private boolean validateText() {
 		String track = textTrack.getText();
